@@ -24,8 +24,8 @@ $user_role = $_SESSION['role'] ?? 'Customer';
                 <a href="<?= url('index.php') ?>">Home</a>
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
+                    <a href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
                     <?php if ($user_role === 'Administrator'): ?>
-                        <a href="<?= url('admin/dashboard.php') ?>" class="nav-admin">Dashboard</a>
                         <a href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
                         <a href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
                     <?php elseif ($user_role === 'Kitchen Staff'): ?>

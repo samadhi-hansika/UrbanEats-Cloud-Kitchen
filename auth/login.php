@@ -2,11 +2,16 @@
 require_once '../config/db.php';
 require_once '../includes/auth.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' && is_logged_in()) {
+    header('Location: ' . dashboard_url_for_role($_SESSION['role'] ?? ''));
+    exit();
+}
+
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
 
     // Check Throttling
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM login_attempts WHERE ip_address = ? AND attempt_time > NOW() - INTERVAL 15 MINUTE");
@@ -29,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['full_name'] = $user['full_name'];
 
                 log_action($pdo, $user['user_id'], 'LOGIN_SUCCESS', 'User logged in successfully');
-                header("Location: /urbaneats/UrbanEats-Cloud-Kitchen/index.php");
+                header('Location: ' . dashboard_url_for_role($user['role_name']));
                 exit();
             }
         } else {

@@ -43,13 +43,7 @@ require_role('Administrator');
                 <div class="admin-hero-note"><span aria-hidden="true">●</span> Your kitchen, under control.</div>
             </div>
             <div class="admin-hero-art" aria-hidden="true">
-                <div class="admin-art-glow"></div>
-                <div class="admin-art-card">
-                    <span class="admin-art-spark">✦</span>
-                    <span class="admin-art-emoji">🍔</span>
-                    <span class="admin-art-caption">FRESH · FAST · DELICIOUS</span>
-                </div>
-                <div class="admin-art-sticker">Made with<br><strong>passion</strong> <span>♥</span></div>
+                <img class="admin-dashboard-image" src="../public/images/admin-dashboard.svg" alt="">
             </div>
             <span class="admin-hero-decoration" aria-hidden="true">UE</span>
         </section>
