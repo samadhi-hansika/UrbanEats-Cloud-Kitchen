@@ -19,7 +19,7 @@ include '../includes/header.php';
         </div>
     </div>
     <div class="role-dashboard-visual">
-        <img src="<?= e(url('public/images/kitchen-dashboard.svg')) ?>" alt="A chef preparing a meal in the kitchen">
+        <img src="<?= e(url('public/images/kitchen-team.png')) ?>" alt="Kitchen staff preparing food together">
     </div>
 </section>
 

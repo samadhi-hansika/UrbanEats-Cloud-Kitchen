@@ -13,7 +13,7 @@ $user_role = $_SESSION['role'] ?? 'Customer';
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body>
+<body<?= $user_role === 'Kitchen Staff' ? ' class="kitchen-staff-layout"' : '' ?>>
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
