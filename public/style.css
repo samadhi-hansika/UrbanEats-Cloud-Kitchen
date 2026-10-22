@@ -767,9 +767,12 @@ body {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(420px, 100%);
-  height: auto;
-  filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.24));
+  width: min(460px, 100%);
+  aspect-ratio: 8 / 3;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 22px 35px rgba(0, 0, 0, 0.28);
+  object-fit: cover;
 }
 
 .role-dashboard {
@@ -797,6 +800,14 @@ body {
   aspect-ratio: 16 / 10;
   border-radius: 20px;
   box-shadow: 0 18px 35px rgba(7, 94, 75, 0.16);
+  object-fit: cover;
+}
+
+.customer-dashboard .role-dashboard-visual img {
+  width: min(520px, 100%);
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  box-shadow: 0 18px 35px rgba(124, 65, 18, 0.16);
   object-fit: cover;
 }
 

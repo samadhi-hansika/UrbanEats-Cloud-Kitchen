@@ -19,7 +19,7 @@ include '../includes/header.php';
         </div>
     </div>
     <div class="role-dashboard-visual">
-        <img src="<?= e(url('public/images/customer-dashboard.svg')) ?>" alt="A colorful bowl of fresh food">
+        <img src="<?= e(url('public/images/customer-fast-food.png')) ?>" alt="Burgers, fries, and other fast food">
     </div>
 </section>
 

@@ -43,7 +43,7 @@ require_role('Administrator');
                 <div class="admin-hero-note"><span aria-hidden="true">●</span> Your kitchen, under control.</div>
             </div>
             <div class="admin-hero-art" aria-hidden="true">
-                <img class="admin-dashboard-image" src="../public/images/admin-dashboard.svg" alt="">
+                <img class="admin-dashboard-image" src="../public/images/customer-food-banner.png" alt="">
             </div>
             <span class="admin-hero-decoration" aria-hidden="true">UE</span>
         </section>
