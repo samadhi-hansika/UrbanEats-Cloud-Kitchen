@@ -6,6 +6,7 @@ require_once '../includes/csrf.php';
 require_role('Administrator');
 
 $message = '';
+$created_account_email = '';
 $allowed_roles = ['Kitchen Staff', 'Administrator'];
 $role_stmt = $pdo->prepare("SELECT role_id, role_name FROM roles WHERE role_name IN (?, ?) ORDER BY role_id");
 $role_stmt->execute($allowed_roles);
@@ -50,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $new_user_id = $pdo->lastInsertId();
                 log_action($pdo, $_SESSION['user_id'], 'USER_CREATED', "Created {$role_name} account with user ID: {$new_user_id}");
                 $message = "{$role_name} account created successfully.";
+                $created_account_email = $email;
             }
         }
     }
@@ -83,6 +85,9 @@ $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.rol
             <?php if ($message): ?>
                 <div role="alert" style="color: <?= str_contains($message, 'successfully') ? 'var(--success-green)' : 'var(--danger-red)' ?>; margin-bottom: 1rem;">
                     <?= htmlspecialchars($message) ?>
+                    <?php if ($created_account_email !== ''): ?>
+                        <a href="<?= htmlspecialchars(url('auth/login.php?switch_account=1&email=' . urlencode($created_account_email)), ENT_QUOTES, 'UTF-8') ?>">Go to sign in</a>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
             <form action="users.php" method="POST">
