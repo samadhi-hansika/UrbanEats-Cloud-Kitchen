@@ -4,6 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/functions.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
+$is_kitchen_dashboard = $user_role === 'Kitchen Staff'
+    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen'
+    && basename($_SERVER['SCRIPT_NAME'] ?? '') === 'dashboard.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +16,7 @@ $user_role = $_SESSION['role'] ?? 'Customer';
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body<?= $user_role === 'Kitchen Staff' ? ' class="kitchen-staff-layout"' : '' ?>>
+<body<?= $is_kitchen_dashboard ? ' class="kitchen-staff-layout"' : '' ?>>
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
