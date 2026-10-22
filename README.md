@@ -34,4 +34,4 @@ Open:
 
 To open the administrator dashboard, sign in with an administrator account and visit:
 
-`http://localhost/urbaneats/UrbanEats-Cloud-Kitchen/admin/dashboard.php`
+`http://localhost/UrbanEats-Cloud-Kitchen/admin/dashboard.php`

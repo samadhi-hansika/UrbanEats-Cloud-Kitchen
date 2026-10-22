@@ -5,7 +5,7 @@
  */
 
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/urbaneats/UrbanEats-Cloud-Kitchen');
+    define('BASE_URL', '/UrbanEats-Cloud-Kitchen');
 }
 
 /**
