@@ -23,7 +23,7 @@ include '../includes/header.php';
     </div>
 </section>
 
-<section class="dashboard-welcome-card">
+<section class="dashboard-welcome-card customer-welcome-card">
     <span class="dashboard-welcome-icon" aria-hidden="true">✦</span>
     <div>
         <h2>Your account is ready</h2>
