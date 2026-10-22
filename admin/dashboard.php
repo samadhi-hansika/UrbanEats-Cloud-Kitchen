@@ -14,10 +14,6 @@ require_role('Administrator');
     <link rel="stylesheet" href="../public/style.css">
 </head>
 <body class="admin-dashboard">
-    <div class="admin-topbar">
-        <span><strong>UrbanEats Admin</strong> <span class="admin-topbar-copy">Control center for your cloud kitchen</span></span>
-        <span class="admin-status"><span class="admin-status-dot"></span> Administrator</span>
-    </div>
     <header class="admin-navbar">
         <a class="admin-brand" href="../index.php">
             <span class="admin-brand-icon" aria-hidden="true">🍴</span>

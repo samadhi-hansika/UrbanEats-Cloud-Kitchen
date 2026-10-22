@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/functions.php';
+$user_role = $_SESSION['role'] ?? 'Customer';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,8 +24,6 @@ require_once __DIR__ . '/functions.php';
                 <a href="<?= url('index.php') ?>">Home</a>
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
-                    <?php $user_role = $_SESSION['role'] ?? 'Customer'; ?>
-                    
                     <?php if ($user_role === 'Administrator'): ?>
                         <a href="<?= url('admin/dashboard.php') ?>" class="nav-admin">Dashboard</a>
                         <a href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
