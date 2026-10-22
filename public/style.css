@@ -247,13 +247,100 @@ body {
   text-decoration: none;
 }
 
+.home-hero .home-hero-button {
+  width: auto;
+}
+
+.home-hero-visual {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #374151;
+  box-shadow: 0 16px 32px rgba(31, 41, 55, 0.16);
+}
+
 .home-hero-image {
   display: block;
   width: 100%;
   aspect-ratio: 2 / 1;
-  border-radius: 16px;
-  box-shadow: 0 16px 32px rgba(31, 41, 55, 0.14);
   object-fit: cover;
+}
+
+.home-glass-card {
+  position: absolute;
+  top: 50%;
+  left: 7%;
+  width: min(68%, 340px);
+  box-sizing: border-box;
+  padding: clamp(1rem, 3vw, 1.65rem);
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  border-radius: 18px;
+  background: rgba(31, 41, 55, 0.38);
+  box-shadow: 0 18px 42px rgba(17, 24, 39, 0.22), inset 0 1px rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  backdrop-filter: blur(14px) saturate(125%);
+  color: #fff;
+}
+
+.home-glass-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #fff4e8;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.home-glass-brand > span {
+  color: #ffc06e;
+}
+
+.home-glass-card h2 {
+  margin: 0.9rem 0 0.5rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.home-glass-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.72rem, 1.2vw, 0.88rem);
+  line-height: 1.55;
+}
+
+.home-glass-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff4e8;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.home-glass-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  letter-spacing: 0;
+}
+
+.home-glass-status > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #86efac;
+  box-shadow: 0 0 0 3px rgba(134, 239, 172, 0.2);
 }
 
 @media (max-width: 760px) {
@@ -269,6 +356,28 @@ body {
 
   .home-hero p {
     font-size: 1rem;
+  }
+
+  .home-glass-card {
+    left: 5%;
+    width: min(82%, 340px);
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .home-glass-card h2 {
+    margin-top: 0.55rem;
+    font-size: clamp(1.25rem, 5vw, 1.7rem);
+  }
+
+  .home-glass-card p {
+    font-size: 0.75rem;
+  }
+
+  .home-glass-footer {
+    margin-top: 0.65rem;
+    padding-top: 0.55rem;
+    font-size: 0.52rem;
   }
 }
 
@@ -400,6 +509,108 @@ body {
   text-align: center;
 }
 
+.profile-page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 12% 12%, rgba(249, 115, 22, 0.2), transparent 34%),
+    radial-gradient(ellipse at 88% 78%, rgba(251, 191, 36, 0.2), transparent 35%),
+    linear-gradient(135deg, #fffaf0 0%, #f9eee0 50%, #fff7eb 100%);
+}
+
+.profile-container {
+  position: relative;
+  width: min(600px, calc(100% - 2rem));
+  box-sizing: border-box;
+  margin: 3rem auto;
+  padding: 0;
+}
+
+.profile-glass-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 24px 65px rgba(83, 58, 34, 0.14), inset 0 1px rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+.profile-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.55rem;
+  color: var(--primary-dark);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.profile-glass-card > h2 {
+  margin: 0 0 1.5rem;
+  color: #202a3c;
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
+  letter-spacing: -0.035em;
+}
+
+.profile-form h3 {
+  margin: 0 0 1.2rem;
+  color: #263348;
+  font-size: 1.1rem;
+}
+
+.profile-form .form-group {
+  margin-bottom: 1.1rem;
+}
+
+.profile-form .form-group label {
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.profile-form .form-group input {
+  min-height: 46px;
+  border-color: rgba(148, 163, 184, 0.45);
+  background: rgba(255, 255, 255, 0.74);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.profile-form .form-group input:focus {
+  outline: none;
+  border-color: var(--primary-orange);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.profile-form .btn-primary {
+  min-height: 44px;
+}
+
+.profile-password-button {
+  background: #374151;
+}
+
+.profile-password-button:hover {
+  background: #1f2937;
+}
+
+.profile-divider {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.profile-message {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 247, 237, 0.8);
+  color: var(--primary-dark);
+}
+
 @media (max-width: 480px) {
   .login-page {
     padding: 1rem;
@@ -407,6 +618,15 @@ body {
 
   .login-card {
     padding: 1.75rem 1.25rem;
+  }
+
+  .profile-container {
+    width: calc(100% - 1.25rem);
+    margin: 1.5rem auto;
+  }
+
+  .profile-glass-card {
+    border-radius: 18px;
   }
 }
 
