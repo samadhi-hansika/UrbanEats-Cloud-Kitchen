@@ -30,8 +30,8 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 ## Run the Project
 Open:
 
-`http://localhost/urbaneats/UrbanEats-Cloud-Kitchen/`
+`http://localhost/UrbanEats-Cloud-Kitchen/`
 
 To open the administrator dashboard, sign in with an administrator account and visit:
 
-`http://localhost/urbaneats/UrbanEats-Cloud-Kitchen/admin/dashboard.php`
+`http://localhost/UrbanEats-Cloud-Kitchen/admin/dashboard.php`
