@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2026 at 08:15 PM
+-- Generation Time: Oct 22, 2026 at 01:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,6 +36,35 @@ CREATE TABLE `audit_log` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `audit_log`
+--
+
+INSERT INTO `audit_log` (`log_id`, `user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES
+(1, 1, 'USER_REGISTERED', 'New user account created successfully', '::1', '2026-10-21 18:50:12'),
+(2, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-21 18:50:23'),
+(3, 2, 'USER_REGISTERED', 'New user account created successfully', '::1', '2026-10-21 18:52:23'),
+(4, 2, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-21 18:52:45'),
+(5, 3, 'USER_REGISTERED', 'New user account created successfully', '::1', '2026-10-21 18:54:38'),
+(6, 3, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-21 18:55:19'),
+(7, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-21 18:58:16'),
+(8, 2, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-21 19:14:29'),
+(9, 2, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:25:03'),
+(10, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:25:50'),
+(11, 1, 'PASSWORD_CHANGE', 'User changed account password', '::1', '2026-10-22 03:26:40'),
+(12, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:28:56'),
+(13, 2, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:29:40'),
+(14, 3, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:30:57'),
+(15, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:38:11'),
+(16, 2, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:54:32'),
+(17, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:57:32'),
+(18, 3, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 03:58:58'),
+(19, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 04:25:33'),
+(20, 1, 'USER_STATUS_TOGGLE', 'Toggled status for user ID: 3', '::1', '2026-10-22 04:25:59'),
+(21, 2, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 08:38:49'),
+(22, 1, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 08:39:43'),
+(23, 7, 'LOGIN_SUCCESS', 'User logged in successfully', '::1', '2026-10-22 11:08:36');
+
 -- --------------------------------------------------------
 
 --
@@ -48,6 +77,23 @@ CREATE TABLE `login_attempts` (
   `email` varchar(100) NOT NULL,
   `attempt_time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `login_attempts`
+--
+
+INSERT INTO `login_attempts` (`attempt_id`, `ip_address`, `email`, `attempt_time`) VALUES
+(1, '::1', 'kulasuriyanurani@gmail.com', '2026-10-21 18:28:41'),
+(2, '::1', 'nurani@gmail.com', '2026-10-21 18:29:18'),
+(3, '::1', 'kulasuriyanurani@gmail.com', '2026-10-21 18:29:20'),
+(4, '::1', 'kulasuriyanurani@gmail.com', '2026-10-21 18:29:22'),
+(5, '::1', 'kulasuriyanurani@gmail.com', '2026-10-21 18:33:48'),
+(6, '::1', 'kulasuriyanurani@gmail.com', '2026-10-21 18:50:15'),
+(7, '::1', 'kulasuriyanurani@gmail.com', '2026-10-21 18:58:02'),
+(8, '::1', 'kulasuriyanurani@gmail.com', '2026-10-22 03:25:36'),
+(9, '::1', 'kulasuriyanurani@gmail.com', '2026-10-22 03:57:14'),
+(10, '::1', 'samadhi@urbaneats.com', '2026-10-22 10:43:38'),
+(11, '::1', 'samadhi@urbaneats.com', '2026-10-22 10:44:06');
 
 -- --------------------------------------------------------
 
@@ -100,6 +146,18 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `full_name`, `email`, `phone`, `password_hash`, `role_id`, `is_active`, `created_at`) VALUES
+(1, 'nurani', 'kulasuriyanurani@gmail.com', '0778905771', '$2y$10$TaUt38EGjIzdh2xyNzKMlOBbGC7SqZM6ajjjULGKXDdR3orw92uSq', 3, 1, '2026-10-21 18:50:12'),
+(2, 'test', 'test@gmail.com', '0778674534', '$2y$10$eq/ZhsVTiOLj0w2nH5xheOulCokdiaXSRPp1gChRw1VRM3iY.K1o6', 1, 1, '2026-10-21 18:52:23'),
+(3, 'vishmi', 'vishmi@gmail.com', '0774568790', '$2y$10$ooTj1Jkcd9iocReaJMjGtOy3GFc0UOshJF3p7tgtor.6hpOyWGSKO', 2, 0, '2026-10-21 18:54:38'),
+(7, 'Samadhi Hansika', 'samadhi@urbaneats.com', '', '$2y$10$iNNtDQewNDDbIGKguRi6F.smX5s2ZUaIXbW6VXv6E2XJqaKA9l0BS', 2, 1, '2026-10-22 11:07:54'),
+(8, 'Sanduni Thilanka', 'sanduni@urbaneats.com', '', '$2y$10$ODiiU4a1.BV17ZRbZyApp.zKrDOIV1e7IFDyQ0XccWpJThdKxWEGG', 2, 1, '2026-10-22 11:07:54'),
+(9, 'Sasuni Ishanga', 'sasuni@urbaneats.com', '', '$2y$10$QYEY9EIYx46yyJPN8GNUnOnV7YRzSsC.uFeo/e7F1fWZHL6w0cyOa', 2, 1, '2026-10-22 11:07:54');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -145,13 +203,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `attempt_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `attempt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `password_resets`
@@ -169,7 +227,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables

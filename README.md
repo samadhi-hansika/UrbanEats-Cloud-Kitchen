@@ -35,7 +35,7 @@ Open:
 
 To open the administrator dashboard, sign in with an administrator account and visit:
 
-`http://localhost/urbaneats/UrbanEats-Cloud-Kitchen/admin/dashboard.php`
+`http://localhost/UrbanEats-Cloud-Kitchen/admin/dashboard.php`
 
 Public registration creates Customer accounts only. After signing in, an Administrator can create Kitchen Staff and additional Administrator accounts from **Users & Roles**. All account passwords are stored as password hashes, and Customer, Kitchen Staff, and Administrator accounts use the same sign-in page.
 
