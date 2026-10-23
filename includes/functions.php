@@ -4,9 +4,7 @@
  * IT3113 UrbanEats Cloud Kitchen Platform
  */
 
-if (!defined('BASE_URL')) {
-    define('BASE_URL', '/UrbanEats-Cloud-Kitchen');
-}
+require_once __DIR__ . '/../config/app.php';
 
 /**
  * Return absolute URL within the application

@@ -1,7 +1,5 @@
 <?php
-if (!defined('BASE_URL')) {
-    define('BASE_URL', '/UrbanEats-Cloud-Kitchen');
-}
+require_once __DIR__ . '/app.php';
 
 $host = 'localhost';
 $db   = 'urbaneats_db';
