@@ -11,6 +11,7 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 
 ## Main Features
 - Customer registration and login
+- Administrator-managed Kitchen Staff and Administrator accounts
 - Browse food items
 - Manage food items and stock
 - Add items to cart and place orders
@@ -35,3 +36,9 @@ Open:
 To open the administrator dashboard, sign in with an administrator account and visit:
 
 `http://localhost/UrbanEats-Cloud-Kitchen/admin/dashboard.php`
+
+Public registration creates Customer accounts only. After signing in, an Administrator can create Kitchen Staff and additional Administrator accounts from **Users & Roles**. All account passwords are stored as password hashes, and Customer, Kitchen Staff, and Administrator accounts use the same sign-in page.
+
+The SQL dump does not include a default Administrator account. Provision the first Administrator through your trusted database setup process; after that, use **Users & Roles** to create staff accounts.
+
+After signing in, each role is sent to its own dashboard: Customers use `customer/dashboard.php`, Kitchen Staff use `kitchen/dashboard.php`, and Administrators use `admin/dashboard.php`.

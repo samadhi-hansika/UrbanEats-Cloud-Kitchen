@@ -2,11 +2,27 @@
 require_once '../config/db.php';
 require_once '../includes/auth.php';
 
+$switch_account = ($_GET['switch_account'] ?? '') === '1';
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' && is_logged_in() && !$switch_account) {
+    header('Location: ' . dashboard_url_for_role($_SESSION['role'] ?? ''));
+    exit();
+}
+
 $message = '';
+$email_value = $_SERVER['REQUEST_METHOD'] === 'POST'
+    ? trim($_POST['email'] ?? '')
+    : ($switch_account ? trim($_GET['email'] ?? '') : '');
+
+if ($switch_account && is_logged_in()) {
+    $message = 'Sign in with the new account credentials to switch accounts.';
+} elseif (isset($_GET['registered']) && $_GET['registered'] === 'success') {
+    $message = 'Customer account created successfully. Please sign in.';
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
 
     // Check Throttling
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM login_attempts WHERE ip_address = ? AND attempt_time > NOW() - INTERVAL 15 MINUTE");
@@ -29,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['full_name'] = $user['full_name'];
 
                 log_action($pdo, $user['user_id'], 'LOGIN_SUCCESS', 'User logged in successfully');
-                header("Location: /urbaneats/UrbanEats-Cloud-Kitchen/index.php");
+                header('Location: ' . dashboard_url_for_role($user['role_name']));
                 exit();
             }
         } else {
@@ -61,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="login.php" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" autocomplete="email" required>
+                    <input type="email" id="email" name="email" value="<?= htmlspecialchars($email_value, ENT_QUOTES, 'UTF-8') ?>" autocomplete="email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -70,7 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit" class="btn-primary">Sign In</button>
             </form>
             <p style="text-align: center; margin-top: 1rem;">
-                Don't have an account? <a href="register.php">Create one</a>
+                Customers: <a href="register.php">Create an account</a>
+                <br><small>Kitchen Staff accounts are created by an Administrator. Use the email and password provided to you to sign in here.</small>
             </p>
         </div>
     </main>

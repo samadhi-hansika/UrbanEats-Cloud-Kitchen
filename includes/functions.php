@@ -16,6 +16,19 @@ function url(string $path = ''): string {
 }
 
 /**
+ * Return the dashboard URL for a known account role
+ */
+function dashboard_url_for_role(string $role): string {
+    $dashboards = [
+        'Customer' => 'customer/dashboard.php',
+        'Kitchen Staff' => 'kitchen/dashboard.php',
+        'Administrator' => 'admin/dashboard.php',
+    ];
+
+    return url($dashboards[$role] ?? 'errors/403.php');
+}
+
+/**
  * Redirect to an application URL
  */
 function redirect(string $path): void {

@@ -4,6 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/functions.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
+$is_kitchen_dashboard = $user_role === 'Kitchen Staff'
+    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen'
+    && basename($_SERVER['SCRIPT_NAME'] ?? '') === 'dashboard.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +16,7 @@ $user_role = $_SESSION['role'] ?? 'Customer';
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body>
+<body<?= $is_kitchen_dashboard ? ' class="kitchen-staff-layout"' : '' ?>>
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
@@ -24,8 +27,8 @@ $user_role = $_SESSION['role'] ?? 'Customer';
                 <a href="<?= url('index.php') ?>">Home</a>
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
+                    <a href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
                     <?php if ($user_role === 'Administrator'): ?>
-                        <a href="<?= url('admin/dashboard.php') ?>" class="nav-admin">Dashboard</a>
                         <a href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
                         <a href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
                     <?php elseif ($user_role === 'Kitchen Staff'): ?>

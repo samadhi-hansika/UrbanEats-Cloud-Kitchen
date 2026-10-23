@@ -49,40 +49,41 @@ $current_user = $stmt->fetch();
     <title>UrbanEats - Profile</title>
     <link rel="stylesheet" href="../public/style.css">
 </head>
-<body>
-    <div class="container" style="max-width: 600px;">
-        <div class="card">
+<body class="profile-page">
+    <div class="container profile-container">
+        <div class="card profile-glass-card">
+            <span class="profile-eyebrow">URBANEATS ACCOUNT</span>
             <h2>User Profile Settings</h2>
             <?php if ($message): ?>
-                <div style="color: var(--primary-orange); margin-bottom: 1rem;"><?= htmlspecialchars($message) ?></div>
+                <div class="profile-message" role="status"><?= htmlspecialchars($message) ?></div>
             <?php endif; ?>
             
-            <form action="profile.php" method="POST">
+            <form action="profile.php" method="POST" class="profile-form">
                 <h3>Update Information</h3>
                 <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" name="full_name" value="<?= htmlspecialchars($current_user['full_name']) ?>" required>
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" value="<?= htmlspecialchars($current_user['full_name']) ?>" required>
                 </div>
                 <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" name="phone" value="<?= htmlspecialchars($current_user['phone']) ?>" required>
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone" value="<?= htmlspecialchars($current_user['phone']) ?>" required>
                 </div>
                 <button type="submit" name="update_profile" class="btn-primary">Save Changes</button>
             </form>
 
-            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid var(--border-light);">
+            <hr class="profile-divider">
 
-            <form action="profile.php" method="POST">
+            <form action="profile.php" method="POST" class="profile-form">
                 <h3>Change Password</h3>
                 <div class="form-group">
-                    <label>Current Password</label>
-                    <input type="password" name="current_password" required>
+                    <label for="current_password">Current Password</label>
+                    <input type="password" id="current_password" name="current_password" autocomplete="current-password" required>
                 </div>
                 <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" name="new_password" required>
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="new_password" autocomplete="new-password" required>
                 </div>
-                <button type="submit" name="change_password" class="btn-primary" style="background: #374151;">Update Password</button>
+                <button type="submit" name="change_password" class="btn-primary profile-password-button">Update Password</button>
             </form>
         </div>
     </div>

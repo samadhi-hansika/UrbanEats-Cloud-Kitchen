@@ -3,13 +3,26 @@ include 'includes/header.php';
 ?>
 
 <div class="card" style="text-align: center; padding: 4rem 2rem;">
-    <h1 style="color: var(--primary-orange); font-size: 2.5rem; margin-bottom: 1rem;">Welcome to UrbanEats Cloud Kitchen</h1>
-    <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem auto;">
-        Sri Lanka's premier cloud kitchen platform. Freshly prepared dishes delivered straight to your doorstep.
-    </p>
-    <div>
-        <a href="auth/register.php" class="btn-primary" style="display: inline-block; text-decoration: none; width: auto; padding: 0.75rem 2rem;">Get Started</a>
+<div class="home-hero">
+    <div class="home-hero-copy">
+        <span class="home-hero-eyebrow">FRESH · FAST · DELICIOUS</span>
+        <h1>Welcome to <span>UrbanEats</span> Cloud Kitchen</h1>
+        <p>Sri Lanka's premier cloud kitchen platform. Freshly prepared dishes delivered straight to your doorstep.</p>
+        <a href="auth/register.php" class="btn-primary home-hero-button">Get Started</a>
     </div>
+    <div class="home-hero-visual">
+        <img class="home-hero-image" src="public/images/home-food.png" alt="A table filled with freshly prepared meals">
+        <div class="home-glass-card">
+            <span class="home-glass-brand"><span aria-hidden="true">✦</span> URBANEATS KITCHEN</span>
+            <h2>Fresh flavors.<br>Made with care.</h2>
+            <p>Delicious meals, prepared fresh and delivered to your door.</p>
+            <div class="home-glass-footer">
+                <span>FRESH · FAST · DELICIOUS</span>
+                <span class="home-glass-status"><span aria-hidden="true"></span> Made fresh today</span>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <?php

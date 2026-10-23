@@ -2,18 +2,22 @@
 require_once '../config/db.php';
 require_once '../includes/auth.php';
 require_once '../includes/functions.php';
+require_once '../includes/csrf.php';
 
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $full_name = trim($_POST['full_name']);
-    $email = trim($_POST['email']);
-    $phone = trim($_POST['phone']);
-    $password = $_POST['password'];
-    $role_id = intval($_POST['role_id'] ?? 1); // Default to Customer (1)
+    verify_csrf_token();
 
-    if (empty($full_name) || empty($email) || empty($password)) {
+    $full_name = trim($_POST['full_name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if ($full_name === '' || $email === '' || $phone === '' || $password === '') {
         $message = "All required fields must be filled!";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $message = "Please enter a valid email address.";
     } else {
         // Check if email already exists
         $stmt = $pdo->prepare("SELECT user_id FROM users WHERE email = ?");
@@ -24,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
             
             $stmt = $pdo->prepare("INSERT INTO users (full_name, email, phone, password_hash, role_id) VALUES (?, ?, ?, ?, ?)");
-            if ($stmt->execute([$full_name, $email, $phone, $password_hash, $role_id])) {
+            if ($stmt->execute([$full_name, $email, $phone, $password_hash, 1])) {
                 $new_user_id = $pdo->lastInsertId();
                 log_action($pdo, $new_user_id, 'USER_REGISTERED', 'New user account created successfully');
                 header("Location: login.php?registered=success");
@@ -52,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div style="color: var(--danger-red); margin-bottom: 1rem; text-align: center;"><?= htmlspecialchars($message) ?></div>
             <?php endif; ?>
             <form action="register.php" method="POST">
+                <?= csrf_field() ?>
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" name="full_name" required>
@@ -67,14 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label>Register As</label>
-                    <select name="role_id">
-                        <option value="1">Customer</option>
-                        <option value="2">Kitchen Staff</option>
-                        <option value="3">Administrator</option>
-                    </select>
                 </div>
                 <button type="submit" class="btn-primary">Register</button>
             </form>
