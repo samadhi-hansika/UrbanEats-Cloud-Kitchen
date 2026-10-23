@@ -26,16 +26,14 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 4. Create the database `urbaneats_db`.
 5. Import the project SQL file.
 6. Configure the database connection in `config/db.php`.
-7. Open the project in your browser.
+7. Open the project in your browser. The application detects its URL path from its location under Apache's document root, so the folder name can differ between team members.
 
 ## Run the Project
 Open:
 
 `http://localhost/urbaneats/UrbanEats-Cloud-Kitchen/`
 
-To open the administrator dashboard, sign in with an administrator account and visit:
-
-`http://localhost/UrbanEats-Cloud-Kitchen/admin/dashboard.php`
+If you cloned the project into a different folder, replace `urbaneats/UrbanEats-Cloud-Kitchen` with that folder's path under `htdocs`.
 
 Public registration creates Customer accounts only. After signing in, an Administrator can create Kitchen Staff and additional Administrator accounts from **Users & Roles**. All account passwords are stored as password hashes, and Customer, Kitchen Staff, and Administrator accounts use the same sign-in page.
 
