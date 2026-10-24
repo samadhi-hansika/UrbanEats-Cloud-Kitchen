@@ -34,7 +34,24 @@ CREATE TABLE `food_items` (
   `category` varchar(80) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `image_path` varchar(255) NOT NULL,
-  `is_available` tinyint(1) NOT NULL DEFAULT 1
+  `is_available` tinyint(1) NOT NULL DEFAULT 1,
+  `stock_quantity` int(10) unsigned NOT NULL DEFAULT 0,
+  `low_stock_threshold` int(10) unsigned NOT NULL DEFAULT 5
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `inventory_movements`
+--
+
+CREATE TABLE `inventory_movements` (
+  `movement_id` int(11) NOT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `item_name` varchar(120) NOT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `quantity_change` int(11) NOT NULL,
+  `quantity_after` int(10) unsigned NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -259,6 +276,11 @@ ALTER TABLE `food_items`
   ADD PRIMARY KEY (`item_id`),
   ADD KEY `available_category` (`is_available`, `category`);
 
+ALTER TABLE `inventory_movements`
+  ADD PRIMARY KEY (`movement_id`),
+  ADD KEY `item_movement_history` (`item_id`, `movement_id`),
+  ADD KEY `movement_created_at` (`created_at`);
+
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`),
   ADD UNIQUE KEY `category_name` (`category_name`);
@@ -303,6 +325,9 @@ ALTER TABLE `users`
 --
 ALTER TABLE `food_items`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+ALTER TABLE `inventory_movements`
+  MODIFY `movement_id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `categories`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;

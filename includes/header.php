@@ -30,10 +30,12 @@ $is_kitchen_dashboard = $user_role === 'Kitchen Staff'
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
                     <?php if ($user_role === 'Administrator'): ?>
+                        <a href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
                         <a href="<?= url('admin/categories.php') ?>">Categories</a>
                         <a href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
                         <a href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
                     <?php elseif ($user_role === 'Kitchen Staff'): ?>
+                        <a href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
                         <a href="<?= url('admin/categories.php') ?>">Categories</a>
                         <span class="role-pill pill-staff">Kitchen Staff</span>
                     <?php endif; ?>

@@ -204,8 +204,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$item) {
                 set_flash('error', 'Food item not found.');
             } else {
-                $delete_stmt = $pdo->prepare('DELETE FROM food_items WHERE item_id = ?');
-                $delete_stmt->execute([$item_id]);
+                try {
+                    $pdo->beginTransaction();
+                    $history_stmt = $pdo->prepare('UPDATE inventory_movements SET item_id = NULL WHERE item_id = ?');
+                    $history_stmt->execute([$item_id]);
+                    $delete_stmt = $pdo->prepare('DELETE FROM food_items WHERE item_id = ?');
+                    $delete_stmt->execute([$item_id]);
+                    $pdo->commit();
+                } catch (PDOException $exception) {
+                    if ($pdo->inTransaction()) {
+                        $pdo->rollBack();
+                    }
+                    error_log('[Food Item Delete Failure] ' . $exception->getMessage());
+                    set_flash('error', 'The food item could not be deleted. Please try again.');
+                    $redirect_to_dashboard();
+                }
                 log_action($pdo, $_SESSION['user_id'] ?? null, 'FOOD_ITEM_DELETED', "Deleted food item '{$item['name']}' (ID: {$item_id})");
                 set_flash('success', "'{$item['name']}' was deleted.");
                 try {
@@ -413,6 +426,10 @@ include '../includes/header.php';
             <p>Add and update dishes, prices, images, and availability for customer ordering.</p>
         </div>
         <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <a class="kitchen-public-link" href="<?= e(url('kitchen/inventory.php')) ?>">
+                <span aria-hidden="true">📦</span>
+                <span>Manage Inventory</span>
+            </a>
             <a class="kitchen-public-link" href="../admin/categories.php" style="background: #ea580c; border-color: #ea580c;">
                 <span aria-hidden="true">📑</span>
                 <span>Manage Categories</span>

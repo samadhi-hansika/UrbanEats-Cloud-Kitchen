@@ -3169,4 +3169,405 @@ body {
     align-items: flex-start;
   }
 }
+
+/* Kitchen Inventory Management */
+.inventory-page {
+  margin: 1rem 0 3rem;
+}
+
+.inventory-heading,
+.inventory-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.inventory-heading {
+  margin-bottom: 1.5rem;
+}
+
+.inventory-heading h1 {
+  margin: 0.25rem 0;
+  color: #173b2c;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.inventory-heading p,
+.inventory-panel-heading p {
+  margin: 0.25rem 0 0;
+  color: #6b7280;
+}
+
+.inventory-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.inventory-summary-card,
+.inventory-panel {
+  border: 1px solid #e1ebe5;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
+}
+
+.inventory-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.2rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.inventory-summary-card strong {
+  color: #173b2c;
+  font-size: 1.8rem;
+}
+
+.inventory-summary-low strong {
+  color: #b45309;
+}
+
+.inventory-summary-out strong {
+  color: #b91c1c;
+}
+
+.inventory-panel {
+  margin-bottom: 1.5rem;
+  padding: 1.4rem;
+}
+
+.inventory-panel-heading {
+  margin-bottom: 1rem;
+}
+
+.inventory-panel-heading h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.25rem;
+}
+
+.inventory-panel-heading p {
+  font-size: 0.85rem;
+}
+
+.inventory-status-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.inventory-status-filter a {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #dce6df;
+  border-radius: 999px;
+  color: #4b5563;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.inventory-status-filter a.active,
+.inventory-status-filter a:hover {
+  border-color: #087454;
+  background: #087454;
+  color: #ffffff;
+}
+
+.inventory-search {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #e7eee9;
+  border-radius: 10px;
+  background: #fbfdfc;
+}
+
+.inventory-search label,
+.inventory-update-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: #4b5563;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.inventory-search input,
+.inventory-update-form input {
+  box-sizing: border-box;
+  min-height: 38px;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #cfdad3;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.inventory-search input {
+  min-width: 230px;
+}
+
+.inventory-table td > strong {
+  display: block;
+}
+
+.inventory-table td > small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #6b7280;
+}
+
+.inventory-table {
+  min-width: 940px;
+  table-layout: fixed;
+}
+
+.inventory-table th:nth-child(1) {
+  width: 19%;
+}
+
+.inventory-table th:nth-child(2) {
+  width: 10%;
+}
+
+.inventory-table th:nth-child(3) {
+  width: 14%;
+}
+
+.inventory-table th:nth-child(4) {
+  width: 13%;
+}
+
+.inventory-table th:nth-child(5) {
+  width: 44%;
+}
+
+.inventory-table th,
+.inventory-table td {
+  padding: 0.9rem 0.8rem;
+}
+
+.inventory-table td:first-child strong {
+  line-height: 1.4;
+}
+
+.inventory-status-badge {
+  display: inline-flex;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.inventory-status-badge.in-stock {
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.inventory-status-badge.low {
+  border-color: #fcd34d;
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.inventory-status-badge.out {
+  border-color: #fecaca;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.inventory-update-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.inventory-update-form label input {
+  width: 100%;
+}
+
+.inventory-update-form .inventory-note input {
+  width: 100%;
+}
+
+.inventory-update-form .inventory-note,
+.inventory-update-form .btn-kitchen-filter {
+  grid-column: 1 / -1;
+}
+
+.inventory-update-form .btn-kitchen-filter,
+.inventory-search .btn-kitchen-filter {
+  min-height: 38px;
+  padding: 0.45rem 0.8rem;
+}
+
+.inventory-update-form .btn-kitchen-filter {
+  justify-self: start;
+  min-width: 88px;
+}
+
+.inventory-search label {
+  margin-right: 0.2rem;
+}
+
+.inventory-search input {
+  min-width: min(300px, 100%);
+}
+
+.inventory-table td[data-label="Current stock"] strong {
+  color: #173b2c;
+  font-size: 1.05rem;
+}
+
+.inventory-increase {
+  color: #047857 !important;
+  font-weight: 700;
+}
+
+.inventory-decrease {
+  color: #b91c1c !important;
+  font-weight: 700;
+}
+
+.inventory-no-movements {
+  margin: 0;
+  color: #6b7280;
+}
+
+@media (max-width: 760px) {
+  .inventory-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inventory-heading,
+  .inventory-panel-heading {
+    align-items: flex-start;
+  }
+
+  .inventory-search {
+    align-items: stretch;
+  }
+
+  .inventory-search label {
+    flex-basis: 100%;
+  }
+
+  .inventory-search input {
+    flex: 1 1 200px;
+  }
+
+  .inventory-table {
+    min-width: 0;
+  }
+
+  .inventory-table thead {
+    display: none;
+  }
+
+  .inventory-table,
+  .inventory-table tbody,
+  .inventory-table tr,
+  .inventory-table td {
+    display: block;
+    width: auto;
+  }
+
+  .inventory-table tbody {
+    padding: 0.65rem;
+  }
+
+  .inventory-table tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #e5ede8;
+    border-radius: 10px;
+    background: #ffffff;
+  }
+
+  .inventory-table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .inventory-table td {
+    min-width: 0;
+    padding: 0.75rem;
+    border-bottom: 1px solid #edf2ee;
+    overflow-wrap: anywhere;
+  }
+
+  .inventory-table td::before {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #6b7280;
+    content: attr(data-label);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .inventory-table td[data-label="Record stock update"] {
+    grid-column: 1 / -1;
+    border-bottom: 0;
+  }
+
+  .inventory-table .inventory-update-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inventory-table td:not([data-label="Record stock update"]):nth-child(odd) {
+    border-right: 1px solid #edf2ee;
+  }
+}
+
+@media (max-width: 480px) {
+  .inventory-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .inventory-panel {
+    padding: 1rem;
+  }
+
+  .inventory-search input,
+  .inventory-search .btn-kitchen-filter {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .inventory-table tbody {
+    padding: 0.5rem;
+  }
+
+  .inventory-table tr {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .inventory-table .inventory-update-form {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-table .inventory-update-form .inventory-note,
+  .inventory-table .inventory-update-form .btn-kitchen-filter {
+    grid-column: auto;
+  }
+}
 
