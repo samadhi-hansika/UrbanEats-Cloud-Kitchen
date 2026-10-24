@@ -4,9 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/functions.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
-$is_kitchen_dashboard = $user_role === 'Kitchen Staff'
-    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen'
-    && basename($_SERVER['SCRIPT_NAME'] ?? '') === 'dashboard.php';
+$is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
+    || (basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen');
 ?>
 <!DOCTYPE html>
 <html lang="en">

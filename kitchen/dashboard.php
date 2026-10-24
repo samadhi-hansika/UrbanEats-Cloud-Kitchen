@@ -371,12 +371,15 @@ include '../includes/header.php';
 <!-- Kitchen Welcome Hero Section -->
 <section class="role-dashboard kitchen-dashboard">
     <div class="role-dashboard-copy">
-        <span class="role-dashboard-eyebrow">KITCHEN WORKSPACE &amp; INVENTORY CONTROL</span>
+        <span class="role-dashboard-eyebrow"><span aria-hidden="true">✦</span> KITCHEN WORKSPACE &amp; MENU CONTROL</span>
         <h1>Welcome to the<br><span>Kitchen, <?= e($_SESSION['full_name'] ?? 'Staff') ?></span></h1>
         <p>Monitor available dishes, manage live customer menu availability, and track food categories in real time.</p>
         <div class="role-dashboard-actions">
             <a class="role-dashboard-primary" href="<?= e(url('menu.php')) ?>" target="_blank" rel="noopener">
                 Preview Customer Menu <span aria-hidden="true">↗</span>
+            </a>
+            <a class="role-dashboard-secondary" href="<?= e(url('kitchen/inventory.php')) ?>">
+                <span aria-hidden="true">📦</span> Inventory Control
             </a>
             <a class="role-dashboard-secondary" href="<?= e(url('auth/profile.php')) ?>">Manage Profile</a>
         </div>
@@ -409,7 +412,7 @@ include '../includes/header.php';
             <span class="kitchen-stat-label">Out of Stock</span>
         </div>
     </div>
-    <a href="../admin/categories.php" class="kitchen-stat-card" style="text-decoration: none; color: inherit;" title="Manage Food Categories">
+    <a href="../admin/categories.php" class="kitchen-stat-card" title="Manage Food Categories">
         <div class="kitchen-stat-icon categories" aria-hidden="true">📑</div>
         <div class="kitchen-stat-details">
             <span class="kitchen-stat-value"><?= $total_categories_count ?></span>
@@ -422,92 +425,135 @@ include '../includes/header.php';
 <section class="kitchen-panel" aria-label="Food Items Management">
     <div class="kitchen-panel-header">
         <div class="kitchen-panel-title">
+            <span class="panel-eyebrow">CATALOGUE &amp; AVAILABILITY</span>
             <h2>Food Items &amp; Public Menu Catalogue</h2>
-            <p>Add and update dishes, prices, images, and availability for customer ordering.</p>
+            <p>Add and update dishes, prices, images, and live availability for customer ordering.</p>
         </div>
-        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-            <a class="kitchen-public-link" href="<?= e(url('kitchen/inventory.php')) ?>">
+        <div class="kitchen-panel-actions">
+            <button type="button" class="kitchen-action-btn primary" onclick="var d=document.getElementById('foodItemDrawer'); d.open=true; d.scrollIntoView({behavior:'smooth'}); document.getElementById('food-name').focus();">
+                <span aria-hidden="true">➕</span>
+                <span>Add New Dish</span>
+            </button>
+            <a class="kitchen-action-btn" href="<?= e(url('kitchen/inventory.php')) ?>">
                 <span aria-hidden="true">📦</span>
                 <span>Manage Inventory</span>
             </a>
-            <a class="kitchen-public-link" href="../admin/categories.php" style="background: #ea580c; border-color: #ea580c;">
+            <a class="kitchen-action-btn" href="../admin/categories.php">
                 <span aria-hidden="true">📑</span>
-                <span>Manage Categories</span>
+                <span>Categories</span>
             </a>
-            <a class="kitchen-public-link" href="<?= e(url('menu.php')) ?>" target="_blank" rel="noopener">
-                <span>Customer View </span>
+            <a class="kitchen-action-btn secondary" href="<?= e(url('menu.php')) ?>" target="_blank" rel="noopener">
+                <span>Customer View</span>
                 <span aria-hidden="true">↗</span>
             </a>
         </div>
     </div>
 
-    <form class="food-item-form" method="post" action="<?= e($form_action_url) ?>" enctype="multipart/form-data">
-        <div class="food-item-form-heading">
-            <div>
-                <h3><?= $form_action === 'edit' ? 'Edit Food Item' : 'Add New Food Item' ?></h3>
-                <p><?= $form_action === 'edit' ? 'Update the selected item details.' : 'Create a dish for the customer menu.' ?></p>
+    <!-- Smart Collapsible Add / Edit Dish Form -->
+    <details id="foodItemDrawer" class="food-item-accordion" <?= ($form_action === 'edit' || isset($_GET['new_item'])) ? 'open' : '' ?>>
+        <summary class="food-item-accordion-summary">
+            <div class="summary-title-group">
+                <span class="summary-badge-icon" aria-hidden="true"><?= $form_action === 'edit' ? '✏️' : '➕' ?></span>
+                <div>
+                    <strong><?= $form_action === 'edit' ? 'Edit Food Item: ' . e($editing_item['name']) : 'Add New Food Item to Menu' ?></strong>
+                    <small><?= $form_action === 'edit' ? 'Update dish information, pricing, image, or ordering availability' : 'Click to expand/collapse the dish creation form' ?></small>
+                </div>
             </div>
-            <?php if ($form_action === 'edit'): ?>
-                <a class="btn-kitchen-reset" href="<?= e(url('kitchen/dashboard.php')) ?>">Cancel edit</a>
-            <?php endif; ?>
-        </div>
-        <?= csrf_field() ?>
-        <input type="hidden" name="action" value="<?= e($form_action) ?>">
-        <?php if ($form_action === 'edit'): ?>
-            <input type="hidden" name="item_id" value="<?= (int)$editing_item['item_id'] ?>">
-        <?php endif; ?>
-
-        <div class="food-item-fields">
-            <div class="food-item-field">
-                <label for="food-name">Food name</label>
-                <input id="food-name" name="name" type="text" maxlength="120" required value="<?= e((string)$form_values['name']) ?>">
-            </div>
-            <div class="food-item-field">
-                <label for="food-category">Category</label>
-                <select id="food-category" name="category" required>
-                    <option value="">Select a category</option>
-                    <?php foreach ($all_categories as $cat): ?>
-                        <option value="<?= e($cat) ?>" <?= $form_values['category'] === $cat ? 'selected' : '' ?>><?= e($cat) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="food-item-field">
-                <label for="food-price">Price (LKR)</label>
-                <input id="food-price" name="price" type="number" min="0.01" max="99999999.99" step="0.01" required value="<?= e((string)$form_values['price']) ?>">
-            </div>
-            <div class="food-item-field">
-                <label for="food-image">Food image</label>
-                <input id="food-image" name="image" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
-                <small>JPG, PNG, or WebP; maximum 5 MB. Leave empty to <?= $form_action === 'edit' ? 'keep the current image' : 'use the default image' ?>.</small>
+            <div class="summary-actions">
                 <?php if ($form_action === 'edit'): ?>
-                    <img class="food-item-current-image" src="<?= e(url($editing_item['image_path'])) ?>" alt="Current image for <?= e($editing_item['name']) ?>">
+                    <span class="editing-item-pill">Editing ID #<?= (int)$editing_item['item_id'] ?></span>
+                    <a class="btn-cancel-edit" href="<?= e(url('kitchen/dashboard.php')) ?>" onclick="event.stopPropagation();">Cancel Edit ✕</a>
+                <?php else: ?>
+                    <span class="accordion-toggle-pill">Click to Toggle Form ▼</span>
                 <?php endif; ?>
             </div>
-            <div class="food-item-field food-item-description">
-                <label for="food-description">Description</label>
-                <textarea id="food-description" name="description" rows="3" maxlength="2000"><?= e((string)$form_values['description']) ?></textarea>
-            </div>
-            <label class="food-item-availability">
-                <input type="checkbox" name="is_available" value="1" <?= $form_values['is_available'] ? 'checked' : '' ?>>
-                Available for customer orders
-            </label>
-        </div>
-        <div class="food-item-form-actions">
-            <button type="submit" class="btn-kitchen-filter"><?= $form_action === 'edit' ? 'Save Food Item' : 'Add Food Item' ?></button>
-        </div>
-    </form>
+        </summary>
 
-    <!-- Search, Category, Status, & Sorting Controls -->
+        <form class="food-item-form" method="post" action="<?= e($form_action_url) ?>" enctype="multipart/form-data">
+            <?= csrf_field() ?>
+            <input type="hidden" name="action" value="<?= e($form_action) ?>">
+            <?php if ($form_action === 'edit'): ?>
+                <input type="hidden" name="item_id" value="<?= (int)$editing_item['item_id'] ?>">
+            <?php endif; ?>
+
+            <div class="food-item-fields">
+                <div class="food-item-field">
+                    <label for="food-name">Food Name <span class="required-star">*</span></label>
+                    <input id="food-name" name="name" type="text" maxlength="120" required placeholder="e.g. Crispy Chicken Burger" value="<?= e((string)$form_values['name']) ?>">
+                </div>
+
+                <div class="food-item-field">
+                    <label for="food-category">Food Category <span class="required-star">*</span></label>
+                    <select id="food-category" name="category" required>
+                        <option value="">Select a category</option>
+                        <?php foreach ($all_categories as $cat): ?>
+                            <option value="<?= e($cat) ?>" <?= $form_values['category'] === $cat ? 'selected' : '' ?>><?= e($cat) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="food-item-field">
+                    <label for="food-price">Price (LKR) <span class="required-star">*</span></label>
+                    <div class="input-with-prefix">
+                        <span class="input-prefix">LKR</span>
+                        <input id="food-price" name="price" type="number" min="0.01" max="99999999.99" step="0.01" required placeholder="0.00" value="<?= e((string)$form_values['price']) ?>">
+                    </div>
+                </div>
+
+                <div class="food-item-field food-item-image-field">
+                    <label for="food-image">Dish Photography</label>
+                    <div class="food-image-input-wrapper">
+                        <input id="food-image" name="image" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                        <small>JPG, PNG, or WebP up to 5 MB. <?= $form_action === 'edit' ? 'Leave blank to keep the current image.' : 'Leave blank for the default image.' ?></small>
+                    </div>
+                    <?php if ($form_action === 'edit'): ?>
+                        <div class="food-item-current-preview">
+                            <span>Current:</span>
+                            <img class="food-item-current-image" src="<?= e(url($editing_item['image_path'])) ?>" alt="Current image for <?= e($editing_item['name']) ?>">
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="food-item-field food-item-description">
+                    <label for="food-description">Dish Description</label>
+                    <textarea id="food-description" name="description" rows="3" maxlength="2000" placeholder="Describe the flavors, ingredients, portion size, and details..."><?= e((string)$form_values['description']) ?></textarea>
+                </div>
+
+                <div class="food-item-field food-item-availability-field">
+                    <label class="custom-toggle-label">
+                        <input type="checkbox" name="is_available" value="1" <?= $form_values['is_available'] ? 'checked' : '' ?>>
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Available for customer orders</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="food-item-form-actions">
+                <?php if ($form_action === 'edit'): ?>
+                    <a class="btn-kitchen-reset" href="<?= e(url('kitchen/dashboard.php')) ?>">Cancel</a>
+                <?php endif; ?>
+                <button type="submit" class="btn-kitchen-submit">
+                    <span aria-hidden="true"><?= $form_action === 'edit' ? '💾' : '➕' ?></span>
+                    <span><?= $form_action === 'edit' ? 'Save Food Item' : 'Add Food Item to Menu' ?></span>
+                </button>
+            </div>
+        </form>
+    </details>
+
+    <!-- Search, Category, Status, & Sorting Controls Toolbar -->
     <form class="kitchen-filter-form" method="get" action="<?= e(url('kitchen/dashboard.php')) ?>">
-        <div class="kitchen-filter-group">
+        <div class="kitchen-filter-group search-group">
             <label for="filter-search">Search Dishes</label>
-            <input type="search" id="filter-search" name="q" value="<?= e($search) ?>" placeholder="Search name, category, description...">
+            <div class="filter-input-wrapper">
+                <span class="filter-search-icon" aria-hidden="true">🔍</span>
+                <input type="search" id="filter-search" name="q" value="<?= e($search) ?>" placeholder="Search name, description, category...">
+            </div>
         </div>
 
         <div class="kitchen-filter-group">
             <label for="filter-category">Category</label>
             <select id="filter-category" name="category">
-                <option value="">All Categories</option>
+                <option value="">All Categories (<?= $total_categories_count ?>)</option>
                 <?php foreach ($all_categories as $cat): ?>
                     <option value="<?= e($cat) ?>" <?= $category === $cat ? 'selected' : '' ?>>
                         <?= e($cat) ?>
@@ -517,7 +563,7 @@ include '../includes/header.php';
         </div>
 
         <div class="kitchen-filter-group">
-            <label for="filter-status">Status</label>
+            <label for="filter-status">Ordering Status</label>
             <select id="filter-status" name="status">
                 <option value="all" <?= $status === 'all' ? 'selected' : '' ?>>All Dishes</option>
                 <option value="available" <?= $status === 'available' ? 'selected' : '' ?>>Available Only</option>
@@ -536,17 +582,34 @@ include '../includes/header.php';
             </select>
         </div>
 
-        <button type="submit" class="btn-kitchen-filter">Filter</button>
-
-        <?php if ($search !== '' || $category !== '' || $status !== 'all' || $sort !== 'name_asc'): ?>
-            <a href="<?= e(url('kitchen/dashboard.php')) ?>" class="btn-kitchen-reset">Reset</a>
-        <?php endif; ?>
+        <div class="kitchen-filter-buttons">
+            <button type="submit" class="btn-kitchen-filter">
+                <span aria-hidden="true">⚡</span> Filter
+            </button>
+            <?php if ($search !== '' || $category !== '' || $status !== 'all' || $sort !== 'name_asc'): ?>
+                <a href="<?= e(url('kitchen/dashboard.php')) ?>" class="btn-kitchen-reset">Reset</a>
+            <?php endif; ?>
+        </div>
     </form>
 
     <div class="menu-results" aria-live="polite">
-        <p>Showing <strong><?= count($items) ?></strong> of <strong><?= $filtered_total ?></strong> dishes (Total in system: <?= $total_items_count ?>)</p>
+        <div class="menu-results-count">
+            <span>Showing <strong><?= count($items) ?></strong> of <strong><?= $filtered_total ?></strong> dishes</span>
+            <span class="menu-results-total">(Total in system: <?= $total_items_count ?>)</span>
+        </div>
         <?php if ($search !== '' || $category !== '' || $status !== 'all'): ?>
-            <a href="<?= e(url('kitchen/dashboard.php')) ?>">Clear active filters</a>
+            <div class="active-filter-chips">
+                <?php if ($search !== ''): ?>
+                    <span class="active-filter-chip">Search: "<?= e($search) ?>"</span>
+                <?php endif; ?>
+                <?php if ($category !== ''): ?>
+                    <span class="active-filter-chip">Category: <?= e($category) ?></span>
+                <?php endif; ?>
+                <?php if ($status !== 'all'): ?>
+                    <span class="active-filter-chip">Status: <?= e($status === 'available' ? 'Available' : 'Out of Stock') ?></span>
+                <?php endif; ?>
+                <a class="clear-filters-link" href="<?= e(url('kitchen/dashboard.php')) ?>">Clear filters ✕</a>
+            </div>
         <?php endif; ?>
     </div>
 
@@ -556,62 +619,71 @@ include '../includes/header.php';
             <table class="kitchen-table">
                 <thead>
                     <tr>
-                        <th style="width: 70px;">Image</th>
+                        <th style="width: 80px;">Photo</th>
                         <th>Dish Details</th>
                         <th>Category</th>
                         <th>Price</th>
                         <th>Menu Status</th>
-                        <th style="text-align: right;">Actions</th>
+                        <th style="text-align: right; min-width: 250px;">Management Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($items as $item): ?>
                         <tr>
-                            <td>
+                            <td class="col-image">
                                 <img class="kitchen-dish-thumb" src="<?= e(url($item['image_path'])) ?>" alt="<?= e($item['name']) ?>" loading="lazy" onerror="this.onerror=null; this.src='<?= e(url('public/images/home-food.png')) ?>';">
                             </td>
-                            <td>
+                            <td class="col-dish">
                                 <div class="kitchen-dish-info">
-                                    <h3><?= e($item['name']) ?></h3>
-                                    <p><?= e($item['description']) ?></p>
+                                    <div class="dish-title-row">
+                                        <h3 class="dish-title"><?= e($item['name']) ?></h3>
+                                        <span class="dish-id-badge">#<?= (int)$item['item_id'] ?></span>
+                                    </div>
+                                    <p class="dish-description"><?= e($item['description'] ?: 'No description provided.') ?></p>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-category">
                                 <span class="menu-category"><?= e($item['category']) ?></span>
                             </td>
-                            <td>
+                            <td class="col-price">
                                 <span class="kitchen-price">LKR <?= number_format((float)$item['price'], 2) ?></span>
                             </td>
-                            <td>
+                            <td class="col-status">
                                 <?php if ($item['is_available']): ?>
-                                    <span class="badge-status available">Available</span>
+                                    <span class="badge-status available" title="Customers can order this dish">Available</span>
                                 <?php else: ?>
-                                    <span class="badge-status unavailable">Out of Stock</span>
+                                    <span class="badge-status unavailable" title="Hidden from customers / out of stock">Out of Stock</span>
                                 <?php endif; ?>
                             </td>
-                            <td style="text-align: right;">
+                            <td class="col-actions" style="text-align: right;">
                                 <div class="kitchen-item-actions">
                                     <?php $edit_query = $_GET; $edit_query['edit'] = (int)$item['item_id']; ?>
-                                    <a class="btn-item-edit" href="<?= e(url('kitchen/dashboard.php') . '?' . http_build_query($edit_query)) ?>">Edit</a>
-                                    <form method="post" action="<?= e(url('kitchen/dashboard.php?' . http_build_query($_GET))) ?>">
-                                        <?= csrf_field() ?>
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
-                                        <button type="submit" class="btn-item-delete" onclick="return confirm('Delete this food item from the menu?')">Delete</button>
-                                    </form>
+                                    <a class="btn-item-edit" href="<?= e(url('kitchen/dashboard.php') . '?' . http_build_query($edit_query)) ?>#foodItemDrawer" title="Edit details">
+                                        <span aria-hidden="true">✏️</span> Edit
+                                    </a>
+                                    
                                     <form method="post" action="<?= e(url('kitchen/dashboard.php?' . http_build_query($_GET))) ?>">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="toggle_availability">
                                         <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
                                         <?php if ($item['is_available']): ?>
                                             <button type="submit" class="btn-toggle-out" title="Mark this dish as Out of Stock (hides from public menu)">
-                                                Mark Out of Stock
+                                                <span aria-hidden="true">⏸</span> Out of Stock
                                             </button>
                                         <?php else: ?>
                                             <button type="submit" class="btn-toggle-in" title="Mark this dish as Available (shows on public menu)">
-                                                Mark Available
+                                                <span aria-hidden="true">▶</span> Available
                                             </button>
                                         <?php endif; ?>
+                                    </form>
+
+                                    <form method="post" action="<?= e(url('kitchen/dashboard.php?' . http_build_query($_GET))) ?>">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
+                                        <button type="submit" class="btn-item-delete" onclick="return confirm('Delete \'<?= e(addslashes($item['name'])) ?>\' from the menu?')" title="Delete dish">
+                                            <span aria-hidden="true">🗑️</span>
+                                        </button>
                                     </form>
                                 </div>
                             </td>
@@ -625,23 +697,23 @@ include '../includes/header.php';
         <?php if ($total_pages > 1): ?>
             <nav class="menu-pagination" aria-label="Kitchen food pages">
                 <?php if ($page > 1): ?>
-                    <a href="<?= e($pagination_url($page - 1)) ?>" aria-label="Previous page">← Previous</a>
+                    <a href="<?= e($pagination_url($page - 1)) ?>" class="pagination-link prev" aria-label="Previous page">← Previous</a>
                 <?php endif; ?>
 
-                <span>Page <?= $page ?> of <?= $total_pages ?></span>
+                <span class="pagination-current">Page <?= $page ?> of <?= $total_pages ?></span>
 
                 <?php if ($page < $total_pages): ?>
-                    <a href="<?= e($pagination_url($page + 1)) ?>" aria-label="Next page">Next →</a>
+                    <a href="<?= e($pagination_url($page + 1)) ?>" class="pagination-link next" aria-label="Next page">Next →</a>
                 <?php endif; ?>
             </nav>
         <?php endif; ?>
 
     <?php else: ?>
         <div class="menu-empty">
-            <span aria-hidden="true">🍳</span>
-            <h2>No food items found</h2>
+            <span class="empty-icon" aria-hidden="true">🍳</span>
+            <h3>No Food Items Found</h3>
             <p>No dishes match the specified filter or search query.</p>
-            <a href="<?= e(url('kitchen/dashboard.php')) ?>">Reset filters</a>
+            <a class="btn-kitchen-reset" href="<?= e(url('kitchen/dashboard.php')) ?>">Reset Filters</a>
         </div>
     <?php endif; ?>
 </section>
