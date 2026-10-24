@@ -659,6 +659,80 @@ body {
   overflow-wrap: anywhere;
 }
 
+.site-footer {
+  margin-top: 4rem;
+  padding: 2.5rem max(1.5rem, calc((100% - 1200px) / 2));
+  border-top: 1px solid #fed7aa;
+  background: #fff7ed;
+}
+
+.site-footer-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-footer-brand,
+.site-footer-contact {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.site-footer-logo {
+  width: fit-content;
+  color: #7c2d12;
+  font-size: 1.15rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.site-footer-logo span {
+  color: var(--primary-orange);
+}
+
+.site-footer-brand p,
+.site-footer-bottom p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+}
+
+.site-footer-links a,
+.site-footer-contact a {
+  color: #7c2d12;
+  font-size: 0.84rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.site-footer-links a:hover,
+.site-footer-contact a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.site-footer-contact {
+  justify-items: end;
+}
+
+.site-footer-bottom {
+  max-width: 1200px;
+  margin: 1.75rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid #ffedd5;
+  text-align: center;
+}
+
 @media (max-width: 760px) {
   .home-hero {
     grid-template-columns: 1fr;
@@ -678,6 +752,21 @@ body {
 
   .home-contact-copy p {
     margin-inline: auto;
+  }
+
+  .site-footer-content {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .site-footer-brand {
+    justify-items: center;
+  }
+
+  .site-footer-contact {
+    justify-items: center;
   }
 
   .home-hero h1 {
