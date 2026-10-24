@@ -133,15 +133,95 @@ body {
 }
 
 .kitchen-staff-layout .navbar {
+  position: relative;
+  width: min(1240px, calc(100% - 3rem));
+  min-height: 68px;
+  margin: 1.25rem auto 1.75rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.75rem;
   background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-  box-shadow: 0 14px 28px rgba(234, 88, 12, 0.28);
-  border: 3px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 28px rgba(194, 65, 12, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.48);
 }
 
-.kitchen-staff-layout .nav-links > a:not(.btn-nav):not(.btn-logout):hover,
-.kitchen-staff-layout .nav-links > .btn-logout:hover {
-  background: #c2410c;
-  border-color: #c2410c;
+.kitchen-staff-layout .brand {
+  flex: 0 0 auto;
+  font-size: 1.05rem;
+}
+
+.kitchen-staff-layout .kitchen-nav-links {
+  position: absolute;
+  left: 50%;
+  flex: 0 0 auto;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.15rem;
+  transform: translateX(-50%);
+}
+
+.kitchen-staff-layout .kitchen-nav-links > a {
+  min-height: 2.4rem;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.kitchen-staff-layout .kitchen-nav-links > a.active {
+  border-color: #fff;
+  background: #fff;
+  color: #c2410c;
+  box-shadow: 0 2px 7px rgba(124, 45, 18, 0.12);
+}
+
+.kitchen-staff-layout .kitchen-nav-links > a.active:hover {
+  border-color: #fff;
+  background: #fff;
+  color: #c2410c;
+}
+
+.kitchen-staff-layout .kitchen-nav-links > a:not(.active):not(.btn-logout):hover {
+  background: rgba(154, 52, 18, 0.42);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.kitchen-staff-layout .nav-account {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-left: auto;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.kitchen-staff-layout .user-greeting {
+  max-width: 150px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kitchen-staff-layout .nav-account .btn-logout {
+  min-height: 2.2rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #9a3412;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.kitchen-staff-layout .nav-account .btn-logout:hover {
+  background: #ffedd5;
+  border-color: #ffedd5;
+  color: #7c2d12;
 }
 
 .brand {
@@ -192,6 +272,52 @@ body {
 
   .user-greeting {
     font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 1050px) and (min-width: 761px) {
+  .kitchen-staff-layout .navbar {
+    flex-wrap: wrap;
+    border-radius: 24px;
+  }
+
+  .kitchen-staff-layout .kitchen-nav-links {
+    position: static;
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
+    padding-top: 0.4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    transform: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .kitchen-staff-layout .navbar {
+    gap: 0.4rem;
+  }
+
+  .kitchen-staff-layout .kitchen-nav-links {
+    position: static;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+    transform: none;
+  }
+
+  .kitchen-staff-layout .kitchen-nav-links > a {
+    min-height: 2.15rem;
+    padding: 0.35rem 0.6rem;
+  }
+
+  .kitchen-staff-layout .nav-account {
+    flex-basis: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
+  }
+
+  .kitchen-staff-layout .user-greeting {
+    max-width: 120px;
   }
 }
 
