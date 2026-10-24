@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/functions.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
+$current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
 $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     || (basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen');
 ?>
@@ -30,12 +31,14 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
                     <a href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
                     <?php if ($user_role === 'Administrator'): ?>
                         <a href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
-                        <a href="<?= url('admin/categories.php') ?>">Categories</a>
-                        <a href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
-                        <a href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
+                        <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
+                        <?php if (!$is_kitchen_dashboard): ?>
+                            <a href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
+                            <a href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
+                        <?php endif; ?>
                     <?php elseif ($user_role === 'Kitchen Staff'): ?>
                         <a href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
-                        <a href="<?= url('admin/categories.php') ?>">Categories</a>
+                        <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
                         <span class="role-pill pill-staff">Kitchen Staff</span>
                     <?php endif; ?>
 

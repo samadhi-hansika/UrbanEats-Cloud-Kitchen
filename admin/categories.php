@@ -258,61 +258,11 @@ function get_category_emoji(string $name): string {
 }
 
 $has_active_filters = ($search !== '' || $status_filter !== 'all' || $sort !== 'name_asc');
+$page_title = 'Food Category Management';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Food Category Management - UrbanEats Cloud Kitchen</title>
-    <link rel="stylesheet" href="../public/style.css">
-</head>
-<body class="admin-dashboard">
+<?php include '../includes/header.php'; ?>
 
-    <!-- Global Admin Top Navigation Bar -->
-    <header class="admin-navbar">
-        <a class="admin-brand" href="../index.php">
-            <span class="admin-brand-icon" aria-hidden="true">🍴</span>
-            <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
-        </a>
-        <nav class="admin-nav-links" aria-label="Admin navigation">
-            <a href="dashboard.php">Dashboard</a>
-            <a class="active" href="categories.php">Categories</a>
-            <a href="users.php">Users &amp; Roles</a>
-            <a href="audit-log.php">Audit Logs</a>
-            <?php if ($current_role === 'Kitchen Staff'): ?>
-                <a href="../kitchen/dashboard.php">Kitchen Menu</a>
-            <?php endif; ?>
-        </nav>
-        <div class="admin-account">
-            <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Staff') ?></span>
-            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out">↗</a>
-        </div>
-    </header>
-
-    <main class="cat-management-wrap">
-
-        <!-- Flash Messages Display -->
-        <?php $flashes = get_flashes(); ?>
-        <?php if (!empty($flashes)): ?>
-            <div style="margin-bottom: 1.5rem;">
-                <?php foreach ($flashes as $type => $messages): ?>
-                    <?php
-                    $is_error = ($type === 'error' || $type === 'danger');
-                    $bg_color = $is_error ? '#fef2f2' : '#ecfdf5';
-                    $text_color = $is_error ? '#991b1b' : '#065f46';
-                    $border_color = $is_error ? '#fecaca' : '#a7f3d0';
-                    $icon = $is_error ? '⚠️' : '✅';
-                    ?>
-                    <?php foreach ($messages as $msg): ?>
-                        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.95rem 1.25rem; border-radius: 12px; margin-bottom: 0.6rem; background: <?= $bg_color ?>; color: <?= $text_color ?>; border: 1px solid <?= $border_color ?>; font-size: 0.9rem; font-weight: 500;">
-                            <span><?= $icon ?></span>
-                            <span style="flex: 1;"><?= htmlspecialchars($msg) ?></span>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+<div class="cat-management-wrap">
 
         <!-- Hero Section -->
         <section class="cat-hero" aria-labelledby="cat-hero-heading">
@@ -526,7 +476,7 @@ $has_active_filters = ($search !== '' || $status_filter !== 'all' || $sort !== '
             <?php endif; ?>
         </section>
 
-    </main>
+    </div>
 
     <!-- =======================================================================
          ADD CATEGORY MODAL
@@ -710,5 +660,5 @@ $has_active_filters = ($search !== '' || $status_filter !== 'all' || $sort !== '
             }
         });
     </script>
-</body>
-</html>
+    </div>
+<?php include '../includes/footer.php'; ?>
