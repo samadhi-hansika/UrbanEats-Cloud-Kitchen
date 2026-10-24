@@ -44,10 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 $total_items_count = (int)$pdo->query("SELECT COUNT(*) FROM food_items")->fetchColumn();
 $available_items_count = (int)$pdo->query("SELECT COUNT(*) FROM food_items WHERE is_available = 1")->fetchColumn();
 $unavailable_items_count = (int)$pdo->query("SELECT COUNT(*) FROM food_items WHERE is_available = 0")->fetchColumn();
-$total_categories_count = (int)$pdo->query("SELECT COUNT(DISTINCT category) FROM food_items")->fetchColumn();
+$total_categories_count = (int)$pdo->query("SELECT COUNT(*) FROM categories")->fetchColumn();
+if ($total_categories_count === 0) {
+    $total_categories_count = (int)$pdo->query("SELECT COUNT(DISTINCT category) FROM food_items")->fetchColumn();
+}
 
 // 2. Fetch All Food Categories for Filter Dropdown
-$all_categories = $pdo->query("SELECT DISTINCT category FROM food_items ORDER BY category ASC")->fetchAll(PDO::FETCH_COLUMN);
+$all_categories = $pdo->query("SELECT category_name FROM categories ORDER BY category_name ASC")->fetchAll(PDO::FETCH_COLUMN);
+if (empty($all_categories)) {
+    $all_categories = $pdo->query("SELECT DISTINCT category FROM food_items ORDER BY category ASC")->fetchAll(PDO::FETCH_COLUMN);
+}
 
 // 3. Process Search, Filter, Sort & Pagination Parameters
 $search = isset($_GET['q']) && is_string($_GET['q']) ? trim($_GET['q']) : '';
@@ -178,13 +184,13 @@ include '../includes/header.php';
             <span class="kitchen-stat-label">Out of Stock</span>
         </div>
     </div>
-    <div class="kitchen-stat-card">
+    <a href="../admin/categories.php" class="kitchen-stat-card" style="text-decoration: none; color: inherit;" title="Manage Food Categories">
         <div class="kitchen-stat-icon categories" aria-hidden="true">📑</div>
         <div class="kitchen-stat-details">
             <span class="kitchen-stat-value"><?= $total_categories_count ?></span>
-            <span class="kitchen-stat-label">Food Categories</span>
+            <span class="kitchen-stat-label">Food Categories ↗</span>
         </div>
-    </div>
+    </a>
 </section>
 
 <!-- Kitchen Menu & Food Items Management Panel -->
@@ -194,10 +200,16 @@ include '../includes/header.php';
             <h2>Food Items &amp; Public Menu Catalogue</h2>
             <p>Review dishes, verify pricing and descriptions, and toggle item availability for customer ordering.</p>
         </div>
-        <a class="kitchen-public-link" href="<?= e(url('menu.php')) ?>" target="_blank" rel="noopener">
-            <span>Customer View (menu.php)</span>
-            <span aria-hidden="true">↗</span>
-        </a>
+        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <a class="kitchen-public-link" href="../admin/categories.php" style="background: #ea580c; border-color: #ea580c;">
+                <span aria-hidden="true">📑</span>
+                <span>Manage Categories</span>
+            </a>
+            <a class="kitchen-public-link" href="<?= e(url('menu.php')) ?>" target="_blank" rel="noopener">
+                <span>Customer View </span>
+                <span aria-hidden="true">↗</span>
+            </a>
+        </div>
     </div>
 
     <!-- Search, Category, Status, & Sorting Controls -->

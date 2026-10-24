@@ -17,8 +17,14 @@ $sort_options = [
 $sort = isset($sort_options[$sort]) ? $sort : 'name_asc';
 
 $categories = $pdo->query(
-    'SELECT DISTINCT category FROM food_items WHERE is_available = 1 ORDER BY category ASC'
+    'SELECT c.category_name FROM categories c WHERE c.is_active = 1 ORDER BY c.category_name ASC'
 )->fetchAll(PDO::FETCH_COLUMN);
+
+if (empty($categories)) {
+    $categories = $pdo->query(
+        'SELECT DISTINCT category FROM food_items WHERE is_available = 1 ORDER BY category ASC'
+    )->fetchAll(PDO::FETCH_COLUMN);
+}
 
 $conditions = ['fi.is_available = 1'];
 $parameters = [];
