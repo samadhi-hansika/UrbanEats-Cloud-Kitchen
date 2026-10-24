@@ -239,10 +239,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // 1. Fetch Kitchen Overview Statistics
 $total_items_count = (int)$pdo->query("SELECT COUNT(*) FROM food_items")->fetchColumn();
 $available_items_count = (int)$pdo->query("SELECT COUNT(*) FROM food_items WHERE is_available = 1")->fetchColumn();
-$unavailable_items_count = (int)$pdo->query("SELECT COUNT(*) FROM food_items WHERE is_available = 0")->fetchColumn();
 $total_categories_count = (int)$pdo->query("SELECT COUNT(*) FROM categories")->fetchColumn();
 if ($total_categories_count === 0) {
     $total_categories_count = (int)$pdo->query("SELECT COUNT(DISTINCT category) FROM food_items")->fetchColumn();
+}
+
+$inventory_schema_ready = true;
+$low_stock_count = null;
+$out_of_stock_count = null;
+$recent_inventory_updates = [];
+try {
+    $pdo->query('SELECT stock_quantity, low_stock_threshold FROM food_items LIMIT 0');
+    $pdo->query('SELECT movement_id FROM inventory_movements LIMIT 0');
+
+    $inventory_summary = $pdo->query(
+        'SELECT COALESCE(SUM(CASE WHEN stock_quantity > 0 AND stock_quantity <= low_stock_threshold THEN 1 ELSE 0 END), 0) AS low_count,
+                COALESCE(SUM(CASE WHEN stock_quantity = 0 THEN 1 ELSE 0 END), 0) AS out_count
+         FROM food_items'
+    )->fetch();
+    $low_stock_count = (int)$inventory_summary['low_count'];
+    $out_of_stock_count = (int)$inventory_summary['out_count'];
+
+    $recent_inventory_stmt = $pdo->query(
+        "SELECT im.item_name, im.quantity_change, im.quantity_after, im.note, im.created_at,
+                COALESCE(u.full_name, 'Unknown user') AS changed_by_name
+         FROM inventory_movements im
+         LEFT JOIN users u ON u.user_id = im.changed_by
+         ORDER BY im.movement_id DESC
+         LIMIT 5"
+    );
+    $recent_inventory_updates = $recent_inventory_stmt->fetchAll();
+} catch (PDOException $exception) {
+    $mysql_error_code = (int)($exception->errorInfo[1] ?? 0);
+    if (!in_array($mysql_error_code, [1054, 1146], true)) {
+        throw $exception;
+    }
+
+    $inventory_schema_ready = false;
+    error_log('[Kitchen Dashboard Inventory Schema Not Ready] ' . $exception->getMessage());
 }
 
 // 2. Load the selected item for the add/edit form
@@ -390,35 +424,82 @@ include '../includes/header.php';
 </section>
 
 <!-- Kitchen Live Overview Statistics -->
-<section class="kitchen-stats-grid" aria-label="Kitchen statistics summary">
+<section class="kitchen-stats-grid" aria-label="Kitchen inventory summary">
     <div class="kitchen-stat-card">
         <div class="kitchen-stat-icon total" aria-hidden="true">🍽️</div>
         <div class="kitchen-stat-details">
             <span class="kitchen-stat-value"><?= $total_items_count ?></span>
-            <span class="kitchen-stat-label">Total Dishes</span>
+            <span class="kitchen-stat-label">Total Food Items</span>
         </div>
     </div>
     <div class="kitchen-stat-card">
         <div class="kitchen-stat-icon available" aria-hidden="true">✅</div>
         <div class="kitchen-stat-details">
             <span class="kitchen-stat-value"><?= $available_items_count ?></span>
-            <span class="kitchen-stat-label">Available on Menu</span>
+            <span class="kitchen-stat-label">Available Food Items</span>
         </div>
     </div>
-    <div class="kitchen-stat-card">
-        <div class="kitchen-stat-icon unavailable" aria-hidden="true">⏸️</div>
+    <a class="kitchen-stat-card" href="<?= e(url('kitchen/inventory.php?status=low')) ?>" title="View low-stock items">
+        <div class="kitchen-stat-icon low-stock" aria-hidden="true">⚠️</div>
         <div class="kitchen-stat-details">
-            <span class="kitchen-stat-value"><?= $unavailable_items_count ?></span>
-            <span class="kitchen-stat-label">Out of Stock</span>
-        </div>
-    </div>
-    <a href="../admin/categories.php" class="kitchen-stat-card" title="Manage Food Categories">
-        <div class="kitchen-stat-icon categories" aria-hidden="true">📑</div>
-        <div class="kitchen-stat-details">
-            <span class="kitchen-stat-value"><?= $total_categories_count ?></span>
-            <span class="kitchen-stat-label">Food Categories ↗</span>
+            <span class="kitchen-stat-value"><?= $inventory_schema_ready ? $low_stock_count : '—' ?></span>
+            <span class="kitchen-stat-label">Low-Stock Items</span>
         </div>
     </a>
+    <a class="kitchen-stat-card" href="<?= e(url('kitchen/inventory.php?status=out')) ?>" title="View out-of-stock items">
+        <div class="kitchen-stat-icon unavailable" aria-hidden="true">📦</div>
+        <div class="kitchen-stat-details">
+            <span class="kitchen-stat-value"><?= $inventory_schema_ready ? $out_of_stock_count : '—' ?></span>
+            <span class="kitchen-stat-label">Out-of-Stock Items</span>
+        </div>
+    </a>
+</section>
+
+<section class="kitchen-panel kitchen-inventory-updates" aria-label="Recent inventory updates">
+    <div class="kitchen-panel-header">
+        <div class="kitchen-panel-title">
+            <span class="panel-eyebrow">STOCK ACTIVITY</span>
+            <h2>Recent Inventory Updates</h2>
+            <p>Latest stock changes recorded by the kitchen team.</p>
+        </div>
+        <div class="kitchen-panel-actions">
+            <a class="kitchen-action-btn" href="<?= e(url('kitchen/inventory.php')) ?>">
+                <span aria-hidden="true">📦</span>
+                <span>View Inventory</span>
+            </a>
+        </div>
+    </div>
+
+    <?php if (!$inventory_schema_ready): ?>
+        <div class="kitchen-inventory-notice" role="status">
+            Inventory tracking is not set up yet. Apply <code>database/inventory_migration.sql</code> to view stock counts and recent updates.
+        </div>
+    <?php elseif ($recent_inventory_updates): ?>
+        <div class="kitchen-inventory-update-list">
+            <?php foreach ($recent_inventory_updates as $update): ?>
+                <?php $quantity_change = (int)$update['quantity_change']; ?>
+                <article class="kitchen-inventory-update">
+                    <div class="kitchen-inventory-update-item">
+                        <strong><?= e($update['item_name']) ?></strong>
+                        <span><?= $quantity_change > 0 ? 'Stock increased' : ($quantity_change < 0 ? 'Stock decreased' : 'Stock count checked') ?></span>
+                    </div>
+                    <span class="kitchen-inventory-update-change <?= $quantity_change > 0 ? 'inventory-increase' : ($quantity_change < 0 ? 'inventory-decrease' : '') ?>">
+                        <?= $quantity_change > 0 ? '+' : '' ?><?= $quantity_change ?>
+                    </span>
+                    <span class="kitchen-inventory-update-quantity">Now <strong><?= (int)$update['quantity_after'] ?></strong> in stock</span>
+                    <span class="kitchen-inventory-update-note"><?= e($update['note'] ?: 'No note provided') ?></span>
+                    <div class="kitchen-inventory-update-meta">
+                        <span><?= e($update['changed_by_name']) ?></span>
+                        <time datetime="<?= e(date(DATE_ATOM, strtotime($update['created_at']))) ?>">
+                            <?= e(date('M j, Y · g:i A', strtotime($update['created_at']))) ?>
+                        </time>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p class="kitchen-inventory-empty">No inventory updates have been recorded yet.</p>
+    <?php endif; ?>
 </section>
 
 <!-- Kitchen Menu & Food Items Management Panel -->

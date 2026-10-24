@@ -201,13 +201,20 @@ include '../includes/header.php';
         <?php if ($items): ?>
             <div class="kitchen-table-wrapper">
                 <table class="kitchen-table inventory-table">
+                    <colgroup>
+                        <col class="inventory-column-item">
+                        <col class="inventory-column-current">
+                        <col class="inventory-column-threshold">
+                        <col class="inventory-column-status">
+                        <col class="inventory-column-update">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>Food item</th>
-                            <th>Current stock</th>
-                            <th>Low-stock threshold</th>
+                            <th>Current<br>stock</th>
+                            <th>Low-stock<br>threshold</th>
                             <th>Status</th>
-                            <th>Record stock update</th>
+                            <th>Record stock<br>update</th>
                         </tr>
                     </thead>
                     <tbody>
