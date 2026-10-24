@@ -1460,3 +1460,692 @@ body {
     margin-left: 3.5rem;
   }
 }
+
+.menu-page {
+  margin: 2.5rem 0 4rem;
+}
+
+.menu-heading {
+  margin-bottom: 1.75rem;
+  text-align: center;
+}
+
+.menu-eyebrow {
+  color: #087454;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.menu-heading h1 {
+  margin: 0.65rem 0;
+  color: #202a3c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  letter-spacing: -0.045em;
+}
+
+.menu-heading h1 span {
+  color: #087454;
+}
+
+.menu-heading p,
+.menu-card-content > p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.menu-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(150px, 0.55fr) minmax(170px, 0.6fr) auto;
+  align-items: end;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #e7eee9;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(17, 24, 39, 0.04);
+}
+
+.menu-controls label {
+  display: grid;
+  gap: 0.4rem;
+  color: #374151;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.menu-controls input,
+.menu-controls select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 43px;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #d9e1dc;
+  border-radius: 8px;
+  background: #fff;
+  color: #202a3c;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.menu-controls input:focus,
+.menu-controls select:focus {
+  border-color: #087454;
+  outline: 3px solid rgba(8, 116, 84, 0.15);
+}
+
+.menu-submit {
+  min-height: 43px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #087454;
+  border-radius: 8px;
+  background: #087454;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.menu-submit:hover {
+  background: #075e4b;
+}
+
+.menu-results {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.1rem 0;
+  color: #667085;
+  font-size: 0.85rem;
+}
+
+.menu-results p {
+  margin: 0;
+}
+
+.menu-results a,
+.menu-empty a {
+  color: #087454;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.menu-card {
+  overflow: hidden;
+  border: 1px solid #e9eeeb;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(31, 41, 55, 0.06);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(31, 41, 55, 0.11);
+}
+
+.menu-card > img {
+  display: block;
+  width: 100%;
+  height: 210px;
+  background: #edf5ef;
+  object-fit: cover;
+}
+
+.menu-card-content {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.menu-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.menu-category {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: #e9f6ef;
+  color: #087454;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.menu-price {
+  color: #087454;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.menu-card-content h2 {
+  margin: 0.8rem 0 0.35rem;
+  color: #202a3c;
+  font-size: 1.1rem;
+}
+
+.menu-card-content > p {
+  margin: 0;
+  font-size: 0.86rem;
+}
+
+.menu-empty {
+  padding: 3rem 1rem;
+  border: 1px dashed #cbd8d0;
+  border-radius: 16px;
+  background: #fff;
+  text-align: center;
+}
+
+.menu-empty > span {
+  font-size: 2.5rem;
+}
+
+.menu-empty h2 {
+  margin: 0.5rem 0;
+}
+
+.menu-empty p {
+  color: var(--text-muted);
+}
+
+.menu-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  color: #667085;
+  font-size: 0.85rem;
+}
+
+.menu-pagination a {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #dce6df;
+  border-radius: 8px;
+  background: #fff;
+  color: #087454;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.menu-pagination a:hover {
+  border-color: #087454;
+}
+
+@media (max-width: 900px) {
+  .menu-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .menu-page {
+    margin-top: 1.5rem;
+  }
+
+  .menu-controls,
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-submit {
+    width: 100%;
+  }
+
+  .menu-card > img {
+    height: 230px;
+  }
+}
+
+/* ==========================================================================
+   Kitchen Staff Dashboard & Menu Management Styles
+   ========================================================================== */
+
+.kitchen-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: 1.75rem 0 2rem;
+}
+
+.kitchen-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid #e1ebe5;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(8, 116, 84, 0.05);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.kitchen-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(8, 116, 84, 0.1);
+}
+
+.kitchen-stat-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.kitchen-stat-icon.total {
+  background: #e6f4ea;
+  color: #087454;
+}
+
+.kitchen-stat-icon.available {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.kitchen-stat-icon.unavailable {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.kitchen-stat-icon.categories {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.kitchen-stat-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.kitchen-stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.kitchen-stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.2rem;
+}
+
+/* Kitchen Management Panel */
+.kitchen-panel {
+  border: 1px solid #e1ebe5;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+  padding: 1.75rem;
+  margin-bottom: 3rem;
+}
+
+.kitchen-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #edf2ef;
+  margin-bottom: 1.5rem;
+}
+
+.kitchen-panel-title h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #1f2937;
+  font-weight: 800;
+}
+
+.kitchen-panel-title p {
+  margin: 0.3rem 0 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.kitchen-public-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid #087454;
+  border-radius: 10px;
+  background: #087454;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.kitchen-public-link:hover {
+  background: #075e4b;
+  transform: translateY(-1px);
+}
+
+/* Filter Controls Toolbar */
+.kitchen-filter-form {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.2fr) minmax(130px, 0.7fr) minmax(130px, 0.7fr) minmax(150px, 0.8fr) auto auto;
+  align-items: end;
+  gap: 0.85rem;
+  padding: 1.2rem;
+  border: 1px solid #e7eee9;
+  border-radius: 14px;
+  background: #fbfdfc;
+  margin-bottom: 1.25rem;
+}
+
+.kitchen-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.kitchen-filter-group label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.kitchen-filter-group input,
+.kitchen-filter-group select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 42px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #cfdad3;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1f2937;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.kitchen-filter-group input:focus,
+.kitchen-filter-group select:focus {
+  border-color: #087454;
+  outline: 3px solid rgba(8, 116, 84, 0.15);
+}
+
+.btn-kitchen-filter {
+  min-height: 42px;
+  padding: 0.55rem 1.2rem;
+  border: 1px solid #087454;
+  border-radius: 8px;
+  background: #087454;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.btn-kitchen-filter:hover {
+  background: #075e4b;
+}
+
+.btn-kitchen-reset {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 160ms ease;
+}
+
+.btn-kitchen-reset:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* Kitchen Items Table / List */
+.kitchen-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e5ede8;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.kitchen-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.kitchen-table th {
+  padding: 0.85rem 1rem;
+  background: #f4f8f5;
+  color: #374151;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e1ebe5;
+}
+
+.kitchen-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #edf2ee;
+  vertical-align: middle;
+  color: #1f2937;
+}
+
+.kitchen-table tr:last-child td {
+  border-bottom: none;
+}
+
+.kitchen-table tr:hover td {
+  background: #fafdfb;
+}
+
+.kitchen-dish-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.kitchen-dish-thumb {
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #eef4f0;
+  border: 1px solid #e1ebe5;
+  flex-shrink: 0;
+}
+
+.kitchen-dish-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.kitchen-dish-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.4;
+  max-width: 320px;
+}
+
+.kitchen-price {
+  font-weight: 700;
+  color: #087454;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* Status Badges */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-status.available {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-status.available::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.badge-status.unavailable {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.badge-status.unavailable::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+/* Toggle Buttons */
+.btn-toggle-out {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #f87171;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #dc2626;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 160ms ease;
+  white-space: nowrap;
+}
+
+.btn-toggle-out:hover {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.btn-toggle-in {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #34d399;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #059669;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 160ms ease;
+  white-space: nowrap;
+}
+
+.btn-toggle-in:hover {
+  background: #ecfdf5;
+  border-color: #10b981;
+}
+
+/* Category Filter Chips */
+.menu-category-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.menu-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border: 1px solid #dce6df;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 160ms ease;
+}
+
+.menu-chip:hover {
+  border-color: #087454;
+  color: #087454;
+  background: #f4fbf7;
+}
+
+.menu-chip.active {
+  background: #087454;
+  border-color: #087454;
+  color: #ffffff;
+}
+
+/* Responsive Kitchen Dashboard */
+@media (max-width: 960px) {
+  .kitchen-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kitchen-filter-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .kitchen-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kitchen-filter-form {
+    grid-template-columns: 1fr;
+  }
+
+  .kitchen-dish-info p {
+    max-width: 200px;
+  }
+}

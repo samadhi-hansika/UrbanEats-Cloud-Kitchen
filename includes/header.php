@@ -25,6 +25,7 @@ $is_kitchen_dashboard = $user_role === 'Kitchen Staff'
             
             <div class="nav-links">
                 <a href="<?= url('index.php') ?>">Home</a>
+                <a href="<?= url('menu.php') ?>">Menu</a>
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>

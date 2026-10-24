@@ -13,6 +13,7 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 - Customer registration and login
 - Administrator-managed Kitchen Staff and Administrator accounts
 - Browse food items
+- Public menu with food categories, search, sorting, and pagination
 - Manage food items and stock
 - Add items to cart and place orders
 - Track order status
@@ -27,6 +28,8 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 5. Import the project SQL file.
 6. Configure the database connection in `config/db.php`.
 7. Open the project in your browser. The application detects its URL path from its location under Apache's document root, so the folder name can differ between team members.
+
+For an existing database, run `database/menu_migration.sql` against `urbaneats_db` to add the public menu table and sample dishes without replacing existing application data.
 
 ## Run the Project
 Open:

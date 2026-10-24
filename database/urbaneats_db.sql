@@ -24,6 +24,68 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `food_items`
+--
+
+CREATE TABLE `food_items` (
+  `item_id` int(11) NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `description` text NOT NULL,
+  `category` varchar(80) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `image_path` varchar(255) NOT NULL,
+  `is_available` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `food_items`
+--
+
+INSERT INTO `food_items` (`item_id`, `name`, `description`, `category`, `price`, `image_path`, `is_available`) VALUES
+(1, 'Classic Smash Burger', 'Juicy grilled beef patty, melted cheddar cheese, crisp lettuce, tomato, pickles, and our signature secret sauce on a toasted brioche bun.', 'Burgers', 1850.00, 'public/images/menu/classic-smash-burger.jpg', 1),
+(2, 'Crispy Chicken Burger', 'Golden breaded chicken breast topped with fresh romaine lettuce, pickled onions, and creamy herb ranch dressing.', 'Burgers', 1650.00, 'public/images/menu/Crispy-Chicken-Burger.png', 1),
+(3, 'Loaded Garden Bowl', 'A vibrant medley of crisp seasonal greens, roasted chickpeas, cherry tomatoes, cucumbers, quinoa, and honey-dijon vinaigrette.', 'Bowls', 1450.00, 'public/images/menu/Loaded-Garden-Bowl.jpg', 1),
+(4, 'Spiced Chicken Rice', 'Fragrant seasoned basmati rice served with tender roasted spiced chicken thigh, house gravy, and refreshing cucumber sambal.', 'Rice & Meals', 1950.00, 'public/images/menu/Spiced Chicken Rice.png', 1),
+(5, 'Crispy Golden Fries', 'Hand-cut russet potatoes fried to golden perfection and tossed with our signature smoked paprika and herb sea salt blend.', 'Sides', 650.00, 'public/images/menu/Crispy-Golden-Fries.jpg', 1),
+(6, 'Chocolate Brownie Bites', 'Decadent Belgian dark chocolate fudge brownies baked fresh, cut into bite-sized morsels, and dusted with premium Dutch cocoa.', 'Desserts', 850.00, 'public/images/menu/chocolate-brownie-bites.jpg', 1),
+(7, 'Fresh Lime Cooler', 'Freshly squeezed Sri Lankan key limes blended with crushed ice, aromatic mint leaves, and pure cane sugar syrup.', 'Drinks', 550.00, 'public/images/menu/Fresh-Lime-Cooler.jpg', 1),
+(8, 'Street-Style Chicken Wrap', 'Flame-grilled marinated chicken tenders, shredded cabbage, sliced peppers, and creamy garlic aioli rolled in warm flatbread.', 'Wraps', 1350.00, 'public/images/menu/Street-Style Chicken Wrap.jpg', 1),
+(9, 'Roasted Veggie Flatbread', 'Artisan stone-baked flatbread topped with grilled zucchini, bell peppers, Kalamata olives, melted mozzarella, and fresh basil.', 'Sides', 1250.00, 'public/images/menu/Roasted-Veggie-Flatbread.jpg', 1),
+(10, 'Coconut Curry Bowl', 'Rich and aromatic Sri Lankan coconut milk curry simmered with garden vegetables, sweet potatoes, and served over steamed jasmine rice.', 'Bowls', 1550.00, 'public/images/menu/Coconut-Curry-Bowl.jpg', 1),
+(11, 'BBQ Bacon Cheeseburger', 'Thick grilled beef patty basted with smoky BBQ sauce, crispy beef bacon strips, melted cheddar cheese, and crispy onion strings.', 'Burgers', 2150.00, 'public/images/menu/bbq-bacon-cheeseburger.jpg', 1),
+(12, 'Spicy Peri-Peri Burger', 'Succulent chicken breast marinated in fiery African bird\'s eye chilli sauce, topped with crunchy slaw and jalapeño aioli.', 'Burgers', 1750.00, 'public/images/menu/spicy-peri-peri-burger.jpg', 1),
+(13, 'Mushroom Swiss Melt Burger', 'Flame-broiled beef patty smothered with sautéed garlic button mushrooms, melted imported Swiss cheese, and truffle mayo.', 'Burgers', 1950.00, 'public/images/menu/mushroom-swiss-melt-burger.jpg', 1),
+(14, 'Double Beef Monster Burger', 'Two 150g prime beef patties, double American cheddar cheese, caramelized onions, crisp pickles, and smoky burger relish.', 'Burgers', 2550.00, 'public/images/menu/double-beef-monster-burger.jpg', 1),
+(15, 'Crispy Fish Fillet Burger', 'Panko-crusted white fish fillet fried golden, accompanied by crisp shredded iceberg lettuce and tangy caper tartar sauce.', 'Burgers', 1700.00, 'public/images/menu/crispy-fish-fillet-burger.jpg', 1),
+(16, 'Teriyaki Chicken Rice Bowl', 'Glazed pan-seared chicken thighs in sweet teriyaki reduction, steamed Japanese rice, broccoli florets, and toasted sesame seeds.', 'Bowls', 1850.00, 'public/images/menu/teriyaki-chicken-rice-bowl.jpg', 1),
+(17, 'Grilled Salmon Poke Bowl', 'Atlantic salmon grilled to medium, served over seasoned sushi rice with sliced avocado, edamame, pickled ginger, and ponzu drizzle.', 'Bowls', 2650.00, 'public/images/menu/grilled-salmon-poke-bowl.jpg', 1),
+(18, 'Mexican Fiesta Burrito Bowl', 'Zesty cilantro-lime rice, seasoned black beans, sweet corn, fresh pico de gallo, guacamole, and grilled chicken tenders.', 'Bowls', 1750.00, 'public/images/menu/mexican-fiesta-burrito-bowl.jpg', 1),
+(19, 'Paneer Tikka Quinoa Bowl', 'Tandoori-spiced cottage cheese cubes charred in tandoor, served over warm fluffy quinoa, roasted peppers, and mint chutney.', 'Bowls', 1600.00, 'public/images/menu/paneer-tikka-quinoa-bowl.jpg', 1),
+(20, 'Avocado Edamame Green Bowl', 'Baby spinach, nutrient-dense edamame beans, ripe avocado slices, shredded kale, chia seeds, and green goddess tahini dressing.', 'Bowls', 1500.00, 'public/images/menu/avocado-edamame-green-bowl.jpg', 1),
+(21, 'Sri Lankan Seafood Nasi Goreng', 'Indonesian-Sri Lankan fusion wok-fried rice tossed with prawns, calamari, fried egg ribbon, chicken satay skewer, and chilli paste.', 'Rice & Meals', 2250.00, 'public/images/menu/sri-lankan-seafood-nasi-goreng.jpg', 1),
+(22, 'Thai Basil Chicken Fried Rice', 'Aromatic jasmine rice flash-fried with minced chicken, Thai bird chillies, sweet dark soy sauce, and fragrant holy basil leaves.', 'Rice & Meals', 1850.00, 'public/images/menu/thai-basil-chicken-fried-rice.jpg', 1),
+(23, 'Butter Chicken with Jeera Rice', 'Tender tandoor chicken pieces enveloped in a velvety tomato-cream sauce with fenugreek, paired with fragrant cumin basmati rice.', 'Rice & Meals', 2100.00, 'public/images/menu/butter-chicken-with-jeera-rice.jpg', 1),
+(24, 'Mongolian Beef Fried Rice', 'Marinated flank beef slices flash-fried with green spring onions, bell peppers, wok-tossed spicy rice, and toasted sesame oil.', 'Rice & Meals', 2350.00, 'public/images/menu/mongolian-beef-fried-rice.jpg', 1),
+(25, 'Sri Lankan Village Chicken Rice', 'Authentic village-style red rice with spicy country chicken curry, dhal curry, tempered potato baduma, and pol sambol.', 'Rice & Meals', 1750.00, 'public/images/menu/sri-lankan-village-chicken-rice.jpg', 1),
+(26, 'Kothu Roti Supreme Chicken', 'Finely chopped Godamba roti tempered with curry chicken, fresh eggs, green chillies, leeks, and fragrant roasted spices.', 'Rice & Meals', 1650.00, 'public/images/menu/kothu-roti-supreme-chicken.jpg', 1),
+(27, 'Cheesy Chicken Shawarma Wrap', 'Slow-roasted chicken shawarma slivers with melted mozzarella, french fries inside, garlic toum, and pickled gherkins in Lebanese pita.', 'Wraps', 1450.00, 'public/images/menu/cheesy-chicken-shawarma-wrap.jpg', 1),
+(28, 'Falafel & Creamy Hummus Wrap', 'Crispy spiced chickpea falafel patties, homemade garlic hummus, fresh mint, diced tomatoes, and tangy tahini dressing.', 'Wraps', 1250.00, 'public/images/menu/falafel-creamy-hummus-wrap.jpg', 1),
+(29, 'Spicy Tandoori Paneer Wrap', 'Smoky tandoori marinated paneer strips, crunchy bell peppers, pickled red onions, and zesty coriander mint cream rolled in a paratha.', 'Wraps', 1350.00, 'public/images/menu/spicy-tandoori-paneer-wrap.jpg', 1),
+(30, 'BBQ Pulled Beef Wrap', 'Slow-cooked shredded tender beef glazed with sweet hickory BBQ sauce, creamy coleslaw, and melted cheddar wrapped in tortilla.', 'Wraps', 1650.00, 'public/images/menu/bbq-pulled-beef-wrap.jpg', 1),
+(31, 'Garlic Parmesan Chicken Wings', 'Crispy fried jumbo wings tossed in rich roasted garlic butter sauce, finished with grated aged parmesan and chopped parsley.', 'Sides', 1450.00, 'public/images/menu/garlic-parmesan-chicken-wings.jpg', 1),
+(32, 'Cheesy Mozzarella Sticks', 'Stretchy whole milk mozzarella battered in seasoned Italian breadcrumbs, fried crisp, and served with warm marinara dipping sauce.', 'Sides', 950.00, 'public/images/menu/cheesy-mozzarella-sticks.jpg', 1),
+(33, 'Crispy Golden Onion Rings', 'Thick slices of sweet yellow onions dipped in light beer batter and fried to a crunch, paired with house spicy mayo.', 'Sides', 750.00, 'public/images/menu/crispy-golden-onion-rings.jpg', 1),
+(34, 'Loaded Beef Chilli Fries', 'Crispy fries smothered in slow-simmered minced beef chili con carne, melted cheddar cheese sauce, jalapeño rings, and sour cream.', 'Sides', 1350.00, 'public/images/menu/loaded-beef-chilli-fries.jpg', 1),
+(35, 'Creamy Tuscan Chicken Fettuccine', 'Al dente fettuccine ribbons tossed in a velvety sun-dried tomato and baby spinach parmesan cream sauce with grilled chicken breast.', 'Pasta', 2150.00, 'public/images/menu/creamy-tuscan-chicken-fettuccine.jpg', 1),
+(36, 'Spicy Arrabiata Penne', 'Penne pasta simmered in robust garlic and crushed red pepper tomato sauce, Kalamata olives, fresh basil, and extra virgin olive oil.', 'Pasta', 1650.00, 'public/images/menu/spicy-arrabiata-penne.jpg', 1),
+(37, 'New York Baked Cheesecake', 'Classic dense and silky cream cheese cake on a golden buttery graham cracker crust, finished with a fresh strawberry coulis.', 'Desserts', 1150.00, 'public/images/menu/new-york-baked-cheesecake.jpg', 1),
+(38, 'Molten Chocolate Lava Cake', 'Warm individual chocolate cake with a rich liquid ganache center that flows out when cut, served with cocoa dusting.', 'Desserts', 1250.00, 'public/images/menu/molten-chocolate-lava-cake.jpg', 1),
+(39, 'Traditional Watalappan Cup', 'Authentic steamed Sri Lankan coconut milk custard sweetened with dark kithul jaggery, scented with nutmeg, cardamom, and roasted cashews.', 'Desserts', 650.00, 'public/images/menu/traditional-watalappan-cup.jpg', 1),
+(40, 'Mango Passion Fruit Mocktail', 'Tropical puree of sweet Alphonso mango and tangy passion fruit pulp shaken with sparkling soda water and crushed mint ice.', 'Drinks', 650.00, 'public/images/menu/mango-passion-fruit-mocktail.jpg', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `audit_log`
 --
 
@@ -164,6 +226,10 @@ INSERT INTO `users` (`user_id`, `full_name`, `email`, `phone`, `password_hash`, 
 --
 -- Indexes for table `audit_log`
 --
+ALTER TABLE `food_items`
+  ADD PRIMARY KEY (`item_id`),
+  ADD KEY `available_category` (`is_available`, `category`);
+
 ALTER TABLE `audit_log`
   ADD PRIMARY KEY (`log_id`),
   ADD KEY `user_id` (`user_id`);
@@ -202,6 +268,9 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for table `audit_log`
 --
+ALTER TABLE `food_items`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
 ALTER TABLE `audit_log`
   MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 

@@ -8,7 +8,10 @@ include 'includes/header.php';
         <span class="home-hero-eyebrow">FRESH · FAST · DELICIOUS</span>
         <h1>Welcome to <span>UrbanEats</span> Cloud Kitchen</h1>
         <p>Sri Lanka's premier cloud kitchen platform. Freshly prepared dishes delivered straight to your doorstep.</p>
-        <a href="auth/register.php" class="btn-primary home-hero-button">Get Started</a>
+        <div class="role-dashboard-actions">
+            <a href="menu.php" class="role-dashboard-primary">Browse the menu</a>
+            <a href="auth/register.php" class="role-dashboard-secondary">Get Started</a>
+        </div>
     </div>
     <div class="home-hero-visual">
         <img class="home-hero-image" src="public/images/home-food.png" alt="A table filled with freshly prepared meals">
