@@ -59,6 +59,30 @@ include 'includes/header.php';
     <a class="home-about-link" href="menu.php">Explore our menu <span aria-hidden="true">→</span></a>
 </section>
 
+<section class="home-contact" id="contact-urbaneats" aria-labelledby="home-contact-title">
+    <div class="home-contact-copy">
+        <span class="home-hero-eyebrow">WE'RE HERE TO HELP</span>
+        <h2 id="home-contact-title">Contact <span>Us</span></h2>
+        <p>Have a question about our menu or your UrbanEats experience? Get in touch with our team.</p>
+    </div>
+    <div class="home-contact-options">
+        <a class="home-contact-option" href="mailto:info@urbaneatscolombo.lk">
+            <span class="home-contact-icon" aria-hidden="true">✉</span>
+            <span>
+                <small>Email us</small>
+                <strong>info@urbaneatscolombo.lk</strong>
+            </span>
+        </a>
+        <a class="home-contact-option" href="tel:071234567">
+            <span class="home-contact-icon" aria-hidden="true">☎</span>
+            <span>
+                <small>Call us</small>
+                <strong>071234567</strong>
+            </span>
+        </a>
+    </div>
+</section>
+
 <?php
 include 'includes/footer.php';
 ?>
