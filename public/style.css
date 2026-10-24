@@ -2987,4 +2987,186 @@ body {
     transition: none;
   }
 }
+
+/* Food Item Management Form and Row Actions */
+.food-item-form {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid #dce9e1;
+  border-radius: 14px;
+  background: #f8fbf9;
+}
+
+.food-item-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.food-item-form-heading h3 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.05rem;
+}
+
+.food-item-form-heading p {
+  margin: 0.25rem 0 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.food-item-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.food-item-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.food-item-field label {
+  color: #374151;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.food-item-field input,
+.food-item-field select,
+.food-item-field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 42px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cfdad3;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1f2937;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.food-item-field textarea {
+  resize: vertical;
+}
+
+.food-item-field input:focus,
+.food-item-field select:focus,
+.food-item-field textarea:focus {
+  border-color: #087454;
+  outline: 3px solid rgba(8, 116, 84, 0.15);
+}
+
+.food-item-field small {
+  color: #6b7280;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.food-item-description {
+  grid-column: span 2;
+}
+
+.food-item-availability {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  align-self: end;
+  min-height: 42px;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.food-item-availability input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #087454;
+}
+
+.food-item-current-image {
+  width: 64px;
+  height: 64px;
+  margin-top: 0.25rem;
+  border: 1px solid #dce6df;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.food-item-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.kitchen-item-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.kitchen-item-actions form {
+  margin: 0;
+}
+
+.btn-item-edit,
+.btn-item-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #cfdad3;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-item-edit:hover {
+  border-color: #087454;
+  color: #087454;
+}
+
+.btn-item-delete {
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.btn-item-delete:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+@media (max-width: 760px) {
+  .food-item-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .food-item-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .food-item-description {
+    grid-column: auto;
+  }
+
+  .food-item-form-heading {
+    align-items: flex-start;
+  }
+}
 
