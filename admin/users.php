@@ -77,7 +77,24 @@ $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.rol
     <title>UrbanEats - Manage Users</title>
     <link rel="stylesheet" href="../public/style.css">
 </head>
-<body>
+<body class="admin-dashboard">
+    <header class="admin-navbar">
+        <a class="admin-brand" href="../index.php">
+            <span class="admin-brand-icon" aria-hidden="true">🍴</span>
+            <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
+        </a>
+        <nav class="admin-nav-links" aria-label="Admin navigation">
+            <a href="dashboard.php">Dashboard</a>
+            <a href="categories.php">Categories</a>
+            <a class="active" href="users.php">Users &amp; Roles</a>
+            <a href="audit-log.php">Audit Logs</a>
+        </nav>
+        <div class="admin-account">
+            <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Administrator') ?></span>
+            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out">↗</a>
+        </div>
+    </header>
+
     <div class="container">
         <div class="card">
             <h2>User Management Console</h2>

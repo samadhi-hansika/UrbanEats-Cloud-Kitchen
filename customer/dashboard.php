@@ -14,7 +14,7 @@ include '../includes/header.php';
         <h1>Welcome back,<br><span><?= e($_SESSION['full_name'] ?? 'Customer') ?></span></h1>
         <p>Thanks for being part of UrbanEats. Your next delicious meal is just around the corner.</p>
         <div class="role-dashboard-actions">
-            <a class="role-dashboard-primary" href="<?= e(url('index.php')) ?>">Explore UrbanEats</a>
+            <a class="role-dashboard-primary" href="<?= e(url('menu.php')) ?>">Browse Menu</a>
             <a class="role-dashboard-secondary" href="<?= e(url('auth/profile.php')) ?>">Manage your profile</a>
         </div>
     </div>

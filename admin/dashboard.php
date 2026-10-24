@@ -21,6 +21,7 @@ require_role('Administrator');
         </a>
         <nav class="admin-nav-links" aria-label="Admin navigation">
             <a class="active" href="dashboard.php">Dashboard</a>
+            <a href="categories.php">Categories</a>
             <a href="users.php">Users &amp; Roles</a>
             <a href="audit-log.php">Audit Logs</a>
         </nav>
@@ -35,10 +36,11 @@ require_role('Administrator');
             <div class="admin-hero-copy">
                 <span class="admin-eyebrow"><span aria-hidden="true">✦</span> ADMIN CONTROL CENTER</span>
                 <h1>Welcome to your<br>UrbanEats <span>Dashboard</span></h1>
-                <p>Manage your team, oversee platform activity, and keep your cloud kitchen running smoothly from one place.</p>
+                <p>Manage your food categories, team accounts, and platform activity to keep your cloud kitchen running smoothly from one place.</p>
                 <div class="admin-hero-actions">
-                    <a class="admin-action-primary" href="users.php">Manage Users <span aria-hidden="true">→</span></a>
-                    <a class="admin-action-secondary" href="audit-log.php">View Audit Logs</a>
+                    <a class="admin-action-primary" href="categories.php">Manage Categories <span aria-hidden="true">→</span></a>
+                    <a class="admin-action-secondary" href="users.php">Manage Users</a>
+                    <a class="admin-action-secondary" href="audit-log.php">Audit Logs</a>
                 </div>
                 <div class="admin-hero-note"><span aria-hidden="true">●</span> Your kitchen, under control.</div>
             </div>
@@ -49,6 +51,11 @@ require_role('Administrator');
         </section>
 
         <section class="admin-quick-links" aria-label="Quick links">
+            <a class="admin-quick-card" href="categories.php">
+                <span class="admin-quick-icon categories-icon" aria-hidden="true">📑</span>
+                <span><strong>Food Categories</strong><small>Add, edit &amp; classify dishes</small></span>
+                <span class="admin-quick-arrow" aria-hidden="true">↗</span>
+            </a>
             <a class="admin-quick-card" href="users.php">
                 <span class="admin-quick-icon users-icon" aria-hidden="true">♙</span>
                 <span><strong>Manage Users &amp; Roles</strong><small>Review accounts and access</small></span>

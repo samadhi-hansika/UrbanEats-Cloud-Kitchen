@@ -2,6 +2,7 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: login.php");
+require_once __DIR__ . '/../includes/functions.php';
+header('Location: ' . url('index.php'));
 exit();
 ?>
