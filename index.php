@@ -28,6 +28,37 @@ include 'includes/header.php';
 </div>
 </div>
 
+<section class="home-about" id="about-urbaneats" aria-labelledby="home-about-title">
+    <div class="home-about-heading">
+        <span class="home-hero-eyebrow">A LITTLE ABOUT US</span>
+        <h2 id="home-about-title">Good food, made <span>easy.</span></h2>
+        <p>
+            UrbanEats is a Sri Lankan cloud kitchen bringing a variety of freshly prepared meals together in one easy-to-browse menu.
+            Choose what you love, place your order online, and enjoy a delicious meal without the fuss.
+        </p>
+    </div>
+
+    <div class="home-about-highlights">
+        <article class="home-about-card">
+            <span class="home-about-icon" aria-hidden="true">🍳</span>
+            <h3>Prepared with care</h3>
+            <p>Our kitchen team prepares each dish with attention to flavor and quality.</p>
+        </article>
+        <article class="home-about-card">
+            <span class="home-about-icon" aria-hidden="true">🍽️</span>
+            <h3>Plenty to choose from</h3>
+            <p>Explore a range of dishes and find something to suit your appetite.</p>
+        </article>
+        <article class="home-about-card">
+            <span class="home-about-icon" aria-hidden="true">🛵</span>
+            <h3>Easy online ordering</h3>
+            <p>Browse the menu and order your meal from the comfort of home.</p>
+        </article>
+    </div>
+
+    <a class="home-about-link" href="menu.php">Explore our menu <span aria-hidden="true">→</span></a>
+</section>
+
 <?php
 include 'includes/footer.php';
 ?>

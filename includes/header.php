@@ -27,6 +27,9 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
             <div class="nav-links<?= $user_role === 'Kitchen Staff' ? ' kitchen-nav-links' : '' ?>">
                 <a class="<?= $current_page === 'index.php' ? 'active' : '' ?>" href="<?= url('index.php') ?>">Home</a>
                 <a class="<?= $current_page === 'menu.php' ? 'active' : '' ?>" href="<?= url('menu.php') ?>">Menu</a>
+                <?php if ($current_page === 'index.php'): ?>
+                    <a href="#about-urbaneats">About Us</a>
+                <?php endif; ?>
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a class="<?= $current_page === 'dashboard.php' ? 'active' : '' ?>" href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
