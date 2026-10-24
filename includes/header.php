@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/functions.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
 $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$is_profile_page = $current_page === 'profile.php';
 $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     || (basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen');
 ?>
@@ -16,7 +17,7 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body<?= $is_kitchen_dashboard ? ' class="kitchen-staff-layout"' : '' ?>>
+<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_profile_page ? 'profile-page' : '' ?>">
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
@@ -42,7 +43,7 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
                         <span class="role-pill pill-staff">Kitchen Staff</span>
                     <?php endif; ?>
 
-                    <a href="<?= url('auth/profile.php') ?>">My Profile</a>
+                    <a class="<?= $is_profile_page ? 'active' : '' ?>" href="<?= url('auth/profile.php') ?>">My Profile</a>
                     
                     <span class="user-greeting">
                         <?= e($_SESSION['full_name'] ?? 'User') ?>

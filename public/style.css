@@ -4109,4 +4109,224 @@ body {
     grid-column: auto;
   }
 }
+
+/* Signed-in Profile Page */
+.account-profile-page {
+  width: min(100%, 1040px);
+  margin: 1.5rem auto 3rem;
+}
+
+.account-profile-heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 14px 35px rgba(83, 58, 34, 0.08);
+}
+
+.account-profile-avatar {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fb923c, #ea580c);
+  box-shadow: 0 8px 18px rgba(234, 88, 12, 0.22);
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+
+.account-profile-heading-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.account-profile-heading h1 {
+  margin: 0.1rem 0 0.25rem;
+  color: #202a3c;
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+}
+
+.account-profile-heading p {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.account-profile-role {
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.account-profile-message {
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.account-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.account-profile-card {
+  min-width: 0;
+  padding: clamp(1.2rem, 3vw, 1.7rem);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 16px 40px rgba(83, 58, 34, 0.09);
+}
+
+.account-profile-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.35rem;
+}
+
+.account-profile-card-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border-radius: 12px;
+  background: #fff1e6;
+  font-size: 1.2rem;
+}
+
+.account-profile-card-icon.password {
+  background: #eef2ff;
+}
+
+.account-profile-card-heading h2 {
+  margin: 0;
+  color: #263348;
+  font-size: 1.1rem;
+}
+
+.account-profile-card-heading p {
+  margin: 0.2rem 0 0;
+  color: #6b7280;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.account-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-profile-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.account-profile-field label {
+  color: #374151;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.account-profile-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #d1d9e0;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #1f2937;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.account-profile-field input:focus {
+  border-color: #f97316;
+  outline: 3px solid rgba(249, 115, 22, 0.14);
+}
+
+.account-profile-field input[readonly] {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.account-profile-field small {
+  color: #6b7280;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.account-profile-submit {
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 9px;
+  background: #ea580c;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.account-profile-submit:hover {
+  transform: translateY(-1px);
+  background: #c2410c;
+}
+
+.account-profile-submit.password-submit {
+  background: #374151;
+}
+
+.account-profile-submit.password-submit:hover {
+  background: #1f2937;
+}
+
+@media (max-width: 760px) {
+  .account-profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-profile-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .account-profile-avatar {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
+    font-size: 1.4rem;
+  }
+
+  .account-profile-role {
+    margin-left: 3.25rem;
+  }
+}
 
