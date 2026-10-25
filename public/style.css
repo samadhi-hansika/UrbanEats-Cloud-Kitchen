@@ -1730,17 +1730,48 @@ body {
 }
 
 .account-profile-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   min-width: 0;
   padding: 1.45rem;
   border: 1px solid rgba(255, 255, 255, 0.92);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(31, 41, 55, 0.22);
   box-shadow: 0 12px 30px rgba(124, 45, 18, 0.08), inset 0 1px rgba(255, 255, 255, 0.96);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+
+.account-profile-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  transform: scale(1.015);
+}
+
+.account-profile-card.personal-information-card::before {
+  background-image:
+    linear-gradient(115deg, rgba(31, 41, 55, 0.3), rgba(65, 38, 24, 0.42)),
+    url("images/profile-personal-burger.png");
+  background-position: center, center 48%;
+}
+
+.account-profile-card.password-change-card::before {
+  background-image:
+    linear-gradient(115deg, rgba(31, 41, 55, 0.3), rgba(65, 38, 24, 0.42)),
+    url("images/profile-password-pizza.png");
+  background-position: center, center 62%;
 }
 
 .account-profile-card-heading {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 0.7rem;
@@ -1765,18 +1796,22 @@ body {
 
 .account-profile-card-heading h2 {
   margin: 0;
-  color: #292524;
+  color: #fff;
   font-size: 1rem;
+  text-shadow: 0 1px 4px rgba(17, 24, 39, 0.75);
 }
 
 .account-profile-card-heading p {
   margin: 0.2rem 0 0;
-  color: #78716c;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.76rem;
   line-height: 1.4;
+  text-shadow: 0 1px 4px rgba(17, 24, 39, 0.75);
 }
 
 .account-profile-form {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -1789,9 +1824,10 @@ body {
 .account-profile-field label {
   display: block;
   margin-bottom: 0.35rem;
-  color: #44403c;
+  color: #fff;
   font-size: 0.78rem;
   font-weight: 700;
+  text-shadow: 0 1px 4px rgba(17, 24, 39, 0.8);
 }
 
 .account-profile-field input {
@@ -1823,9 +1859,10 @@ body {
 .account-profile-field small {
   display: block;
   margin-top: 0.3rem;
-  color: #78716c;
+  color: #57534e;
   font-size: 0.69rem;
   line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.92);
 }
 
 .account-profile-submit {
