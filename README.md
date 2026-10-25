@@ -13,7 +13,9 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 - Customer registration and login
 - Administrator-managed Kitchen Staff and Administrator accounts
 - Browse food items
-- Manage food items and stock
+- Public menu with food categories, search, sorting, and pagination
+- Add, edit, and delete food items; update prices, upload food images, and manage menu availability
+- Track inventory quantities and low-stock thresholds, review out-of-stock items, and view stock movement history
 - Add items to cart and place orders
 - Track order status
 - Manage users
@@ -27,6 +29,12 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 5. Import the project SQL file.
 6. Configure the database connection in `config/db.php`.
 7. Open the project in your browser. The application detects its URL path from its location under Apache's document root, so the folder name can differ between team members.
+
+Kitchen Staff and Administrators can manage food items from the kitchen dashboard. Food image uploads accept JPG, PNG, and WebP files up to 5 MB; the web server must be able to create files under `public/images/menu/`.
+
+For an existing database, run `database/menu_migration.sql` against `urbaneats_db` to add the public menu table and sample dishes without replacing existing application data.
+
+For an existing installation, run `database/inventory_migration.sql` once after the menu migration to add stock quantities and the inventory movement ledger. Existing dishes start at zero stock; record their opening quantities from the Kitchen **Inventory** page.
 
 ## Run the Project
 Open:
