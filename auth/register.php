@@ -59,7 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <nav class="login-nav" aria-label="Main navigation">
             <a href="../index.php">Home</a>
             <a href="../menu.php">Menu</a>
-            <a class="login-nav-register" href="register.php" aria-current="page">Register</a>
+            <a href="../index.php#about-urbaneats">About Us</a>
+            <a href="../index.php#contact-urbaneats">Contact Us</a>
+            <a href="login.php">Sign In</a>
+            <a class="login-nav-current" href="register.php" aria-current="page">Register</a>
         </nav>
     </header>
 
