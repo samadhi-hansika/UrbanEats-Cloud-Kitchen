@@ -825,6 +825,33 @@ body {
   text-decoration: underline;
 }
 
+.register-layout .login-card {
+  padding-top: clamp(1.5rem, 3vw, 2.4rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.register-layout .login-card-brand {
+  margin-bottom: 1rem;
+}
+
+.register-layout .login-title {
+  font-size: clamp(1.65rem, 3vw, 2rem);
+}
+
+.register-layout .login-subtitle {
+  margin-bottom: 1.35rem;
+}
+
+.register-layout .login-card .form-group {
+  margin-bottom: 0.95rem;
+}
+
+.register-layout .register-message {
+  border-color: rgba(239, 68, 68, 0.2);
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
 .login-staff-note {
   margin: 1rem 0 0;
   padding-top: 1rem;
