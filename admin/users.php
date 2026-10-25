@@ -74,10 +74,11 @@ $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.rol
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>UrbanEats - Manage Users</title>
     <link rel="stylesheet" href="../public/style.css">
 </head>
-<body class="admin-dashboard">
+<body class="admin-dashboard admin-records-page admin-users-page">
     <header class="admin-navbar">
         <a class="admin-brand" href="../index.php">
             <span class="admin-brand-icon" aria-hidden="true">🍴</span>
@@ -140,36 +141,38 @@ $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.rol
 
         <div class="card">
             <h2>Existing Accounts</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($users as $u): ?>
-                    <tr>
-                        <td>#<?= $u['user_id'] ?></td>
-                        <td><?= htmlspecialchars($u['full_name']) ?></td>
-                        <td><?= htmlspecialchars($u['email']) ?></td>
-                        <td><?= htmlspecialchars($u['role_name']) ?></td>
-                        <td>
-                            <span class="badge <?= $u['is_active'] ? 'badge-active' : 'badge-inactive' ?>">
-                                <?= $u['is_active'] ? 'Active' : 'Disabled' ?>
-                            </span>
-                        </td>
-                        <td>
-                            <a href="users.php?action=toggle&id=<?= $u['user_id'] ?>" style="color: var(--primary-orange);">Toggle Status</a>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+            <div class="admin-records-table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($users as $u): ?>
+                        <tr>
+                            <td>#<?= $u['user_id'] ?></td>
+                            <td><?= htmlspecialchars($u['full_name']) ?></td>
+                            <td><?= htmlspecialchars($u['email']) ?></td>
+                            <td><?= htmlspecialchars($u['role_name']) ?></td>
+                            <td>
+                                <span class="badge <?= $u['is_active'] ? 'badge-active' : 'badge-inactive' ?>">
+                                    <?= $u['is_active'] ? 'Active' : 'Disabled' ?>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="users.php?action=toggle&id=<?= $u['user_id'] ?>" class="admin-records-toggle">Toggle Status</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>
