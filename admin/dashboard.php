@@ -46,9 +46,22 @@ require_role('Administrator');
                 <div class="admin-hero-note"><span aria-hidden="true">●</span> Your kitchen, under control.</div>
             </div>
             <div class="admin-hero-art" aria-hidden="true">
+                <div class="admin-hero-tile admin-hero-tile-back">
+                    <img src="../public/images/admin-dashboard-fries.png" alt="">
+                </div>
+                <div class="admin-hero-tile admin-hero-tile-smoothie">
+                    <img src="../public/images/admin-dashboard-smoothie.png" alt="">
+                </div>
                 <div class="admin-hero-glass">
                     <img class="admin-dashboard-image" src="../public/images/admin-burger-hero.png" alt="">
                 </div>
+                <div class="admin-hero-tile admin-hero-tile-front">
+                    <img src="../public/images/admin-dashboard-bowl.png" alt="">
+                </div>
+                <div class="admin-hero-tile admin-hero-tile-drinks">
+                    <img src="../public/images/admin-dashboard-drinks.png" alt="">
+                </div>
+                <span class="admin-hero-art-label">URBANEATS · CLOUD KITCHEN</span>
             </div>
             <span class="admin-hero-decoration" aria-hidden="true">UE</span>
         </section>
