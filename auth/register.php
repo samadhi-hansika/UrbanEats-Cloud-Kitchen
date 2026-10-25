@@ -47,12 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>UrbanEats - Register</title>
+    <link rel="icon" type="image/png" href="../public/images/urbaneats-logo.png">
     <link rel="stylesheet" href="../public/style.css">
 </head>
 <body class="login-page">
     <header class="login-header">
         <a class="login-brand" href="../index.php">
-            <span class="login-brand-icon" aria-hidden="true">🍴</span>
+            <img class="login-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
             <span>UrbanEats <small>GOOD FOOD · BETTER MOOD</small></span>
         </a>
         <nav class="login-nav" aria-label="Main navigation">
@@ -78,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <section class="card login-card" aria-labelledby="register-title">
             <div class="login-card-brand" aria-hidden="true">
-                <span class="login-card-brand-icon">🍴</span>
+                <img class="login-card-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
                 <strong>UrbanEats</strong>
                 <small>Good Food · Better Mood</small>
             </div>

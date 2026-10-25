@@ -76,12 +76,13 @@ $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.rol
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>UrbanEats - Manage Users</title>
+    <link rel="icon" type="image/png" href="../public/images/urbaneats-logo.png">
     <link rel="stylesheet" href="../public/style.css">
 </head>
 <body class="admin-dashboard admin-records-page admin-users-page">
     <header class="admin-navbar">
         <a class="admin-brand" href="../index.php">
-            <span class="admin-brand-icon" aria-hidden="true">🍴</span>
+            <img class="admin-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
             <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
         </a>
         <nav class="admin-nav-links" aria-label="Admin navigation">

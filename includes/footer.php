@@ -3,7 +3,7 @@
         <div class="site-footer-content">
             <div class="site-footer-brand">
                 <a href="<?= e(url('index.php')) ?>" class="site-footer-logo">
-                    <span class="site-footer-brand-icon" aria-hidden="true">🍔</span>
+                    <img class="site-footer-brand-icon" src="<?= e(url('public/images/urbaneats-logo.png')) ?>" alt="">
                     <span>Urban<span class="site-footer-logo-accent">Eats</span></span>
                 </a>
                 <p>Fresh flavors, prepared with care.<br>Good food, made easy.</p>

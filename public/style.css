@@ -160,12 +160,20 @@ body {
 .brand-icon {
   width: 37px;
   height: 37px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
+  display: block;
+  border-radius: 10px;
   background: #fff;
-  color: #111;
-  font-size: 1.1rem;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.site-footer-brand-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  object-fit: contain;
+  vertical-align: middle;
+  flex: 0 0 auto;
 }
 
 @media (max-width: 760px) {
@@ -480,12 +488,12 @@ body {
 .login-brand-icon {
   width: 42px;
   height: 42px;
-  display: grid;
-  place-items: center;
+  display: block;
   border: 1px solid rgba(249, 115, 22, 0.2);
-  border-radius: 14px;
+  border-radius: 12px;
   background: #fff0e7;
-  color: #ea580c;
+  object-fit: contain;
+  flex: 0 0 auto;
 }
 
 .login-brand small {
@@ -660,13 +668,12 @@ body {
 .login-card-brand-icon {
   width: 48px;
   height: 48px;
-  display: grid;
-  place-items: center;
+  display: block;
   margin-bottom: 0.6rem;
   border: 1px solid rgba(249, 115, 22, 0.3);
-  border-radius: 50%;
+  border-radius: 12px;
   background: rgba(255, 240, 231, 0.85);
-  color: #ea580c;
+  object-fit: contain;
   box-shadow: 0 6px 18px rgba(234, 88, 12, 0.12);
 }
 
@@ -4752,12 +4759,12 @@ body {
 .admin-dashboard-home .admin-brand-icon {
   width: 36px;
   height: 36px;
-  display: grid;
-  place-items: center;
+  display: block;
   border: 1px solid #ffedd5;
-  border-radius: 50%;
+  border-radius: 10px;
   background: #fff7ed;
-  font-size: 1rem;
+  object-fit: contain;
+  flex: 0 0 auto;
 }
 
 .admin-dashboard-home .admin-nav-links {
@@ -5102,12 +5109,12 @@ body {
 .admin-records-page .admin-brand-icon {
   width: 36px;
   height: 36px;
-  display: grid;
-  place-items: center;
+  display: block;
   border: 1px solid #ffedd5;
-  border-radius: 50%;
+  border-radius: 10px;
   background: #fff7ed;
-  font-size: 1rem;
+  object-fit: contain;
+  flex: 0 0 auto;
 }
 
 .admin-records-page .admin-nav-links {
