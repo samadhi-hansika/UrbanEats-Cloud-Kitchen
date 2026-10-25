@@ -38,14 +38,41 @@ include '../includes/header.php';
                 <?php foreach ($items as $item): ?>
                     <article class="cart-row">
                         <img src="<?= e(url($item['image_path'])) ?>" alt="<?= e($item['name']) ?>">
-                        <div><h2><?= e($item['name']) ?></h2><p><?= money((float)$item['price']) ?> each · <?= (int)$item['stock_quantity'] ?> in stock</p></div>
-                        <form method="post" class="cart-quantity"><?= csrf_field() ?><input type="hidden" name="action" value="update"><input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>"><label><span class="sr-only">Quantity for <?= e($item['name']) ?></span><input type="number" name="quantity" min="0" max="99" value="<?= (int)$item['quantity'] ?>"></label><button type="submit">Update</button></form>
-                        <strong><?= money((float)$item['line_total']) ?></strong>
-                        <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="remove"><input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>"><button type="submit" class="link-button">Remove</button></form>
+                        <div class="cart-item-info">
+                            <h2><?= e($item['name']) ?></h2>
+                            <p><?= money((float)$item['price']) ?> each</p>
+                            <span class="cart-stock <?= (int)$item['stock_quantity'] > 0 ? '' : 'cart-stock-low' ?>">
+                                <?= (int)$item['stock_quantity'] > 0 ? (int)$item['stock_quantity'] . ' available' : 'Stock will be checked at checkout' ?>
+                            </span>
+                        </div>
+                        <form method="post" class="cart-quantity">
+                            <?= csrf_field() ?>
+                            <input type="hidden" name="action" value="update">
+                            <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
+                            <label><span class="sr-only">Quantity for <?= e($item['name']) ?></span><input type="number" name="quantity" min="0" max="99" value="<?= (int)$item['quantity'] ?>"></label>
+                            <button type="submit">Update</button>
+                        </form>
+                        <strong class="cart-line-total"><?= money((float)$item['line_total']) ?></strong>
+                        <form method="post" class="cart-remove-form">
+                            <?= csrf_field() ?>
+                            <input type="hidden" name="action" value="remove">
+                            <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
+                            <button type="submit" class="link-button">Remove</button>
+                        </form>
                     </article>
                 <?php endforeach; ?>
             </div>
-            <aside class="card order-summary"><h2>Order summary</h2><p><span>Subtotal</span><strong><?= money($subtotal) ?></strong></p><a class="btn-primary" href="<?= e(url('orders/checkout.php')) ?>">Continue to checkout</a></aside>
+            <aside class="card order-summary">
+                <div class="order-summary-heading">
+                    <span class="order-summary-icon" aria-hidden="true">🛒</span>
+                    <div><span class="order-summary-eyebrow">READY TO ORDER?</span><h2>Order summary</h2></div>
+                </div>
+                <div class="order-summary-line"><span>Items in cart</span><strong><?= cart_count() ?></strong></div>
+                <div class="order-summary-line order-summary-total"><span>Subtotal</span><strong><?= money($subtotal) ?></strong></div>
+                <p class="order-summary-note">Delivery and payment details are selected at checkout.</p>
+                <a class="btn-primary" href="<?= e(url('orders/checkout.php')) ?>">Continue to checkout <span aria-hidden="true">→</span></a>
+                <a class="order-continue-shopping" href="<?= e(url('menu.php')) ?>">← Continue shopping</a>
+            </aside>
         </div>
     <?php endif; ?>
 </section>
