@@ -4,9 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/functions.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
-$is_kitchen_dashboard = $user_role === 'Kitchen Staff'
-    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen'
-    && basename($_SERVER['SCRIPT_NAME'] ?? '') === 'dashboard.php';
+$current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$is_profile_page = $current_page === 'profile.php';
+$is_category_management_page = $current_page === 'categories.php';
+$is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
+    || (basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,38 +18,50 @@ $is_kitchen_dashboard = $user_role === 'Kitchen Staff'
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body<?= $is_kitchen_dashboard ? ' class="kitchen-staff-layout"' : '' ?>>
+<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page' : '' ?>">
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
                 <span class="brand-icon">🍔</span> Urban<span>Eats</span>
             </a>
             
-            <div class="nav-links">
-                <a href="<?= url('index.php') ?>">Home</a>
+            <div class="nav-links<?= $user_role === 'Kitchen Staff' ? ' kitchen-nav-links' : '' ?>">
+                <a class="<?= $current_page === 'index.php' ? 'active' : '' ?>" href="<?= url('index.php') ?>">Home</a>
+                <a class="<?= $current_page === 'menu.php' ? 'active' : '' ?>" href="<?= url('menu.php') ?>">Menu</a>
+                <?php if (in_array($current_page, ['index.php', 'menu.php'], true)): ?>
+                    <a href="<?= $current_page === 'index.php' ? '#about-urbaneats' : e(url('index.php#about-urbaneats')) ?>">About Us</a>
+                    <a href="<?= $current_page === 'index.php' ? '#contact-urbaneats' : e(url('index.php#contact-urbaneats')) ?>">Contact Us</a>
+                <?php endif; ?>
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
-                    <a href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
+                    <a class="<?= $current_page === 'dashboard.php' ? 'active' : '' ?>" href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
                     <?php if ($user_role === 'Administrator'): ?>
-                        <a href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
-                        <a href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
+                        <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
+                        <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
+                        <?php if (!$is_kitchen_dashboard): ?>
+                            <a class="<?= $current_page === 'users.php' ? 'active' : '' ?>" href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
+                            <a class="<?= $current_page === 'audit-log.php' ? 'active' : '' ?>" href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
+                        <?php endif; ?>
                     <?php elseif ($user_role === 'Kitchen Staff'): ?>
-                        <span class="role-pill pill-staff">Kitchen Staff</span>
+                        <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
+                        <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
                     <?php endif; ?>
 
-                    <a href="<?= url('auth/profile.php') ?>">My Profile</a>
-                    
-                    <span class="user-greeting">
-                        <?= e($_SESSION['full_name'] ?? 'User') ?>
-                        <span class="role-badge"><?= e($user_role) ?></span>
-                    </span>
-
-                    <a href="<?= url('auth/logout.php') ?>" class="btn-logout">Logout</a>
+                    <a class="<?= $is_profile_page ? 'active' : '' ?>" href="<?= url('auth/profile.php') ?>">My Profile</a>
                 <?php else: ?>
                     <a href="<?= url('auth/login.php') ?>" class="nav-login">Sign In</a>
                     <a href="<?= url('auth/register.php') ?>" class="btn-primary btn-nav">Register</a>
                 <?php endif; ?>
             </div>
+
+            <?php if (!empty($_SESSION['user_id'])): ?>
+                <div class="nav-account">
+                    <span class="user-greeting">
+                        <?= e($_SESSION['full_name'] ?? 'User') ?>
+                    </span>
+                    <a href="<?= url('auth/logout.php') ?>" class="btn-logout">Logout</a>
+                </div>
+            <?php endif; ?>
         </nav>
     </header>
 
