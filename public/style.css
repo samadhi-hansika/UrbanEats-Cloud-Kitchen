@@ -85,12 +85,20 @@ body {
 }
 
 .nav-links > .btn-logout {
-  color: #f3f4f6;
+  min-height: 2.2rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  background: #fff;
+  color: #c2410c;
+  font-size: 0.78rem;
+  font-weight: 750;
+  box-shadow: 0 3px 9px rgba(124, 45, 18, 0.1);
 }
 
 .nav-links > .btn-logout:hover {
-  background: var(--primary-dark);
-  border-color: var(--primary-dark);
+  background: #fff7ed;
+  border-color: #fff7ed;
+  color: #9a3412;
 }
 
 .user-greeting {
@@ -1010,22 +1018,28 @@ body {
 }
 
 .admin-logout {
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: #f3f4f6;
-  color: #111;
-  font-size: 1rem;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #ffedd5;
+  border-radius: 999px;
+  background: #fff1e6;
+  color: #9a3412;
+  font-size: 0.72rem;
+  font-weight: 750;
   text-decoration: none;
-  transition: border-color 160ms ease, color 160ms ease;
+  white-space: nowrap;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
 .admin-logout:hover {
-  background: #e5e7eb;
-  color: #111;
+  transform: translateY(-1px);
+  border-color: #fdba74;
+  background: #fed7aa;
+  color: #7c2d12;
 }
 
 .admin-main {
@@ -2465,9 +2479,10 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0.38rem 0.62rem;
-  border: 1px solid rgba(255, 255, 255, 0.44);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 999px;
-  color: #fff;
+  background: #fff;
+  color: #c2410c;
   font-size: 0.72rem;
   font-weight: 700;
   text-decoration: none;
@@ -2475,8 +2490,9 @@ body {
 }
 
 .home-page .nav-account .btn-logout:hover {
-  border-color: #fff;
-  background: rgba(194, 65, 12, 0.35);
+  border-color: #fff7ed;
+  background: #fff7ed;
+  color: #9a3412;
 }
 
 .home-page .main-content {
@@ -4736,6 +4752,8 @@ body {
 }
 
 .admin-dashboard-home .admin-logout {
+  min-height: 32px;
+  padding: 0.3rem 0.65rem;
   background: #fff1e6;
   color: #9a3412;
 }
@@ -5089,6 +5107,8 @@ body {
 }
 
 .admin-records-page .admin-logout {
+  min-height: 32px;
+  padding: 0.3rem 0.65rem;
   background: #fff1e6;
   color: #9a3412;
 }
@@ -6315,5 +6335,111 @@ body {
   .category-management-page .cat-modal-dialog {
     max-height: 92vh;
     border-radius: 16px 16px 10px 10px;
+  }
+}
+
+.kitchen-staff-layout .nav-account {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.kitchen-staff-layout .nav-account .user-greeting {
+  max-width: 145px;
+  overflow: hidden;
+  border-color: transparent;
+  background: transparent;
+  color: #fff;
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kitchen-staff-layout .nav-account .btn-logout {
+  min-height: 33px;
+  padding: 0.3rem 0.68rem;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  background: #fff;
+  color: #c2410c;
+  font-size: 0.72rem;
+  font-weight: 800;
+  box-shadow: 0 3px 9px rgba(17, 24, 39, 0.12);
+}
+
+.kitchen-staff-layout .nav-account .btn-logout:hover {
+  transform: translateY(-1px);
+  border-color: #fff7ed;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.kitchen-staff-layout .nav-links > .btn-logout {
+  border-color: #fff;
+  background: #fff;
+  color: #c2410c;
+}
+
+.kitchen-staff-layout .nav-links > .btn-logout:hover {
+  border-color: #fff7ed;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.admin-dashboard .admin-account {
+  gap: 0.45rem;
+  padding: 0.25rem 0.3rem 0.25rem 0.75rem;
+  border: 1px solid #ffedd5;
+  background: #fff7ed;
+}
+
+.admin-dashboard .admin-account-name {
+  color: #7c2d12;
+}
+
+.admin-dashboard .admin-logout {
+  min-width: 88px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #ea580c;
+  border-radius: 999px;
+  background: linear-gradient(110deg, #f97316, #ea580c);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(234, 88, 12, 0.18);
+}
+
+.admin-dashboard .admin-logout:hover {
+  transform: translateY(-1px);
+  border-color: #c2410c;
+  background: #c2410c;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(194, 65, 12, 0.22);
+}
+
+.admin-dashboard .admin-logout span {
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+@media (max-width: 760px) {
+  .kitchen-staff-layout .nav-account {
+    margin-left: auto;
+  }
+
+  .kitchen-staff-layout .nav-account .user-greeting {
+    max-width: 110px;
+    font-size: 0.7rem;
   }
 }

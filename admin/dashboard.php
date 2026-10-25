@@ -27,7 +27,7 @@ require_role('Administrator');
         </nav>
         <div class="admin-account">
             <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Administrator') ?></span>
-            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out">↗</a>
+            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out"><span aria-hidden="true">↗</span> Logout</a>
         </div>
     </header>
 
