@@ -25,6 +25,7 @@ require_role('Administrator');
             <a href="categories.php">Categories</a>
             <a href="users.php">Users &amp; Roles</a>
             <a href="audit-log.php">Audit Logs</a>
+            <a href="reports.php">Sales Reports</a>
         </nav>
         <div class="admin-account">
             <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Administrator') ?></span>
@@ -69,7 +70,13 @@ require_role('Administrator');
                 <span><strong>System Audit Logs</strong><small>Monitor recent platform activity</small></span>
                 <span class="admin-quick-arrow" aria-hidden="true">↗</span>
             </a>
+            <a class="admin-quick-card" href="reports.php">
+                <span class="admin-quick-icon logs-icon" aria-hidden="true">▥</span>
+                <span><strong>Sales Reports</strong><small>Review revenue and top dishes</small></span>
+                <span class="admin-quick-arrow" aria-hidden="true">↗</span>
+            </a>
         </section>
     </main>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

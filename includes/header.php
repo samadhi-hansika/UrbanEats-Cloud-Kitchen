@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/orders.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
 $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
 $is_profile_page = $current_page === 'profile.php';
@@ -43,12 +44,19 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a class="<?= $current_page === 'dashboard.php' ? 'active' : '' ?>" href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
+                    <?php if ($user_role === 'Customer'): ?>
+                        <a href="<?= url('orders/cart.php') ?>">Cart (<?= function_exists('cart_count') ? cart_count() : 0 ?>)</a>
+                        <a href="<?= url('orders/history.php') ?>">Orders</a>
+                    <?php elseif (in_array($user_role, ['Kitchen Staff', 'Administrator'], true)): ?>
+                        <a href="<?= url('orders/kitchen-queue.php') ?>">Order Queue</a>
+                    <?php endif; ?>
                     <?php if ($user_role === 'Administrator'): ?>
                         <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
                         <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
                         <?php if (!$is_kitchen_dashboard): ?>
                             <a class="<?= $current_page === 'users.php' ? 'active' : '' ?>" href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
                             <a class="<?= $current_page === 'audit-log.php' ? 'active' : '' ?>" href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
+                            <a class="<?= $current_page === 'reports.php' ? 'active' : '' ?>" href="<?= url('admin/reports.php') ?>">Sales Reports</a>
                         <?php endif; ?>
                     <?php elseif ($user_role === 'Kitchen Staff'): ?>
                         <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>

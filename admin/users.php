@@ -176,5 +176,6 @@ $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.rol
             </div>
         </div>
     </div>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

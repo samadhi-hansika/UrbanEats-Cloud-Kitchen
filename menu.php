@@ -1,6 +1,8 @@
 <?php
 require_once 'config/db.php';
+require_once 'includes/csrf.php';
 require_once 'includes/functions.php';
+require_once 'includes/orders.php';
 
 $search = isset($_GET['q']) && is_string($_GET['q']) ? trim($_GET['q']) : '';
 $category = isset($_GET['category']) && is_string($_GET['category']) ? trim($_GET['category']) : '';
@@ -137,6 +139,16 @@ include 'includes/header.php';
                         </div>
                         <h2><?= e($item['name']) ?></h2>
                         <p><?= e($item['description']) ?></p>
+                        <?php if (!empty($_SESSION['user_id']) && ($_SESSION['role'] ?? '') === 'Customer'): ?>
+                            <form method="post" action="<?= e(url('orders/cart.php')) ?>" class="menu-add-form">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
+                                <button class="btn-primary" type="submit">Add to cart</button>
+                            </form>
+                        <?php elseif (empty($_SESSION['user_id'])): ?>
+                            <a class="btn-primary menu-add-form menu-sign-in" href="<?= e(url('auth/login.php?reason=auth_required')) ?>">Sign in to add to cart</a>
+                        <?php endif; ?>
                     </div>
                 </article>
             <?php endforeach; ?>

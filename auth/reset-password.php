@@ -1,5 +1,6 @@
 <?php
 require_once '../config/db.php';
+require_once '../includes/functions.php';
 
 $message = '';
 $reset_link = '';
@@ -54,5 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>
