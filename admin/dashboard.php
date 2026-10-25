@@ -13,7 +13,7 @@ require_role('Administrator');
     <title>Admin Dashboard - UrbanEats</title>
     <link rel="stylesheet" href="../public/style.css">
 </head>
-<body class="admin-dashboard">
+<body class="admin-dashboard admin-dashboard-home">
     <header class="admin-navbar">
         <a class="admin-brand" href="../index.php">
             <span class="admin-brand-icon" aria-hidden="true">🍴</span>
@@ -45,7 +45,9 @@ require_role('Administrator');
                 <div class="admin-hero-note"><span aria-hidden="true">●</span> Your kitchen, under control.</div>
             </div>
             <div class="admin-hero-art" aria-hidden="true">
-                <img class="admin-dashboard-image" src="../public/images/customer-food-banner.png" alt="">
+                <div class="admin-hero-glass">
+                    <img class="admin-dashboard-image" src="../public/images/admin-burger-hero.png" alt="">
+                </div>
             </div>
             <span class="admin-hero-decoration" aria-hidden="true">UE</span>
         </section>
