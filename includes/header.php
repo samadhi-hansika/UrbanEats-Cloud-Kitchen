@@ -7,6 +7,13 @@ $user_role = $_SESSION['role'] ?? 'Customer';
 $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
 $is_profile_page = $current_page === 'profile.php';
 $is_category_management_page = $current_page === 'categories.php';
+$is_menu_page = $current_page === 'menu.php';
+$is_home_page = $current_page === 'index.php';
+$is_customer_dashboard_page = $current_page === 'dashboard.php' && $user_role === 'Customer';
+$is_kitchen_menu_dashboard = $current_page === 'dashboard.php'
+    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen';
+$is_kitchen_inventory_page = $current_page === 'inventory.php'
+    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen';
 $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     || (basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen');
 ?>
@@ -18,7 +25,7 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page' : '' ?>">
+<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_kitchen_menu_dashboard ? 'kitchen-dashboard-page ' : '' ?><?= $is_kitchen_inventory_page ? 'kitchen-inventory-page ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page ' : '' ?><?= $is_customer_dashboard_page ? 'customer-dashboard-page ' : '' ?><?= $is_menu_page ? 'menu-page-layout ' : '' ?><?= $is_home_page ? 'home-page' : '' ?>">
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
