@@ -23,13 +23,14 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
+    <link rel="icon" type="image/png" href="<?= url('public/images/urbaneats-logo.png') ?>">
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
 <body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_kitchen_menu_dashboard ? 'kitchen-dashboard-page ' : '' ?><?= $is_kitchen_inventory_page ? 'kitchen-inventory-page ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page ' : '' ?><?= $is_customer_dashboard_page ? 'customer-dashboard-page ' : '' ?><?= $is_menu_page ? 'menu-page-layout ' : '' ?><?= $is_home_page ? 'home-page' : '' ?>">
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
-                <span class="brand-icon">🍔</span> Urban<span>Eats</span>
+                <img class="brand-icon" src="<?= e(url('public/images/urbaneats-logo.png')) ?>" alt=""> Urban<span>Eats</span>
             </a>
             
             <div class="nav-links<?= $user_role === 'Kitchen Staff' ? ' kitchen-nav-links' : '' ?>">
