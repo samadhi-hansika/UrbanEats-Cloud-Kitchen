@@ -54,7 +54,7 @@ $page = min($page, $total_pages);
 $offset = ($page - 1) * $per_page;
 
 $item_statement = $pdo->prepare(
-    "SELECT fi.item_id, fi.name, fi.description, fi.category, fi.price, fi.image_path
+    "SELECT fi.item_id, fi.name, fi.description, fi.category, fi.price, fi.image_path, fi.stock_quantity
      FROM food_items fi
      WHERE $where
      ORDER BY {$sort_options[$sort]}
@@ -125,7 +125,7 @@ include 'includes/header.php';
     <?php endif; ?>
 
     <div class="menu-results" aria-live="polite">
-        <p><?= $total_items ?> <?= $total_items === 1 ? 'dish' : 'dishes' ?> available</p>
+        <p><?= $total_items ?> <?= $total_items === 1 ? 'dish' : 'dishes' ?> on the menu</p>
         <?php if ($search !== '' || $category !== ''): ?>
             <a href="<?= e(url('menu.php')) ?>">Clear filters</a>
         <?php endif; ?>
@@ -148,10 +148,14 @@ include 'includes/header.php';
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="action" value="add">
                                 <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
-                                <button class="menu-cart-button" type="submit"><span aria-hidden="true">🛒</span> Add to cart</button>
+<button class="menu-cart-button" type="submit">
+                                    <span aria-hidden="true">🛒</span> Add to cart
+                                </button>
                             </form>
                         <?php elseif (empty($_SESSION['user_id'])): ?>
-                            <a class="menu-cart-button menu-add-form menu-sign-in" href="<?= e(url('auth/login.php?reason=auth_required')) ?>"><span aria-hidden="true">🛒</span> Sign in to add to cart</a>
+                            <a class="menu-cart-button menu-add-form menu-sign-in" href="<?= e(url('auth/login.php?reason=auth_required')) ?>">
+                                <span aria-hidden="true">🛒</span> Sign in to add to cart
+                            </a>
                         <?php endif; ?>
                     </div>
                 </article>

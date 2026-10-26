@@ -7,55 +7,140 @@ require_once '../includes/orders.php';
 require_role('Customer');
 $items = load_cart_from_database($pdo);
 if (!$items) {
-    set_flash('error', 'Add at least one dish before checking out.');
+    set_flash('error', 'Your cart is empty. Add a dish before checking out.');
     redirect('orders/cart.php');
 }
 
-$customer = $pdo->prepare('SELECT phone FROM users WHERE user_id = ?');
-$customer->execute([$_SESSION['user_id']]);
-$customer_phone = (string)$customer->fetchColumn();
-$subtotal = array_sum(array_column($items, 'line_total'));
+$customer_statement = $pdo->prepare('SELECT phone FROM users WHERE user_id = ?');
+$customer_statement->execute([$_SESSION['user_id']]);
+$customer_phone = (string)$customer_statement->fetchColumn();
+
+$values = [
+    'fulfillment_type' => 'delivery',
+    'address' => '',
+    'phone' => $customer_phone,
+    'payment_method' => 'cash_on_delivery',
+    'coupon_code' => '',
+];
 $error = '';
-$old = ['fulfillment_type' => 'delivery', 'address' => '', 'phone' => $customer_phone, 'payment_method' => 'cash_on_delivery', 'coupon_code' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf_token();
-    foreach ($old as $key => $value) {
+
+    foreach ($values as $key => $default) {
         if (isset($_POST[$key]) && is_string($_POST[$key])) {
-            $old[$key] = trim($_POST[$key]);
+            $values[$key] = trim($_POST[$key]);
         }
     }
-    if (!in_array($old['payment_method'], ['cash_on_delivery', 'card', 'bank_transfer'], true)) {
-        $error = 'Select a valid payment method.';
-    } elseif (!is_valid_phone($old['phone'])) {
-        $error = 'Enter a valid phone number.';
-    } elseif ($old['fulfillment_type'] === 'delivery' && $old['address'] === '') {
-        $error = 'Enter a delivery address.';
-    } else {
-        try {
-            $order_id = create_order($pdo, (int)$_SESSION['user_id'], $old);
-            redirect('orders/tracking.php?id=' . $order_id . '&placed=1');
-        } catch (Throwable $exception) {
-            $error = $exception->getMessage();
-        }
+
+    try {
+        $order_id = create_order($pdo, (int)$_SESSION['user_id'], $values);
+        redirect('orders/tracking.php?id=' . $order_id . '&placed=1');
+    } catch (RuntimeException $exception) {
+        $error = $exception->getMessage();
+    } catch (PDOException $exception) {
+        error_log(
+            '[Order Checkout Error] ' . $exception->getMessage() . PHP_EOL,
+            3,
+            __DIR__ . '/../logs/error.log'
+        );
+        $error = 'We could not save your order right now. Please try again.';
     }
 }
+
+$subtotal = array_sum(array_column($items, 'line_total'));
 $page_title = 'Checkout';
 include '../includes/header.php';
 ?>
-<section class="order-page">
-    <div class="order-page-heading"><span class="menu-eyebrow">SECURE CHECKOUT</span><h1>Complete your <span>order</span></h1><p>Prices and stock are checked again when you place the order.</p></div>
-    <?php if ($error): ?><div class="alert alert-danger" role="alert"><?= e($error) ?></div><?php endif; ?>
-    <div class="order-layout">
-        <form method="post" class="card order-form"><?= csrf_field() ?><h2>Delivery details</h2>
-            <div class="checkout-choice"><label><input type="radio" name="fulfillment_type" value="delivery" <?= $old['fulfillment_type'] === 'delivery' ? 'checked' : '' ?>> Delivery</label><label><input type="radio" name="fulfillment_type" value="pickup" <?= $old['fulfillment_type'] === 'pickup' ? 'checked' : '' ?>> Pickup</label></div>
-            <div class="form-group"><label for="address">Address (required for delivery)</label><textarea id="address" name="address" rows="3"><?= e($old['address']) ?></textarea></div>
-            <div class="form-group"><label for="phone">Contact phone</label><input id="phone" name="phone" value="<?= e($old['phone']) ?>" required></div>
-            <div class="form-group"><label for="payment_method">Payment method</label><select id="payment_method" name="payment_method"><option value="cash_on_delivery">Cash on delivery</option><option value="card">Card (simulated)</option><option value="bank_transfer">Bank transfer (simulated)</option></select></div>
-            <div class="form-group"><label for="coupon_code">Coupon code (optional)</label><input id="coupon_code" name="coupon_code" value="<?= e($old['coupon_code']) ?>" maxlength="40"></div>
-            <button class="btn-primary" type="submit">Place order · <?= money($subtotal) ?> before discount</button>
+
+<section class="order-history checkout-page">
+    <div class="order-history-heading">
+        <span class="order-history-eyebrow">ONE LAST STEP</span>
+        <h1>Complete your <span>order</span></h1>
+        <p>Choose how you would like to receive your freshly prepared meal.</p>
+    </div>
+
+    <?php if ($error !== ''): ?>
+        <div class="alert alert-danger" role="alert"><?= e($error) ?></div>
+    <?php endif; ?>
+
+    <div class="checkout-layout">
+        <form class="checkout-form" method="post" action="<?= e(url('orders/checkout.php')) ?>">
+            <?= csrf_field() ?>
+            <section class="checkout-section">
+                <div class="checkout-section-heading">
+                    <span>01</span>
+                    <div>
+                        <h2>How should we get it to you?</h2>
+                        <p>Select delivery or pickup.</p>
+                    </div>
+                </div>
+                <div class="checkout-fulfillment-options">
+                    <label class="checkout-option">
+                        <input type="radio" name="fulfillment_type" value="delivery" <?= $values['fulfillment_type'] === 'delivery' ? 'checked' : '' ?>>
+                        <span><strong>Delivery</strong><small>Bring it to your door</small></span>
+                    </label>
+                    <label class="checkout-option">
+                        <input type="radio" name="fulfillment_type" value="pickup" <?= $values['fulfillment_type'] === 'pickup' ? 'checked' : '' ?>>
+                        <span><strong>Pickup</strong><small>Collect from our kitchen</small></span>
+                    </label>
+                </div>
+                <div class="checkout-field">
+                    <label for="checkout-address">Delivery address</label>
+                    <textarea id="checkout-address" name="address" rows="3" maxlength="500" placeholder="House number, street, city"><?= e($values['address']) ?></textarea>
+                    <small>Required for delivery; leave blank for pickup.</small>
+                </div>
+                <div class="checkout-field">
+                    <label for="checkout-phone">Contact phone</label>
+                    <input id="checkout-phone" name="phone" type="tel" autocomplete="tel" value="<?= e($values['phone']) ?>" placeholder="0771234567" required>
+                </div>
+            </section>
+
+            <section class="checkout-section">
+                <div class="checkout-section-heading">
+                    <span>02</span>
+                    <div>
+                        <h2>Payment & Promos</h2>
+                        <p>Choose payment and apply coupons.</p>
+                    </div>
+                </div>
+                <div class="checkout-field">
+                    <label for="checkout-payment">Choose payment</label>
+                    <select id="checkout-payment" name="payment_method" required>
+                        <option value="cash_on_delivery" <?= $values['payment_method'] === 'cash_on_delivery' ? 'selected' : '' ?>>Cash on delivery</option>
+                        <option value="card" <?= $values['payment_method'] === 'card' ? 'selected' : '' ?>>Card (payment handled separately)</option>
+                        <option value="bank_transfer" <?= $values['payment_method'] === 'bank_transfer' ? 'selected' : '' ?>>Bank transfer (payment handled separately)</option>
+                    </select>
+                </div>
+                <div class="checkout-field">
+                    <label for="coupon_code">Coupon code (optional)</label>
+                    <input id="coupon_code" name="coupon_code" type="text" value="<?= e($values['coupon_code']) ?>" maxlength="40" placeholder="Enter promo code">
+                </div>
+            </section>
+
+            <button class="checkout-submit" type="submit">
+                Place order <span aria-hidden="true">→</span>
+            </button>
         </form>
-        <aside class="card order-summary"><h2>Items</h2><?php foreach ($items as $item): ?><p><span><?= (int)$item['quantity'] ?> × <?= e($item['name']) ?></span><strong><?= money((float)$item['line_total']) ?></strong></p><?php endforeach; ?><hr><p><span>Subtotal</span><strong><?= money($subtotal) ?></strong></p></aside>
+
+        <aside class="checkout-summary">
+            <span class="checkout-summary-eyebrow">MADE FRESH FOR YOU</span>
+            <h2>Your order</h2>
+            <ul class="checkout-item-list">
+                <?php foreach ($items as $item): ?>
+                    <li>
+                        <span><strong><?= (int)$item['quantity'] ?> ×</strong> <?= e($item['name']) ?></span>
+                        <strong><?= money((float)$item['line_total']) ?></strong>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <div class="checkout-total">
+                <span>Subtotal</span>
+                <strong><?= money((float)$subtotal) ?></strong>
+            </div>
+            <p class="checkout-summary-note">Prices, stock and coupons are validated when you place your order.</p>
+            <a href="<?= e(url('orders/cart.php')) ?>">← Back to your cart</a>
+        </aside>
     </div>
 </section>
 <?php include '../includes/footer.php'; ?>

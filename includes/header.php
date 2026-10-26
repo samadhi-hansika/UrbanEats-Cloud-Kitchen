@@ -52,15 +52,15 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a class="<?= $current_page === 'dashboard.php' ? 'active' : '' ?>" href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
                     <?php if ($user_role === 'Customer'): ?>
-                        <a class="<?= $current_page === 'cart.php' ? 'active' : '' ?>" href="<?= url('orders/cart.php') ?>">Cart (<?= function_exists('cart_count') ? cart_count() : 0 ?>)</a>
-                        <a class="<?= $current_page === 'history.php' ? 'active' : '' ?>" href="<?= url('orders/history.php') ?>">Orders</a>
+<a class="<?= $current_page === 'cart.php' && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'orders' ? 'active' : '' ?>" href="<?= url('orders/cart.php') ?>">Cart (<?= function_exists('cart_count') ? cart_count() : 0 ?>)</a>
+                        <a class="<?= $current_page === 'history.php' && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'orders' ? 'active' : '' ?>" href="<?= url('orders/history.php') ?>">Order History</a>
                     <?php elseif (in_array($user_role, ['Kitchen Staff', 'Administrator'], true)): ?>
-                        <a class="<?= $is_kitchen_queue_page ? 'active' : '' ?>" href="<?= url('orders/kitchen-queue.php') ?>">Order Queue</a>
+                        <a class="<?= $is_kitchen_queue_page ?? false ? 'active' : '' ?>" href="<?= url('orders/kitchen-queue.php') ?>">Order Queue</a>
                     <?php endif; ?>
                     <?php if ($user_role === 'Administrator'): ?>
                         <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
                         <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
-                        <?php if (!$is_kitchen_dashboard): ?>
+                        <?php if (!$is_kitchen_dashboard && !$is_home_page): ?>
                             <a class="<?= $current_page === 'users.php' ? 'active' : '' ?>" href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
                             <a class="<?= $current_page === 'audit-log.php' ? 'active' : '' ?>" href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
                             <a class="<?= $current_page === 'reports.php' ? 'active' : '' ?>" href="<?= url('admin/reports.php') ?>">Sales Reports</a>
