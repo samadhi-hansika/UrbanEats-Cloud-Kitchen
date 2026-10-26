@@ -2,6 +2,7 @@
 require_once '../config/db.php';
 require_once '../includes/auth.php';
 require_once '../includes/functions.php';
+require_once '../includes/orders.php';
 require_role('Administrator');
 
 $today = new DateTimeImmutable('today');
@@ -119,26 +120,7 @@ $page_title = 'Sales Reports';
 include '../includes/header.php';
 ?>
 
-<body class="admin-dashboard admin-records-page admin-sales-page">
-    <header class="admin-navbar">
-        <a class="admin-brand" href="../index.php">
-            <img class="admin-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
-            <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
-        </a>
-        <nav class="admin-nav-links" aria-label="Admin navigation">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="categories.php">Categories</a>
-            <a href="users.php">Users &amp; Roles</a>
-            <a href="audit-log.php">Audit Logs</a>
-            <a class="active" href="reports.php">Sales Reports</a>
-        </nav>
-        <div class="admin-account">
-            <span class="admin-account-name"><?= e($_SESSION['full_name'] ?? 'Administrator') ?></span>
-            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out"><span aria-hidden="true">↗</span> Logout</a>
-        </div>
-    </header>
-
-    <main class="admin-sales-main">
+    <section class="admin-sales-main">
         <section class="admin-sales-heading">
             <div>
                 <span class="admin-sales-eyebrow">PERFORMANCE OVERVIEW</span>
@@ -166,7 +148,7 @@ include '../includes/header.php';
                     <span class="admin-sales-stat-icon" aria-hidden="true">↗</span>
                     <span class="admin-sales-stat-label">Order revenue</span>
                     <strong><?= money((float)$summary['revenue']) ?></strong>
-                    <small><%= e($start_date) ?> – <?= e($end_date) ?></small>
+                    <small><?= e($start_date) ?> – <?= e($end_date) ?></small>
                 </article>
                 <article class="admin-sales-stat">
                     <span class="admin-sales-stat-icon" aria-hidden="true">▤</span>
@@ -238,7 +220,7 @@ include '../includes/header.php';
                 </section>
             </div>
 
-            <div class="admin-sales-grid">
+            <div class="admin-sales-grid admin-sales-grid-secondary">
                 <section class="admin-sales-panel">
                     <div class="admin-sales-panel-heading">
                         <div><h2>Top-selling dishes</h2><p>Top dishes by quantity sold</p></div>
@@ -263,7 +245,7 @@ include '../includes/header.php';
                     </div>
                 </section>
 
-                <section class="admin-sales-panel">
+                <section class="admin-sales-panel admin-sales-recent">
                     <div class="admin-sales-panel-heading">
                         <div><h2>Recent orders</h2><p>Latest orders in the selected period</p></div>
                     </div>
@@ -290,7 +272,5 @@ include '../includes/header.php';
                 </section>
             </div>
         <?php endif; ?>
-    </main>
-</body>
-</html>
+    </section>
 <?php include '../includes/footer.php'; ?>

@@ -9,9 +9,6 @@ function cart_items(): array
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-git add .
-git commit -m "Resolve empty merge conflict"
-git push
     $cart = $_SESSION['cart'] ?? [];
     return is_array($cart) ? $cart : [];
 }
@@ -36,9 +33,6 @@ function cart_set(int $item_id, int $quantity): void
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-git add .
-git commit -m "Resolve empty merge conflict"
-git push
     $cart = cart_items();
     if ($quantity > 0) {
         $cart[$item_id] = min($quantity, 99);
@@ -125,17 +119,10 @@ function validate_coupon(PDO $pdo, string $code, float $subtotal): array
     return ['coupon' => $coupon, 'discount' => min($subtotal, $discount), 'error' => null];
 }
 
-function money(float $amount): string
-{
-    return 'LKR ' . number_format($amount, 2);
-}
-
 function create_order(PDO $pdo, int $user_id, array $details): int
 {
     $pdo->beginTransaction();
-git add .
-git commit -m "Resolve empty merge conflict"
-git push
+
     try {
         $cart = cart_items();
         if (!$cart) {
