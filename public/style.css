@@ -4876,6 +4876,23 @@ body {
   box-shadow: 0 12px 24px rgba(234, 88, 12, 0.2);
 }
 
+.kitchen-queue-page .navbar {
+  background: linear-gradient(100deg, #fb7418, #ea580c);
+  box-shadow: 0 12px 24px rgba(234, 88, 12, 0.2);
+}
+
+.kitchen-queue-page .nav-links > a:not(.btn-nav):not(.btn-logout):hover,
+.kitchen-queue-page .nav-links > a.active {
+  border-color: #fff;
+  background: #fff;
+  color: #c2410c;
+}
+
+.kitchen-queue-page .nav-links > .btn-logout:hover {
+  background: #c2410c;
+  border-color: #c2410c;
+}
+
 .kitchen-inventory-page .nav-links > a:not(.btn-nav):not(.btn-logout):hover,
 .kitchen-inventory-page .nav-links > a.active {
   border-color: #fff;
