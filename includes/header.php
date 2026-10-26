@@ -50,7 +50,7 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
                     <?php elseif ($user_role === 'Administrator'): ?>
                         <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
                         <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
-                        <?php if (!$is_kitchen_dashboard): ?>
+                        <?php if (!$is_kitchen_dashboard && !$is_home_page): ?>
                             <a class="<?= $current_page === 'users.php' ? 'active' : '' ?>" href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
                             <a class="<?= $current_page === 'audit-log.php' ? 'active' : '' ?>" href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
                         <?php endif; ?>
