@@ -2274,6 +2274,12 @@ body {
   gap: 1rem;
 }
 
+@media (max-width: 900px) {
+  .account-profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .account-profile-card {
   position: relative;
   isolation: isolate;
@@ -2302,14 +2308,14 @@ body {
 
 .account-profile-card.personal-information-card::before {
   background-image:
-    linear-gradient(115deg, rgba(31, 41, 55, 0.3), rgba(65, 38, 24, 0.42)),
+    linear-gradient(115deg, rgba(31, 41, 55, 0.48), rgba(65, 38, 24, 0.58)),
     url("images/profile-personal-burger.png");
   background-position: center, center 48%;
 }
 
 .account-profile-card.password-change-card::before {
   background-image:
-    linear-gradient(115deg, rgba(31, 41, 55, 0.3), rgba(65, 38, 24, 0.42)),
+    linear-gradient(115deg, rgba(31, 41, 55, 0.48), rgba(65, 38, 24, 0.58)),
     url("images/profile-password-pizza.png");
   background-position: center, center 62%;
 }
@@ -2403,11 +2409,18 @@ body {
 
 .account-profile-field small {
   display: block;
-  margin-top: 0.3rem;
-  color: #57534e;
-  font-size: 0.69rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #fed7aa;
+  border-radius: 7px;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 0.74rem;
   line-height: 1.4;
-  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.92);
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .account-profile-submit {
@@ -3733,10 +3746,6 @@ body {
 
   .account-profile-role {
     margin-left: calc(56px + 1rem);
-  }
-
-  .account-profile-grid {
-    grid-template-columns: 1fr;
   }
 
   .profile-page .site-footer-content {
