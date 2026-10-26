@@ -7,19 +7,19 @@
     <title>500 - Server Error | UrbanEats</title>
     <link rel="stylesheet" href="/urbaneats/UrbanEats-Cloud-Kitchen/public/style.css">
 </head>
-<body>
-    <div class="container" style="text-align: center; margin-top: 6rem;">
-        <div class="card" style="max-width: 520px; margin: 0 auto; padding: 3rem 2rem;">
-            <div style="font-size: 4rem; color: var(--danger-red); margin-bottom: 0.5rem;">500</div>
-            <h2 style="margin-bottom: 0.75rem;">System Error Occurred</h2>
-            <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem;">
+<body class="error-page-body">
+    <main class="error-page-shell">
+        <div class="error-card">
+            <div class="error-code">500</div>
+            <h1 class="error-title">System Error Occurred</h1>
+            <p class="error-message">
                 We encountered an unexpected error while processing your request. Our technical team has been notified, and the incident has been logged.
             </p>
-            <a href="/urbaneats/UrbanEats-Cloud-Kitchen/index.php" class="btn-primary" style="display: inline-block; width: auto; padding: 0.75rem 2rem; text-decoration: none;">
+            <a href="/urbaneats/UrbanEats-Cloud-Kitchen/index.php" class="btn-primary error-action">
                 Return to Home
             </a>
         </div>
-    </div>
+    </main>
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>
