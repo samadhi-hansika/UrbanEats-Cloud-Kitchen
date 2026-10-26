@@ -16,9 +16,9 @@ require_role('Administrator');
 </head>
 <body class="admin-dashboard admin-dashboard-home">
     <header class="admin-navbar">
-        <a class="admin-brand" href="../index.php">
+        <a class="admin-brand" href="../index.php" aria-label="UrbanEats home">
             <img class="admin-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
-            <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
+            <span>Urban<span>Eats</span></span>
         </a>
         <nav class="admin-nav-links" aria-label="Admin navigation">
             <a class="active" href="dashboard.php">Dashboard</a>
@@ -27,10 +27,6 @@ require_role('Administrator');
             <a href="audit-log.php">Audit Logs</a>
             <a href="reports.php">Sales Reports</a>
         </nav>
-        <div class="admin-account">
-            <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Administrator') ?></span>
-            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out"><span aria-hidden="true">↗</span> Logout</a>
-        </div>
     </header>
 
     <main class="admin-main">
