@@ -27,14 +27,17 @@ UrbanEats is a web-based cloud kitchen system developed using HTML, CSS, PHP, an
 3. Open phpMyAdmin.
 4. Create the database `urbaneats_db`.
 5. Import the project SQL file.
-6. Configure the database connection in `config/db.php`.
-7. Open the project in your browser. The application detects its URL path from its location under Apache's document root, so the folder name can differ between team members.
+6. Run `database/orders_migration.sql` against `urbaneats_db` to create the order, payment, status-history, and coupon tables.
+7. Configure the database connection in `config/db.php`.
+8. Open the project in your browser. The application detects its URL path from its location under Apache's document root, so the folder name can differ between team members.
 
 Kitchen Staff and Administrators can manage food items from the kitchen dashboard. Food image uploads accept JPG, PNG, and WebP files up to 5 MB; the web server must be able to create files under `public/images/menu/`.
 
 For an existing database, run `database/menu_migration.sql` against `urbaneats_db` to add the public menu table and sample dishes without replacing existing application data.
 
 For an existing installation, run `database/inventory_migration.sql` once after the menu migration to add stock quantities and the inventory movement ledger. Existing dishes start at zero stock; record their opening quantities from the Kitchen **Inventory** page.
+
+For an existing installation, also run `database/orders_migration.sql` once against `urbaneats_db` to add the tables required for order history and checkout.
 
 ## Run the Project
 Open:

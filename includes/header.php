@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/orders.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
 $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
 $is_profile_page = $current_page === 'profile.php';
@@ -43,7 +44,10 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a class="<?= $current_page === 'dashboard.php' ? 'active' : '' ?>" href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
-                    <?php if ($user_role === 'Administrator'): ?>
+                    <?php if ($user_role === 'Customer'): ?>
+                        <a class="<?= $current_page === 'cart.php' && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'orders' ? 'active' : '' ?>" href="<?= url('orders/cart.php') ?>">Cart (<?= cart_count() ?>)</a>
+                        <a class="<?= $current_page === 'history.php' && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'orders' ? 'active' : '' ?>" href="<?= url('orders/history.php') ?>">Order History</a>
+                    <?php elseif ($user_role === 'Administrator'): ?>
                         <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
                         <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
                         <?php if (!$is_kitchen_dashboard): ?>
