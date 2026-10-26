@@ -5,7 +5,6 @@ require_once '../includes/csrf.php';
 require_once '../includes/orders.php';
 
 require_role('Customer');
-
 $items = load_cart_from_database($pdo);
 if (!$items) {
     set_flash('error', 'Your cart is empty. Add a dish before checking out.');
@@ -21,6 +20,7 @@ $values = [
     'address' => '',
     'phone' => $customer_phone,
     'payment_method' => 'cash_on_delivery',
+    'coupon_code' => '',
 ];
 $error = '';
 
@@ -35,8 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $order_id = create_order($pdo, (int)$_SESSION['user_id'], $values);
-        set_flash('success', 'Your order has been placed successfully.');
-        redirect('orders/history.php?placed=' . $order_id);
+        redirect('orders/tracking.php?id=' . $order_id . '&placed=1');
     } catch (RuntimeException $exception) {
         $error = $exception->getMessage();
     } catch (PDOException $exception) {
@@ -101,8 +100,8 @@ include '../includes/header.php';
                 <div class="checkout-section-heading">
                     <span>02</span>
                     <div>
-                        <h2>Payment method</h2>
-                        <p>Online payments are recorded as pending.</p>
+                        <h2>Payment & Promos</h2>
+                        <p>Choose payment and apply coupons.</p>
                     </div>
                 </div>
                 <div class="checkout-field">
@@ -112,6 +111,10 @@ include '../includes/header.php';
                         <option value="card" <?= $values['payment_method'] === 'card' ? 'selected' : '' ?>>Card (payment handled separately)</option>
                         <option value="bank_transfer" <?= $values['payment_method'] === 'bank_transfer' ? 'selected' : '' ?>>Bank transfer (payment handled separately)</option>
                     </select>
+                </div>
+                <div class="checkout-field">
+                    <label for="coupon_code">Coupon code (optional)</label>
+                    <input id="coupon_code" name="coupon_code" type="text" value="<?= e($values['coupon_code']) ?>" maxlength="40" placeholder="Enter promo code">
                 </div>
             </section>
 
@@ -132,13 +135,12 @@ include '../includes/header.php';
                 <?php endforeach; ?>
             </ul>
             <div class="checkout-total">
-                <span>Total</span>
+                <span>Subtotal</span>
                 <strong><?= money((float)$subtotal) ?></strong>
             </div>
-            <p class="checkout-summary-note">We’ll check dish availability again when you place your order.</p>
+            <p class="checkout-summary-note">Prices, stock and coupons are validated when you place your order.</p>
             <a href="<?= e(url('orders/cart.php')) ?>">← Back to your cart</a>
         </aside>
     </div>
 </section>
-
 <?php include '../includes/footer.php'; ?>
