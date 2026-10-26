@@ -81,7 +81,7 @@ require_role('Administrator');
             </a>
             <a class="admin-quick-card" href="reports.php">
                 <span class="admin-quick-icon logs-icon" aria-hidden="true">▥</span>
-                <span><strong>Sales Reports</strong><small>Review revenue and top dishes</small></span>
+<span><strong>Sales Reports</strong><small>Review revenue and top dishes</small></span>
                 <span class="admin-quick-arrow" aria-hidden="true">↗</span>
             </a>
         </section>
