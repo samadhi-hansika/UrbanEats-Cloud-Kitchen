@@ -666,6 +666,33 @@ body {
   color: #c2410c;
 }
 
+.customer-user-layout .navbar .nav-account .user-greeting {
+  border-color: transparent;
+  background: transparent;
+  color: #fff;
+}
+
+.customer-user-layout .navbar .nav-account .btn-logout {
+  border-color: #fff;
+  background: #fff;
+  color: #c2410c;
+}
+
+.customer-user-layout .navbar .nav-account .btn-logout:hover {
+  border-color: #fff7ed;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.customer-user-layout.home-page .nav-links,
+.customer-user-layout.menu-page-layout .nav-links {
+  justify-content: center;
+}
+
+.kitchen-staff-layout.menu-page-layout .nav-links {
+  justify-content: center;
+}
+
 @media (max-width: 900px) {
   .navbar .nav-account .user-greeting {
     max-width: 150px;
@@ -1833,6 +1860,28 @@ body {
     var(--bg-warm);
 }
 
+.customer-dashboard-page .navbar {
+  background: linear-gradient(100deg, #fb7418, #ea580c);
+  box-shadow: 0 12px 24px rgba(234, 88, 12, 0.2);
+}
+
+.customer-dashboard-page .nav-links {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.customer-dashboard-page .nav-links > a {
+  font-size: 0.84rem;
+}
+
+.customer-dashboard-page .nav-links > a:not(.btn-nav):not(.btn-logout):hover,
+.customer-dashboard-page .nav-links > a.active,
+.customer-orders-page .nav-links > a.active {
+  border-color: #fff;
+  background: #fff;
+  color: #c2410c;
+}
+
 .customer-dashboard-page .main-content {
   width: min(900px, calc(100% - 2rem));
   max-width: 900px;
@@ -2592,7 +2641,7 @@ body {
   min-height: 2.45rem;
   padding: 0.4rem 0.5rem;
   color: rgba(255, 255, 255, 0.94);
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   font-weight: 650;
   white-space: nowrap;
   transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
@@ -3220,7 +3269,7 @@ body {
 .home-page .nav-links > a {
   min-height: 2.25rem;
   padding: 0.4rem 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   font-weight: 650;
   white-space: nowrap;
 }
@@ -7478,4 +7527,18 @@ body {
     align-items: flex-start !important;
     flex-direction: column !important;
   }
+}
+
+.navbar .nav-links > a:not(.active):not(.btn-nav):not(.btn-logout):hover {
+  border-color: rgba(124, 45, 18, 0.28);
+  background: rgba(124, 45, 18, 0.2);
+  color: #fff;
+  box-shadow: none;
+}
+
+.admin-navbar .admin-nav-links > a:not(.active):hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  box-shadow: none;
 }

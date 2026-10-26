@@ -10,7 +10,9 @@ $is_profile_page = $current_page === 'profile.php';
 $is_category_management_page = $current_page === 'categories.php';
 $is_menu_page = $current_page === 'menu.php';
 $is_home_page = $current_page === 'index.php';
+$is_customer_user = !empty($_SESSION['user_id']) && $user_role === 'Customer';
 $is_customer_dashboard_page = $current_page === 'dashboard.php' && $user_role === 'Customer';
+$is_customer_orders_page = in_array($current_page, ['cart.php', 'history.php'], true) && $user_role === 'Customer';
 $is_kitchen_menu_dashboard = $current_page === 'dashboard.php'
     && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen';
 $is_kitchen_inventory_page = $current_page === 'inventory.php'
@@ -28,7 +30,7 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     <link rel="icon" type="image/png" href="<?= url('public/images/urbaneats-logo.png') ?>">
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_kitchen_menu_dashboard ? 'kitchen-dashboard-page ' : '' ?><?= $is_kitchen_inventory_page ? 'kitchen-inventory-page ' : '' ?><?= $is_kitchen_queue_page ? 'kitchen-queue-page ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page ' : '' ?><?= $is_customer_dashboard_page ? 'customer-dashboard-page ' : '' ?><?= $is_menu_page ? 'menu-page-layout ' : '' ?><?= $is_home_page ? 'home-page' : '' ?>">
+<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_kitchen_menu_dashboard ? 'kitchen-dashboard-page ' : '' ?><?= $is_kitchen_inventory_page ? 'kitchen-inventory-page ' : '' ?><?= $is_kitchen_queue_page ? 'kitchen-queue-page ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page ' : '' ?><?= $is_customer_user ? 'customer-user-layout ' : '' ?><?= $is_customer_dashboard_page ? 'customer-dashboard-page ' : '' ?><?= $is_customer_orders_page ? 'customer-orders-page ' : '' ?><?= $is_menu_page ? 'menu-page-layout ' : '' ?><?= $is_home_page ? 'home-page' : '' ?>">
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
@@ -42,7 +44,7 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
                 <?php if (!$is_kitchen_dashboard || $is_menu_page): ?>
                     <a class="<?= $current_page === 'menu.php' ? 'active' : '' ?>" href="<?= url('menu.php') ?>">Menu</a>
                 <?php endif; ?>
-                <?php if (!$is_kitchen_dashboard && in_array($current_page, ['index.php', 'menu.php'], true)): ?>
+                <?php if (!$is_kitchen_dashboard && (empty($_SESSION['user_id']) || $user_role !== 'Customer') && in_array($current_page, ['index.php', 'menu.php'], true)): ?>
                     <a href="<?= $current_page === 'index.php' ? '#about-urbaneats' : e(url('index.php#about-urbaneats')) ?>">About Us</a>
                     <a href="<?= $current_page === 'index.php' ? '#contact-urbaneats' : e(url('index.php#contact-urbaneats')) ?>">Contact Us</a>
                 <?php endif; ?>
@@ -50,8 +52,8 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a class="<?= $current_page === 'dashboard.php' ? 'active' : '' ?>" href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
                     <?php if ($user_role === 'Customer'): ?>
-                        <a href="<?= url('orders/cart.php') ?>">Cart (<?= function_exists('cart_count') ? cart_count() : 0 ?>)</a>
-                        <a href="<?= url('orders/history.php') ?>">Orders</a>
+                        <a class="<?= $current_page === 'cart.php' ? 'active' : '' ?>" href="<?= url('orders/cart.php') ?>">Cart (<?= function_exists('cart_count') ? cart_count() : 0 ?>)</a>
+                        <a class="<?= $current_page === 'history.php' ? 'active' : '' ?>" href="<?= url('orders/history.php') ?>">Orders</a>
                     <?php elseif (in_array($user_role, ['Kitchen Staff', 'Administrator'], true)): ?>
                         <a class="<?= $is_kitchen_queue_page ? 'active' : '' ?>" href="<?= url('orders/kitchen-queue.php') ?>">Order Queue</a>
                     <?php endif; ?>
