@@ -275,6 +275,7 @@ $page_title = 'Food Category Management';
                 </button>
             </div>
             <div class="cat-hero-visual" aria-hidden="true">
+                <img class="cat-hero-image" src="../public/images/admin-burger-hero.png" alt="">
                 <div class="cat-hero-card">
                     <div class="cat-hero-icon-stack">🥗🍔🍰</div>
                     <div class="cat-hero-stats-mini">

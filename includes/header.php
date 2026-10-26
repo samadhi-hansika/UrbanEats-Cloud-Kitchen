@@ -3,9 +3,18 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/orders.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
 $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
 $is_profile_page = $current_page === 'profile.php';
+$is_category_management_page = $current_page === 'categories.php';
+$is_menu_page = $current_page === 'menu.php';
+$is_home_page = $current_page === 'index.php';
+$is_customer_dashboard_page = $current_page === 'dashboard.php' && $user_role === 'Customer';
+$is_kitchen_menu_dashboard = $current_page === 'dashboard.php'
+    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen';
+$is_kitchen_inventory_page = $current_page === 'inventory.php'
+    && basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen';
 $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     || (basename(dirname($_SERVER['SCRIPT_NAME'] ?? '')) === 'kitchen');
 ?>
@@ -15,13 +24,14 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($page_title) ? e($page_title) . ' - UrbanEats Cloud Kitchen' : 'UrbanEats Cloud Kitchen' ?></title>
+    <link rel="icon" type="image/png" href="<?= url('public/images/urbaneats-logo.png') ?>">
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_profile_page ? 'profile-page' : '' ?>">
+<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_kitchen_menu_dashboard ? 'kitchen-dashboard-page ' : '' ?><?= $is_kitchen_inventory_page ? 'kitchen-inventory-page ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page ' : '' ?><?= $is_customer_dashboard_page ? 'customer-dashboard-page ' : '' ?><?= $is_menu_page ? 'menu-page-layout ' : '' ?><?= $is_home_page ? 'home-page' : '' ?>">
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
-                <span class="brand-icon">🍔</span> Urban<span>Eats</span>
+                <img class="brand-icon" src="<?= e(url('public/images/urbaneats-logo.png')) ?>" alt=""> Urban<span>Eats</span>
             </a>
             
             <div class="nav-links<?= $user_role === 'Kitchen Staff' ? ' kitchen-nav-links' : '' ?>">
@@ -34,12 +44,19 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a class="<?= $current_page === 'dashboard.php' ? 'active' : '' ?>" href="<?= e(dashboard_url_for_role($user_role)) ?>">Dashboard</a>
+                    <?php if ($user_role === 'Customer'): ?>
+                        <a href="<?= url('orders/cart.php') ?>">Cart (<?= function_exists('cart_count') ? cart_count() : 0 ?>)</a>
+                        <a href="<?= url('orders/history.php') ?>">Orders</a>
+                    <?php elseif (in_array($user_role, ['Kitchen Staff', 'Administrator'], true)): ?>
+                        <a href="<?= url('orders/kitchen-queue.php') ?>">Order Queue</a>
+                    <?php endif; ?>
                     <?php if ($user_role === 'Administrator'): ?>
                         <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>
                         <a class="<?= $current_page === 'categories.php' ? 'active' : '' ?>" href="<?= url('admin/categories.php') ?>">Categories</a>
                         <?php if (!$is_kitchen_dashboard): ?>
                             <a class="<?= $current_page === 'users.php' ? 'active' : '' ?>" href="<?= url('admin/users.php') ?>">Users &amp; Roles</a>
                             <a class="<?= $current_page === 'audit-log.php' ? 'active' : '' ?>" href="<?= url('admin/audit-log.php') ?>">Audit Logs</a>
+                            <a class="<?= $current_page === 'reports.php' ? 'active' : '' ?>" href="<?= url('admin/reports.php') ?>">Sales Reports</a>
                         <?php endif; ?>
                     <?php elseif ($user_role === 'Kitchen Staff'): ?>
                         <a class="<?= $current_page === 'inventory.php' ? 'active' : '' ?>" href="<?= url('kitchen/inventory.php') ?>">Inventory</a>

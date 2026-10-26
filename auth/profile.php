@@ -91,7 +91,7 @@ include '../includes/header.php';
     <?php endif; ?>
 
     <div class="account-profile-grid">
-        <section class="account-profile-card" aria-labelledby="profile-details-title">
+        <section class="account-profile-card personal-information-card" aria-labelledby="profile-details-title">
             <div class="account-profile-card-heading">
                 <span class="account-profile-card-icon" aria-hidden="true">👤</span>
                 <div>
@@ -121,7 +121,7 @@ include '../includes/header.php';
             </form>
         </section>
 
-        <section class="account-profile-card" aria-labelledby="profile-password-title">
+        <section class="account-profile-card password-change-card" aria-labelledby="profile-password-title">
             <div class="account-profile-card-heading">
                 <span class="account-profile-card-icon password" aria-hidden="true">🔒</span>
                 <div>

@@ -36,6 +36,8 @@ For an existing database, run `database/menu_migration.sql` against `urbaneats_d
 
 For an existing installation, run `database/inventory_migration.sql` once after the menu migration to add stock quantities and the inventory movement ledger. Existing dishes start at zero stock; record their opening quantities from the Kitchen **Inventory** page.
 
+For ordering, payment and tracking, run `database/orders_migration.sql` after the menu and inventory migrations. This adds the `orders`, `order_items`, `payments`, `order_status_history`, and `coupons` tables. Customers can add dishes from the public menu, complete a transactional checkout, and track orders; Kitchen Staff can process the order queue; Administrators can review date-filtered sales reports.
+
 ## Run the Project
 Open:
 

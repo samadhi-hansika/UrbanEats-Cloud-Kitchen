@@ -11,12 +11,13 @@ require_role('Administrator');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Dashboard - UrbanEats</title>
+    <link rel="icon" type="image/png" href="../public/images/urbaneats-logo.png">
     <link rel="stylesheet" href="../public/style.css">
 </head>
-<body class="admin-dashboard">
+<body class="admin-dashboard admin-dashboard-home">
     <header class="admin-navbar">
         <a class="admin-brand" href="../index.php">
-            <span class="admin-brand-icon" aria-hidden="true">🍴</span>
+            <img class="admin-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
             <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
         </a>
         <nav class="admin-nav-links" aria-label="Admin navigation">
@@ -24,10 +25,11 @@ require_role('Administrator');
             <a href="categories.php">Categories</a>
             <a href="users.php">Users &amp; Roles</a>
             <a href="audit-log.php">Audit Logs</a>
+            <a href="reports.php">Sales Reports</a>
         </nav>
         <div class="admin-account">
             <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Administrator') ?></span>
-            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out">↗</a>
+            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out"><span aria-hidden="true">↗</span> Logout</a>
         </div>
     </header>
 
@@ -45,7 +47,22 @@ require_role('Administrator');
                 <div class="admin-hero-note"><span aria-hidden="true">●</span> Your kitchen, under control.</div>
             </div>
             <div class="admin-hero-art" aria-hidden="true">
-                <img class="admin-dashboard-image" src="../public/images/customer-food-banner.png" alt="">
+                <div class="admin-hero-tile admin-hero-tile-back">
+                    <img src="../public/images/admin-dashboard-fries.png" alt="">
+                </div>
+                <div class="admin-hero-tile admin-hero-tile-smoothie">
+                    <img src="../public/images/admin-dashboard-smoothie.png" alt="">
+                </div>
+                <div class="admin-hero-glass">
+                    <img class="admin-dashboard-image" src="../public/images/admin-burger-hero.png" alt="">
+                </div>
+                <div class="admin-hero-tile admin-hero-tile-front">
+                    <img src="../public/images/admin-dashboard-bowl.png" alt="">
+                </div>
+                <div class="admin-hero-tile admin-hero-tile-drinks">
+                    <img src="../public/images/admin-dashboard-drinks.png" alt="">
+                </div>
+                <span class="admin-hero-art-label">URBANEATS · CLOUD KITCHEN</span>
             </div>
             <span class="admin-hero-decoration" aria-hidden="true">UE</span>
         </section>
@@ -66,7 +83,13 @@ require_role('Administrator');
                 <span><strong>System Audit Logs</strong><small>Monitor recent platform activity</small></span>
                 <span class="admin-quick-arrow" aria-hidden="true">↗</span>
             </a>
+            <a class="admin-quick-card" href="reports.php">
+                <span class="admin-quick-icon logs-icon" aria-hidden="true">▥</span>
+                <span><strong>Sales Reports</strong><small>Review revenue and top dishes</small></span>
+                <span class="admin-quick-arrow" aria-hidden="true">↗</span>
+            </a>
         </section>
     </main>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

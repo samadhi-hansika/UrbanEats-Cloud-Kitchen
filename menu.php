@@ -1,6 +1,8 @@
 <?php
 require_once 'config/db.php';
+require_once 'includes/csrf.php';
 require_once 'includes/functions.php';
+require_once 'includes/orders.php';
 
 $search = isset($_GET['q']) && is_string($_GET['q']) ? trim($_GET['q']) : '';
 $category = isset($_GET['category']) && is_string($_GET['category']) ? trim($_GET['category']) : '';
@@ -17,14 +19,15 @@ $sort_options = [
 $sort = isset($sort_options[$sort]) ? $sort : 'name_asc';
 
 $categories = $pdo->query(
-    'SELECT c.category_name FROM categories c WHERE c.is_active = 1 ORDER BY c.category_name ASC'
+    "SELECT category_name
+     FROM categories
+     WHERE is_active = 1
+     UNION
+     SELECT DISTINCT category
+     FROM food_items
+     WHERE is_available = 1
+     ORDER BY category_name ASC"
 )->fetchAll(PDO::FETCH_COLUMN);
-
-if (empty($categories)) {
-    $categories = $pdo->query(
-        'SELECT DISTINCT category FROM food_items WHERE is_available = 1 ORDER BY category ASC'
-    )->fetchAll(PDO::FETCH_COLUMN);
-}
 
 $conditions = ['fi.is_available = 1'];
 $parameters = [];
@@ -82,7 +85,7 @@ include 'includes/header.php';
             <input type="search" name="q" value="<?= e($search) ?>" placeholder="Search dishes or categories">
         </label>
         <label>
-            <span>Category</span>
+            <span>Category <small>Filter dishes</small></span>
             <select name="category">
                 <option value="">All categories</option>
                 <?php foreach ($categories as $menu_category): ?>
@@ -93,7 +96,7 @@ include 'includes/header.php';
             </select>
         </label>
         <label>
-            <span>Sort by</span>
+            <span>Sort by <small>Order results</small></span>
             <select name="sort">
                 <option value="name_asc" <?= $sort === 'name_asc' ? 'selected' : '' ?>>Name: A to Z</option>
                 <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Price: low to high</option>
@@ -101,6 +104,9 @@ include 'includes/header.php';
             </select>
         </label>
         <button class="menu-submit" type="submit">Update menu</button>
+        <?php if ($search !== '' || $category !== '' || $sort !== 'name_asc'): ?>
+            <a class="menu-clear" href="<?= e(url('menu.php')) ?>">Clear filters</a>
+        <?php endif; ?>
     </form>
 
     <?php if (!empty($categories)): ?>
@@ -137,6 +143,16 @@ include 'includes/header.php';
                         </div>
                         <h2><?= e($item['name']) ?></h2>
                         <p><?= e($item['description']) ?></p>
+                        <?php if (!empty($_SESSION['user_id']) && ($_SESSION['role'] ?? '') === 'Customer'): ?>
+                            <form method="post" action="<?= e(url('orders/cart.php')) ?>" class="menu-add-form">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="item_id" value="<?= (int)$item['item_id'] ?>">
+                                <button class="menu-cart-button" type="submit"><span aria-hidden="true">🛒</span> Add to cart</button>
+                            </form>
+                        <?php elseif (empty($_SESSION['user_id'])): ?>
+                            <a class="menu-cart-button menu-add-form menu-sign-in" href="<?= e(url('auth/login.php?reason=auth_required')) ?>"><span aria-hidden="true">🛒</span> Sign in to add to cart</a>
+                        <?php endif; ?>
                     </div>
                 </article>
             <?php endforeach; ?>

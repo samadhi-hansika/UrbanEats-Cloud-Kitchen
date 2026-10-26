@@ -15,11 +15,13 @@ include '../includes/header.php';
         <p>Thanks for being part of UrbanEats. Your next delicious meal is just around the corner.</p>
         <div class="role-dashboard-actions">
             <a class="role-dashboard-primary" href="<?= e(url('menu.php')) ?>">Browse Menu</a>
+            <a class="role-dashboard-secondary" href="<?= e(url('orders/cart.php')) ?>">View cart</a>
+            <a class="role-dashboard-secondary" href="<?= e(url('orders/history.php')) ?>">View your orders</a>
             <a class="role-dashboard-secondary" href="<?= e(url('auth/profile.php')) ?>">Manage your profile</a>
         </div>
     </div>
     <div class="role-dashboard-visual">
-        <img src="<?= e(url('public/images/customer-fast-food.png')) ?>" alt="Burgers, fries, and other fast food">
+        <img src="<?= e(url('public/images/customer-dashboard-platter.png')) ?>" alt="A platter of pizza, pasta, and freshly prepared dishes">
     </div>
 </section>
 

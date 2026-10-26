@@ -62,13 +62,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>UrbanEats - Login</title>
+    <link rel="icon" type="image/png" href="../public/images/urbaneats-logo.png">
     <link rel="stylesheet" href="../public/style.css">
 </head>
 <body class="login-page">
-    <main class="container login-container">
-        <div class="card login-card">
-            <h2 class="login-title">UrbanEats Login</h2>
+    <header class="login-header">
+        <a class="login-brand" href="../index.php">
+            <img class="login-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
+            <span>UrbanEats <small>GOOD FOOD · BETTER MOOD</small></span>
+        </a>
+        <nav class="login-nav" aria-label="Main navigation">
+            <a href="../index.php">Home</a>
+            <a href="../menu.php">Menu</a>
+            <a href="../index.php#about-urbaneats">About Us</a>
+            <a href="../index.php#contact-urbaneats">Contact Us</a>
+            <a class="login-nav-current" href="login.php" aria-current="page">Sign In</a>
+            <a href="register.php">Register</a>
+        </nav>
+    </header>
+
+    <main class="login-layout">
+        <section class="login-showcase" aria-labelledby="login-showcase-title">
+            <div class="login-photo-wrap">
+                <img src="../public/images/customer-login-food.png" alt="Freshly prepared pasta and chicken parmigiana">
+                <span class="login-photo-label"><span aria-hidden="true">✦</span> Freshly made, made for you</span>
+            </div>
+            <div class="login-showcase-copy">
+                <span class="login-eyebrow">WELCOME BACK</span>
+                <h1 id="login-showcase-title">Savor the Taste of <span>Excellence</span></h1>
+                <p>Sign in to your UrbanEats account to order chef-crafted dishes, track your favorites, and enjoy every bite.</p>
+            </div>
+            <span class="login-showcase-decoration" aria-hidden="true">UE</span>
+        </section>
+
+        <section class="card login-card" aria-labelledby="login-title">
+            <div class="login-card-brand" aria-hidden="true">
+                <img class="login-card-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
+                <strong>UrbanEats</strong>
+                <small>Good Food · Better Mood</small>
+            </div>
+            <h2 class="login-title" id="login-title">Welcome Back</h2>
+            <p class="login-subtitle">Sign in to your account to continue</p>
             <?php if ($message): ?>
                 <div class="login-message" role="alert">
                     <?= htmlspecialchars($message) ?>
@@ -83,13 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" autocomplete="current-password" required>
                 </div>
-                <button type="submit" class="btn-primary">Sign In</button>
+                <button type="submit" class="btn-primary">Sign In <span aria-hidden="true">→</span></button>
             </form>
-            <p style="text-align: center; margin-top: 1rem;">
-                Customers: <a href="register.php">Create an account</a>
-                <br><small>Kitchen Staff accounts are created by an Administrator. Use the email and password provided to you to sign in here.</small>
+            <p class="login-register-prompt">
+                New to UrbanEats? <a href="register.php">Create an account</a>
             </p>
-        </div>
+            <p class="login-staff-note">Kitchen Staff accounts are created by an Administrator. Use the email and password provided to you to sign in here.</p>
+        </section>
     </main>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>
