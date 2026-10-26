@@ -1,7 +1,7 @@
 <?php
 require_once '../config/db.php';
 require_once '../includes/auth.php';
-
+require_once '../includes/orders.php';
 require_role('Customer');
 
 $orders_statement = $pdo->prepare(
@@ -48,7 +48,7 @@ include '../includes/header.php';
     <div class="order-history-heading">
         <span class="order-history-eyebrow">YOUR URBANEATS ACCOUNT</span>
         <h1>Order <span>History</span></h1>
-        <p>Review your past orders and their current status.</p>
+        <p>Review your past orders, items, and tracking status.</p>
     </div>
 
     <?php if ($placed_order): ?>
@@ -56,7 +56,7 @@ include '../includes/header.php';
             <span class="order-confirmation-icon" aria-hidden="true">✓</span>
             <div>
                 <strong>Your order is confirmed!</strong>
-                <p>Order <?= e($placed_order['order_number']) ?> has been saved to your order history.</p>
+                <p>Order <?= e($placed_order['order_number']) ?> has been successfully placed.</p>
             </div>
         </div>
     <?php endif; ?>
@@ -98,19 +98,21 @@ include '../includes/header.php';
                             <?php foreach ($order_items as $item): ?>
                                 <li>
                                     <span><?= e($item['item_name']) ?> × <?= (int)$item['quantity'] ?></span>
-                                    <span>LKR <?= number_format((float)$item['line_total'], 2) ?></span>
+                                    <span><?= money((float)$item['line_total']) ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
                     <?php endif; ?>
                     <div class="order-history-total">
                         <span>Total</span>
-                        <strong>LKR <?= number_format((float)$order['total_amount'], 2) ?></strong>
+                        <strong><?= money((float)$order['total_amount']) ?></strong>
+                    </div>
+                    <div class="order-history-actions" style="margin-top: 1rem;">
+                        <a href="<?= e(url('orders/tracking.php?id=' . $order['order_id'])) ?>" class="btn-secondary" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; display: inline-block;">View tracking →</a>
                     </div>
                 </article>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </section>
-
 <?php include '../includes/footer.php'; ?>

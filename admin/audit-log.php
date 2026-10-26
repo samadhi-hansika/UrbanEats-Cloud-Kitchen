@@ -65,5 +65,6 @@ $logs = $pdo->query("SELECT al.*, u.full_name FROM audit_log al LEFT JOIN users 
             </div>
         </div>
     </div>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

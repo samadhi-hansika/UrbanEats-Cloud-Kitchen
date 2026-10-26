@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../includes/functions.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,5 +15,6 @@
             <a href="/urbaneats/UrbanEats-Cloud-Kitchen/index.php" class="btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">Return to Home</a>
         </div>
     </div>
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>
