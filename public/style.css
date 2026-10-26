@@ -7086,6 +7086,65 @@ body {
   white-space: nowrap;
 }
 
+.admin-sales-filter,
+.admin-sales-stat,
+.admin-sales-panel {
+  border-color: #344154;
+  background: #1f2937;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.14);
+}
+
+.admin-sales-filter label,
+.admin-sales-stat-label,
+.admin-sales-panel-heading p {
+  color: #cbd5e1;
+}
+
+.admin-sales-stat strong,
+.admin-sales-panel-heading h2 {
+  color: #f8fafc;
+}
+
+.admin-sales-heading h1 {
+  color: #c2410c;
+}
+
+.admin-sales-stat-icon {
+  background: rgba(249, 115, 22, 0.16);
+  color: #fdba74;
+}
+
+.admin-sales-stat small {
+  color: #fdba74;
+}
+
+.admin-sales-table-wrap {
+  border-color: #3a4658;
+}
+
+.admin-sales-table th {
+  background: #263244;
+  color: #fdba74;
+}
+
+.admin-sales-table td {
+  border-color: rgba(203, 213, 225, 0.12);
+  color: #e2e8f0;
+}
+
+.admin-sales-table tbody tr:hover {
+  background: #2b3749;
+}
+
+.admin-sales-empty {
+  color: #cbd5e1 !important;
+}
+
+.admin-sales-status {
+  background: rgba(249, 115, 22, 0.16);
+  color: #fdba74;
+}
+
 .admin-sales-error {
   padding: 0.8rem 1rem;
   border: 1px solid #fecaca;
