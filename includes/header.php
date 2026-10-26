@@ -36,9 +36,13 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
             </a>
             
             <div class="nav-links<?= $user_role === 'Kitchen Staff' ? ' kitchen-nav-links' : '' ?>">
-                <a class="<?= $current_page === 'index.php' ? 'active' : '' ?>" href="<?= url('index.php') ?>">Home</a>
-                <a class="<?= $current_page === 'menu.php' ? 'active' : '' ?>" href="<?= url('menu.php') ?>">Menu</a>
-                <?php if (in_array($current_page, ['index.php', 'menu.php'], true)): ?>
+                <?php if (!$is_kitchen_dashboard): ?>
+                    <a class="<?= $current_page === 'index.php' ? 'active' : '' ?>" href="<?= url('index.php') ?>">Home</a>
+                <?php endif; ?>
+                <?php if (!$is_kitchen_dashboard || $is_menu_page): ?>
+                    <a class="<?= $current_page === 'menu.php' ? 'active' : '' ?>" href="<?= url('menu.php') ?>">Menu</a>
+                <?php endif; ?>
+                <?php if (!$is_kitchen_dashboard && in_array($current_page, ['index.php', 'menu.php'], true)): ?>
                     <a href="<?= $current_page === 'index.php' ? '#about-urbaneats' : e(url('index.php#about-urbaneats')) ?>">About Us</a>
                     <a href="<?= $current_page === 'index.php' ? '#contact-urbaneats' : e(url('index.php#contact-urbaneats')) ?>">Contact Us</a>
                 <?php endif; ?>
