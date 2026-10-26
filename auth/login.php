@@ -127,5 +127,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="login-staff-note">Kitchen Staff accounts are created by an Administrator. Use the email and password provided to you to sign in here.</p>
         </section>
     </main>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>
