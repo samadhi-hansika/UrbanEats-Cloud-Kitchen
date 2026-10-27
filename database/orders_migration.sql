@@ -1,6 +1,8 @@
 -- UrbanEats Component C: Ordering, Payment and Tracking
 -- Run after urbaneats_db.sql and the menu/inventory migrations.
 
+USE `urbaneats_db`;
+
 CREATE TABLE IF NOT EXISTS coupons (
     coupon_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     code VARCHAR(40) NOT NULL,
