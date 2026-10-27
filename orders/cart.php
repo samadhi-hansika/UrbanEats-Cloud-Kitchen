@@ -104,7 +104,4 @@ include '../includes/header.php';
         </div>
     <?php endif; ?>
 </section>
-git add .
-git commit -m "Resolve empty merge conflict"
-git push
 <?php include '../includes/footer.php'; ?>
