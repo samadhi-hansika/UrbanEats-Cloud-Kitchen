@@ -12,12 +12,16 @@ function upload_food_image(array $file): ?string
         return null;
     }
 
+    if (($file['error'] ?? null) === UPLOAD_ERR_INI_SIZE || ($file['error'] ?? null) === UPLOAD_ERR_FORM_SIZE) {
+        throw new RuntimeException('The uploaded file exceeds the maximum allowed size of 5 MB.');
+    }
+
     if (($file['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
         throw new RuntimeException('The image upload failed. Please select the image again.');
     }
 
     if (!isset($file['tmp_name'], $file['size']) || (int)$file['size'] < 1 || (int)$file['size'] > 5 * 1024 * 1024) {
-        throw new RuntimeException('Food images must be no larger than 5 MB.');
+        throw new RuntimeException('The uploaded file exceeds the maximum allowed size of 5 MB.');
     }
 
     $file_info = new finfo(FILEINFO_MIME_TYPE);
@@ -28,7 +32,7 @@ function upload_food_image(array $file): ?string
         'image/webp' => 'webp',
     ];
     if (!isset($allowed_types[$mime_type]) || @getimagesize($file['tmp_name']) === false) {
-        throw new RuntimeException('Upload a valid JPG, PNG, or WebP image.');
+        throw new RuntimeException('Unsupported file format. Please upload a valid JPG, PNG, or WebP image.');
     }
 
     $upload_directory = __DIR__ . '/../public/images/menu/uploads';
@@ -73,6 +77,7 @@ $all_categories = $pdo->query("SELECT category_name FROM categories ORDER BY cat
 $existing_item_categories = $pdo->query("SELECT DISTINCT category FROM food_items ORDER BY category ASC")->fetchAll(PDO::FETCH_COLUMN);
 $all_categories = array_values(array_unique(array_merge($all_categories, $existing_item_categories)));
 sort($all_categories, SORT_NATURAL | SORT_FLAG_CASE);
+$all_dish_names_lookup = $pdo->query("SELECT item_id, name FROM food_items")->fetchAll(PDO::FETCH_ASSOC);
 
 $redirect_to_dashboard = static function (): void {
     $redirect_params = [];
@@ -137,59 +142,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             set_flash('error', 'Food item name is required.');
         } elseif (mb_strlen($name) > 120) {
             set_flash('error', 'Food item name cannot exceed 120 characters.');
-        } elseif (mb_strlen($description) > 2000) {
-            set_flash('error', 'Description cannot exceed 2,000 characters.');
         } elseif ($category === '' || mb_strlen($category) > 80 || !in_array($category, $all_categories, true)) {
             set_flash('error', 'Select a valid food category.');
+        } elseif ($price === '') {
+            set_flash('error', 'Food item price is required.');
         } elseif (!preg_match('/^\d{1,8}(?:\.\d{1,2})?$/D', $price) || (float)$price <= 0) {
             set_flash('error', 'Enter a valid price greater than zero with up to two decimal places.');
+        } elseif ($description === '') {
+            set_flash('error', 'Dish description is required.');
+        } elseif (mb_strlen($description) > 2000) {
+            set_flash('error', 'Description cannot exceed 2,000 characters.');
         } else {
-            $new_image_path = null;
-            $save_succeeded = false;
-            try {
-                $new_image_path = upload_food_image($_FILES['image'] ?? []);
-                $image_path = $new_image_path ?? ($existing_item['image_path'] ?? 'public/images/home-food.png');
+            // Check for duplicate food item name (case-insensitive)
+            $dup_check_sql = ($action === 'add')
+                ? 'SELECT item_id FROM food_items WHERE LOWER(TRIM(name)) = LOWER(?)'
+                : 'SELECT item_id FROM food_items WHERE LOWER(TRIM(name)) = LOWER(?) AND item_id != ?';
+            $dup_params = ($action === 'add') ? [$name] : [$name, (int)$item_id];
+            $dup_stmt = $pdo->prepare($dup_check_sql);
+            $dup_stmt->execute($dup_params);
 
-                if ($action === 'add') {
-                    $save_stmt = $pdo->prepare('INSERT INTO food_items (name, description, category, price, image_path, is_available) VALUES (?, ?, ?, ?, ?, ?)');
-                    $save_stmt->execute([$name, $description, $category, $price, $image_path, $is_available]);
-                    $saved_item_id = (int)$pdo->lastInsertId();
-                    log_action($pdo, $_SESSION['user_id'] ?? null, 'FOOD_ITEM_CREATED', "Created food item '{$name}' (ID: {$saved_item_id})");
-                    set_flash('success', "'{$name}' was added to the menu.");
-                } else {
-                    $save_stmt = $pdo->prepare('UPDATE food_items SET name = ?, description = ?, category = ?, price = ?, image_path = ?, is_available = ? WHERE item_id = ?');
-                    $save_stmt->execute([$name, $description, $category, $price, $image_path, $is_available, $item_id]);
-                    log_action($pdo, $_SESSION['user_id'] ?? null, 'FOOD_ITEM_UPDATED', "Updated food item '{$name}' (ID: {$item_id})");
-                    set_flash('success', "'{$name}' was updated.");
-                }
+            if ($dup_stmt->fetch()) {
+                set_flash('error', "A food item named '{$name}' already exists. Please choose a different name.");
+            } else {
+                $new_image_path = null;
+                $save_succeeded = false;
+                try {
+                    $new_image_path = upload_food_image($_FILES['image'] ?? []);
+                    $image_path = $new_image_path ?? ($existing_item['image_path'] ?? 'public/images/home-food.png');
 
-                $save_succeeded = true;
-            } catch (RuntimeException $exception) {
-                if ($new_image_path !== null && !remove_uploaded_food_image($new_image_path)) {
-                    error_log('[Food Item Image Cleanup Failure] Could not remove ' . $new_image_path);
-                }
-                set_flash('error', $exception->getMessage());
-            } catch (PDOException $exception) {
-                if ($new_image_path !== null && !remove_uploaded_food_image($new_image_path)) {
-                    error_log('[Food Item Image Cleanup Failure] Could not remove ' . $new_image_path);
-                }
-                error_log('[Food Item Save Failure] ' . $exception->getMessage());
-                set_flash('error', 'The food item could not be saved. Please try again.');
-            }
+                    if ($action === 'add') {
+                        $save_stmt = $pdo->prepare('INSERT INTO food_items (name, description, category, price, image_path, is_available) VALUES (?, ?, ?, ?, ?, ?)');
+                        $save_stmt->execute([$name, $description, $category, $price, $image_path, $is_available]);
+                        $saved_item_id = (int)$pdo->lastInsertId();
+                        log_action($pdo, $_SESSION['user_id'] ?? null, 'FOOD_ITEM_CREATED', "Created food item '{$name}' (ID: {$saved_item_id})");
+                        set_flash('success', "'{$name}' was added to the menu.");
+                    } else {
+                        $save_stmt = $pdo->prepare('UPDATE food_items SET name = ?, description = ?, category = ?, price = ?, image_path = ?, is_available = ? WHERE item_id = ?');
+                        $save_stmt->execute([$name, $description, $category, $price, $image_path, $is_available, $item_id]);
+                        log_action($pdo, $_SESSION['user_id'] ?? null, 'FOOD_ITEM_UPDATED', "Updated food item '{$name}' (ID: {$item_id})");
+                        set_flash('success', "'{$name}' was updated.");
+                    }
 
-            if ($save_succeeded) {
-                if ($new_image_path !== null && $existing_item && $existing_item['image_path'] !== $new_image_path) {
-                    try {
-                        if (!remove_food_image_if_unused($pdo, $existing_item['image_path'], (int)$item_id)) {
-                            error_log('[Food Item Image Cleanup Failure] Could not remove ' . $existing_item['image_path']);
-                            set_flash('info', 'The food item was saved, but its previous uploaded image could not be removed.');
-                        }
-                    } catch (PDOException $exception) {
-                        error_log('[Food Item Image Cleanup Failure] ' . $exception->getMessage());
-                        set_flash('info', 'The food item was saved, but its previous uploaded image could not be removed.');
+                    $save_succeeded = true;
+                } catch (RuntimeException $exception) {
+                    if ($new_image_path !== null && !remove_uploaded_food_image($new_image_path)) {
+                        error_log('[Food Item Image Cleanup Failure] Could not remove ' . $new_image_path);
+                    }
+                    set_flash('error', $exception->getMessage());
+                } catch (PDOException $exception) {
+                    if ($new_image_path !== null && !remove_uploaded_food_image($new_image_path)) {
+                        error_log('[Food Item Image Cleanup Failure] Could not remove ' . $new_image_path);
+                    }
+                    if ((int)($exception->errorInfo[1] ?? 0) === 1062) {
+                        set_flash('error', "A food item named '{$name}' already exists. Please choose a different name.");
+                    } else {
+                        error_log('[Food Item Save Failure] ' . $exception->getMessage());
+                        set_flash('error', 'The food item could not be saved. Please try again.');
                     }
                 }
-                $redirect_to_dashboard();
+
+                if ($save_succeeded) {
+                    if ($new_image_path !== null && $existing_item && $existing_item['image_path'] !== $new_image_path) {
+                        try {
+                            if (!remove_food_image_if_unused($pdo, $existing_item['image_path'], (int)$item_id)) {
+                                error_log('[Food Item Image Cleanup Failure] Could not remove ' . $existing_item['image_path']);
+                                set_flash('info', 'The food item was saved, but its previous uploaded image could not be removed.');
+                            }
+                        } catch (PDOException $exception) {
+                            error_log('[Food Item Image Cleanup Failure] ' . $exception->getMessage());
+                            set_flash('info', 'The food item was saved, but its previous uploaded image could not be removed.');
+                        }
+                    }
+                    $redirect_to_dashboard();
+                }
             }
         }
     } elseif ($action === 'delete') {
@@ -530,8 +555,7 @@ include '../includes/header.php';
         </div>
     </div>
 
-    <!-- Smart Collapsible Add / Edit Dish Form -->
-    <details id="foodItemDrawer" class="food-item-accordion" <?= ($form_action === 'edit' || isset($_GET['new_item'])) ? 'open' : '' ?>>
+    <details id="foodItemDrawer" class="food-item-accordion" <?= ($form_action === 'edit' || isset($_GET['new_item']) || ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($_POST['action'] ?? '', ['add', 'edit'], true))) ? 'open' : '' ?>>
         <summary class="food-item-accordion-summary">
             <div class="summary-title-group">
                 <span class="summary-badge-icon" aria-hidden="true"><?= $form_action === 'edit' ? '✏️' : '➕' ?></span>
@@ -596,8 +620,8 @@ include '../includes/header.php';
                 </div>
 
                 <div class="food-item-field food-item-description">
-                    <label for="food-description">Dish Description</label>
-                    <textarea id="food-description" name="description" rows="3" maxlength="2000" placeholder="Describe the flavors, ingredients, portion size, and details..."><?= e((string)$form_values['description']) ?></textarea>
+                    <label for="food-description">Dish Description <span class="required-star">*</span></label>
+                    <textarea id="food-description" name="description" rows="3" maxlength="2000" required placeholder="Describe the flavors, ingredients, portion size, and details..."><?= e((string)$form_values['description']) ?></textarea>
                 </div>
 
                 <div class="food-item-field food-item-availability-field">
@@ -798,5 +822,60 @@ include '../includes/header.php';
         </div>
     <?php endif; ?>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const existingDishes = <?= json_encode(array_map(function($d) {
+        return ['id' => (int)$d['item_id'], 'name' => mb_strtolower(trim($d['name']))];
+    }, $all_dish_names_lookup ?? [])) ?>;
+    const currentItemId = <?= (int)($editing_item['item_id'] ?? 0) ?>;
+    const nameInput = document.getElementById('food-name');
+    const form = document.querySelector('.food-item-form');
+
+    if (nameInput && form) {
+        let warningEl = document.getElementById('food-name-dup-warning');
+        if (!warningEl) {
+            warningEl = document.createElement('div');
+            warningEl.id = 'food-name-dup-warning';
+            warningEl.style.color = '#dc2626';
+            warningEl.style.fontSize = '0.82rem';
+            warningEl.style.marginTop = '4px';
+            warningEl.style.fontWeight = '600';
+            warningEl.style.display = 'none';
+            nameInput.parentNode.appendChild(warningEl);
+        }
+
+        function checkDishDuplicate() {
+            const val = nameInput.value.trim().toLowerCase();
+            if (!val) {
+                warningEl.style.display = 'none';
+                nameInput.style.borderColor = '';
+                return false;
+            }
+            const isDup = existingDishes.some(d => d.name === val && d.id !== currentItemId);
+            if (isDup) {
+                warningEl.textContent = '⚠️ A food item with this name already exists. Please choose a different name.';
+                warningEl.style.display = 'block';
+                nameInput.style.borderColor = '#dc2626';
+                return true;
+            } else {
+                warningEl.style.display = 'none';
+                nameInput.style.borderColor = '';
+                return false;
+            }
+        }
+
+        nameInput.addEventListener('input', checkDishDuplicate);
+
+        form.addEventListener('submit', function(e) {
+            if (checkDishDuplicate()) {
+                e.preventDefault();
+                nameInput.focus();
+                alert('A food item named "' + nameInput.value.trim() + '" already exists. Please choose a different name.');
+            }
+        });
+    }
+});
+</script>
 
 <?php include '../includes/footer.php'; ?>

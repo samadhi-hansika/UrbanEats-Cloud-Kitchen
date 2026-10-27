@@ -5,36 +5,11 @@ require_once '../includes/auth.php';
 require_role('Administrator');
 
 $logs = $pdo->query("SELECT al.*, u.full_name FROM audit_log al LEFT JOIN users u ON al.user_id = u.user_id ORDER BY al.created_at DESC LIMIT 50")->fetchAll();
+$page_title = 'System Audit Logs';
+include '../includes/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UrbanEats - Audit Logs</title>
-    <link rel="icon" type="image/png" href="../public/images/urbaneats-logo.png">
-    <link rel="stylesheet" href="../public/style.css">
-</head>
-<body class="admin-dashboard admin-records-page admin-audit-page">
-    <header class="admin-navbar">
-        <a class="admin-brand" href="../index.php">
-            <img class="admin-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
-            <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
-        </a>
-        <nav class="admin-nav-links" aria-label="Admin navigation">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="categories.php">Categories</a>
-            <a href="users.php">Users &amp; Roles</a>
-            <a class="active" href="audit-log.php">Audit Logs</a>
-        </nav>
-        <div class="admin-account">
-            <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Administrator') ?></span>
-            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out"><span aria-hidden="true">↗</span> Logout</a>
-        </div>
-    </header>
-
-    <div class="container">
+    <div class="admin-records-container">
         <div class="card">
             <div class="admin-page-heading">
                 <div>
@@ -79,5 +54,3 @@ $logs = $pdo->query("SELECT al.*, u.full_name FROM audit_log al LEFT JOIN users 
         </div>
     </div>
     <?php include '../includes/footer.php'; ?>
-</body>
-</html>

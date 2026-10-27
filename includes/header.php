@@ -6,6 +6,10 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/orders.php';
 $user_role = $_SESSION['role'] ?? 'Customer';
 $current_page = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$is_admin = (!empty($_SESSION['user_id']) && $user_role === 'Administrator');
+$is_admin_dashboard_page = ($current_page === 'dashboard.php' && $is_admin);
+$is_admin_users_page = ($current_page === 'users.php' && $is_admin);
+$is_admin_audit_page = ($current_page === 'audit-log.php' && $is_admin);
 $is_profile_page = $current_page === 'profile.php';
 $is_admin_profile_page = $is_profile_page && $user_role === 'Administrator';
 $is_sales_report_page = $current_page === 'reports.php';
@@ -32,7 +36,7 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
     <link rel="icon" type="image/png" href="<?= url('public/images/urbaneats-logo.png') ?>">
     <link rel="stylesheet" href="<?= url('public/style.css') ?>">
 </head>
-<body class="<?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_kitchen_menu_dashboard ? 'kitchen-dashboard-page ' : '' ?><?= $is_kitchen_inventory_page ? 'kitchen-inventory-page ' : '' ?><?= $is_kitchen_queue_page ? 'kitchen-queue-page ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_admin_profile_page ? 'admin-profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page ' : '' ?><?= $is_sales_report_page ? 'admin-sales-page ' : '' ?><?= $is_customer_user ? 'customer-user-layout ' : '' ?><?= $is_customer_dashboard_page ? 'customer-dashboard-page ' : '' ?><?= $is_customer_orders_page ? 'customer-orders-page ' : '' ?><?= $is_menu_page ? 'menu-page-layout ' : '' ?><?= $is_home_page ? 'home-page' : '' ?>">
+<body class="<?= $is_admin ? 'admin-user-layout ' : '' ?><?= $is_admin_dashboard_page ? 'admin-dashboard-page admin-dashboard-home ' : '' ?><?= $is_admin_users_page ? 'admin-records-page admin-users-page ' : '' ?><?= $is_admin_audit_page ? 'admin-records-page admin-audit-page ' : '' ?><?= $is_kitchen_dashboard ? 'kitchen-staff-layout ' : '' ?><?= $is_kitchen_menu_dashboard ? 'kitchen-dashboard-page ' : '' ?><?= $is_kitchen_inventory_page ? 'kitchen-inventory-page ' : '' ?><?= $is_kitchen_queue_page ? 'kitchen-queue-page ' : '' ?><?= $is_profile_page ? 'profile-page ' : '' ?><?= $is_admin_profile_page ? 'admin-profile-page ' : '' ?><?= $is_category_management_page ? 'category-management-page ' : '' ?><?= $is_sales_report_page ? 'admin-sales-page ' : '' ?><?= $is_customer_user ? 'customer-user-layout ' : '' ?><?= $is_customer_dashboard_page ? 'customer-dashboard-page ' : '' ?><?= $is_customer_orders_page ? 'customer-orders-page ' : '' ?><?= $is_menu_page ? 'menu-page-layout ' : '' ?><?= $is_home_page ? 'home-page' : '' ?>">
     <header>
         <nav class="navbar">
             <a href="<?= url('index.php') ?>" class="brand">
@@ -40,10 +44,10 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
             </a>
             
             <div class="nav-links<?= $user_role === 'Kitchen Staff' ? ' kitchen-nav-links' : '' ?>">
-                <?php if (!$is_kitchen_dashboard && !$is_admin_profile_page && !$is_category_management_page): ?>
+                <?php if (!$is_kitchen_dashboard && !$is_admin_profile_page): ?>
                     <a class="<?= $current_page === 'index.php' ? 'active' : '' ?>" href="<?= url('index.php') ?>">Home</a>
                 <?php endif; ?>
-                <?php if ((!$is_kitchen_dashboard || $is_menu_page) && !$is_admin_profile_page && !$is_category_management_page): ?>
+                <?php if ((!$is_kitchen_dashboard || $is_menu_page) && !$is_admin_profile_page): ?>
                     <a class="<?= $current_page === 'menu.php' ? 'active' : '' ?>" href="<?= url('menu.php') ?>">Menu</a>
                 <?php endif; ?>
                 <?php if (!$is_kitchen_dashboard && (empty($_SESSION['user_id']) || $user_role !== 'Customer') && in_array($current_page, ['index.php', 'menu.php'], true)): ?>

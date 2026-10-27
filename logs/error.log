@@ -11,3 +11,4 @@
 git add .
 git commit -m "Resolve empty merge conflict"
 git push
+[Database Connection Error] could not find driver

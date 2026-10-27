@@ -3,33 +3,12 @@ require_once '../config/db.php';
 require_once '../includes/auth.php';
 
 require_role('Administrator');
+
+$page_title = 'Admin Dashboard';
+include '../includes/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard - UrbanEats</title>
-    <link rel="icon" type="image/png" href="../public/images/urbaneats-logo.png">
-    <link rel="stylesheet" href="../public/style.css">
-</head>
-<body class="admin-dashboard admin-dashboard-home">
-    <header class="admin-navbar">
-        <a class="admin-brand" href="../index.php" aria-label="UrbanEats home">
-            <img class="admin-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
-            <span>Urban<span>Eats</span></span>
-        </a>
-        <nav class="admin-nav-links" aria-label="Admin navigation">
-            <a class="active" href="dashboard.php">Dashboard</a>
-            <a href="categories.php">Categories</a>
-            <a href="users.php">Users &amp; Roles</a>
-            <a href="audit-log.php">Audit Logs</a>
-            <a href="reports.php">Sales Reports</a>
-        </nav>
-    </header>
-
-    <main class="admin-main">
+    <section class="admin-main">
         <section class="admin-hero">
             <div class="admin-hero-copy">
                 <span class="admin-eyebrow"><span aria-hidden="true">✦</span> ADMIN CONTROL CENTER</span>
@@ -39,6 +18,7 @@ require_role('Administrator');
                     <a class="admin-action-primary" href="categories.php">Manage Categories <span aria-hidden="true">→</span></a>
                     <a class="admin-action-secondary" href="users.php">Manage Users</a>
                     <a class="admin-action-secondary" href="audit-log.php">Audit Logs</a>
+                    <a class="admin-action-secondary" href="reports.php">Sales Reports</a>
                 </div>
                 <div class="admin-hero-note"><span aria-hidden="true">●</span> Your kitchen, under control.</div>
             </div>
@@ -85,7 +65,5 @@ require_role('Administrator');
                 <span class="admin-quick-arrow" aria-hidden="true">↗</span>
             </a>
         </section>
-    </main>
+    </section>
     <?php include '../includes/footer.php'; ?>
-</body>
-</html>

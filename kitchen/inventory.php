@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $low_stock_threshold = filter_var($threshold_value, FILTER_VALIDATE_INT);
 
     if (!$item_id || $stock_quantity === false || $stock_quantity < 0 || $stock_quantity > 2147483647) {
-        set_flash('error', 'Enter a valid non-negative whole number for current stock.');
+        set_flash('error', 'Stock quantity cannot be below zero. Enter a valid non-negative whole number.');
     } elseif ($low_stock_threshold === false || $low_stock_threshold < 0 || $low_stock_threshold > 2147483647) {
-        set_flash('error', 'Enter a valid non-negative whole number for the low-stock threshold.');
+        set_flash('error', 'Low-stock threshold cannot be below zero. Enter a valid non-negative whole number.');
     } elseif (mb_strlen($note) > 255) {
         set_flash('error', 'The movement note cannot exceed 255 characters.');
     } else {
