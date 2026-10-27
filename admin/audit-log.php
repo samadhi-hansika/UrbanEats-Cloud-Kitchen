@@ -36,17 +36,25 @@ $logs = $pdo->query("SELECT al.*, u.full_name FROM audit_log al LEFT JOIN users 
 
     <div class="container">
         <div class="card">
-            <h2>System Audit Logs</h2>
+            <div class="admin-page-heading">
+                <div>
+                    <span class="admin-page-eyebrow">SECURITY &amp; ACTIVITY</span>
+                    <h1>System audit logs</h1>
+                    <p>Review the latest administrative actions across UrbanEats.</p>
+                </div>
+                <span class="admin-log-count"><?= count($logs) ?> <?= count($logs) === 1 ? 'entry' : 'entries' ?></span>
+            </div>
             <div class="admin-records-table-wrap">
                 <table class="data-table">
+                    <caption class="sr-only">The latest 50 system audit log entries</caption>
                     <thead>
                         <tr>
-                            <th>Log ID</th>
-                            <th>User</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>IP Address</th>
-                            <th>Timestamp</th>
+                            <th scope="col">Log ID</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">IP Address</th>
+                            <th scope="col">Timestamp</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,9 +65,14 @@ $logs = $pdo->query("SELECT al.*, u.full_name FROM audit_log al LEFT JOIN users 
                             <td><strong><?= htmlspecialchars($l['action']) ?></strong></td>
                             <td><?= htmlspecialchars($l['details']) ?></td>
                             <td><?= htmlspecialchars($l['ip_address']) ?></td>
-                            <td><?= $l['created_at'] ?></td>
+                            <td><?= htmlspecialchars($l['created_at']) ?></td>
                         </tr>
                         <?php endforeach; ?>
+                        <?php if (!$logs): ?>
+                        <tr>
+                            <td class="admin-empty-state" colspan="6">No audit activity has been recorded yet.</td>
+                        </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

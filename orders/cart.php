@@ -100,7 +100,16 @@ include '../includes/header.php';
                 <a class="cart-continue-link" href="<?= e(url('menu.php')) ?>">
                     <span aria-hidden="true">←</span> Continue shopping
                 </a>
-            </aside>
+                <div class="cart-payment-bar">
+                    <div>
+                        <span class="cart-payment-label">ORDER TOTAL</span>
+                        <strong><?= money((float)$subtotal) ?></strong>
+                    </div>
+                    <a class="cart-payment-button" href="<?= e(url('orders/checkout.php')) ?>">
+                        Proceed to payment <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+            </div>
         </div>
     <?php endif; ?>
 </section>

@@ -1048,7 +1048,9 @@ body {
 }
 
 .order-cart-page {
+  width: min(1120px, calc(100% - 3rem));
   max-width: 1120px;
+  box-sizing: border-box;
 }
 
 .order-cart-page .order-history-heading {
@@ -1060,6 +1062,10 @@ body {
   grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.8fr);
   align-items: start;
   gap: 1.25rem;
+}
+
+.order-cart-page .cart-layout {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .cart-items-panel,
@@ -1228,6 +1234,57 @@ body {
 
 .cart-continue-link:hover {
   color: #ea580c;
+}
+
+.cart-payment-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid #f1f2f4;
+}
+
+.cart-payment-bar > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.cart-payment-label {
+  color: #8b929d;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.cart-payment-bar strong {
+  color: #087454;
+  font-size: 1.15rem;
+}
+
+.cart-payment-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1rem;
+  border-radius: 11px;
+  background: linear-gradient(110deg, #f97316, #ea580c);
+  box-shadow: 0 7px 14px rgba(234, 88, 12, 0.18);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.cart-payment-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(234, 88, 12, 0.26);
+  color: #fff;
 }
 
 .cart-summary {
@@ -1629,6 +1686,22 @@ body {
 
   .checkout-fulfillment-options {
     grid-template-columns: 1fr;
+  }
+
+  .cart-payment-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cart-payment-button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 760px) {
+  .order-cart-page {
+    width: calc(100% - 1.5rem);
   }
 }
 
@@ -9554,4 +9627,114 @@ gap: 0.3rem;
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
   box-shadow: none;
+}
+
+/* Audit log hierarchy and column alignment */
+.admin-audit-page .card {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.admin-audit-page .admin-page-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+}
+
+.admin-audit-page .admin-page-eyebrow {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #fb923c;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.admin-audit-page .admin-page-heading h1 {
+  margin: 0;
+  color: #202a3c;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  letter-spacing: -0.035em;
+}
+
+.admin-audit-page .admin-page-heading p {
+  margin: 0.38rem 0 0;
+  color: #6b7280;
+  font-size: 0.78rem;
+}
+
+.admin-audit-page .admin-log-count {
+  flex: 0 0 auto;
+  padding: 0.42rem 0.7rem;
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  border-radius: 999px;
+  background: rgba(249, 115, 22, 0.12);
+  color: #fdba74;
+  font-size: 0.7rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.admin-audit-page .data-table {
+  table-layout: fixed;
+}
+
+.admin-audit-page .data-table th,
+.admin-audit-page .data-table td {
+  text-align: left;
+}
+
+.admin-audit-page .data-table th:nth-child(1),
+.admin-audit-page .data-table td:nth-child(1) {
+  width: 8%;
+}
+
+.admin-audit-page .data-table th:nth-child(2),
+.admin-audit-page .data-table td:nth-child(2) {
+  width: 16%;
+}
+
+.admin-audit-page .data-table th:nth-child(3),
+.admin-audit-page .data-table td:nth-child(3) {
+  width: 17%;
+}
+
+.admin-audit-page .data-table th:nth-child(4),
+.admin-audit-page .data-table td:nth-child(4) {
+  width: 31%;
+}
+
+.admin-audit-page .data-table th:nth-child(5),
+.admin-audit-page .data-table td:nth-child(5) {
+  width: 13%;
+}
+
+.admin-audit-page .data-table th:nth-child(6),
+.admin-audit-page .data-table td:nth-child(6) {
+  width: 15%;
+}
+
+.admin-audit-page .data-table td:nth-child(1),
+.admin-audit-page .data-table td:nth-child(5),
+.admin-audit-page .data-table td:nth-child(6) {
+  white-space: nowrap;
+}
+
+.admin-audit-page .admin-empty-state {
+  padding: 2.5rem 1rem !important;
+  color: #94a3b8 !important;
+  text-align: center !important;
+}
+
+@media (max-width: 600px) {
+  .admin-audit-page .admin-page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .admin-audit-page .admin-log-count {
+    align-self: flex-start;
+  }
 }
