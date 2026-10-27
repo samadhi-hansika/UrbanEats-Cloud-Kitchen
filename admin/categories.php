@@ -38,8 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($category_name === '') {
             set_flash('error', 'Category name is required.');
+            redirect('admin/categories.php');
         } elseif (mb_strlen($category_name) > 80) {
             set_flash('error', 'Category name cannot exceed 80 characters.');
+            redirect('admin/categories.php');
         } else {
             // Check for duplicate category name (case-insensitive)
             $check_stmt = $pdo->prepare("SELECT category_id FROM categories WHERE LOWER(TRIM(category_name)) = LOWER(?)");
@@ -47,17 +49,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($check_stmt->fetch()) {
                 set_flash('error', "A category named '{$category_name}' already exists. Please choose a different name.");
+                redirect('admin/categories.php');
             } else {
-                $insert_stmt = $pdo->prepare("INSERT INTO categories (category_name, description, is_active) VALUES (?, ?, ?)");
-                $insert_stmt->execute([
-                    $category_name,
-                    $description !== '' ? $description : null,
-                    $is_active
-                ]);
-                $new_id = (int)$pdo->lastInsertId();
+                try {
+                    $insert_stmt = $pdo->prepare("INSERT INTO categories (category_name, description, is_active) VALUES (?, ?, ?)");
+                    $insert_stmt->execute([
+                        $category_name,
+                        $description !== '' ? $description : null,
+                        $is_active
+                    ]);
+                    $new_id = (int)$pdo->lastInsertId();
 
-                log_action($pdo, $current_user_id, 'CATEGORY_CREATED', "Created new category '{$category_name}' (ID: {$new_id})");
-                set_flash('success', "Food category '{$category_name}' was created successfully.");
+                    log_action($pdo, $current_user_id, 'CATEGORY_CREATED', "Created new category '{$category_name}' (ID: {$new_id})");
+                    set_flash('success', "Food category '{$category_name}' was created successfully.");
+                } catch (PDOException $e) {
+                    if ((int)($e->errorInfo[1] ?? 0) === 1062) {
+                        set_flash('error', "A category named '{$category_name}' already exists. Please choose a different name.");
+                    } else {
+                        set_flash('error', "Failed to create category. Please try again.");
+                    }
+                }
                 redirect('admin/categories.php');
             }
         }
@@ -72,10 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!$category_id) {
             set_flash('error', 'Invalid category ID specified.');
+            redirect('admin/categories.php');
         } elseif ($category_name === '') {
             set_flash('error', 'Category name cannot be empty.');
+            redirect('admin/categories.php');
         } elseif (mb_strlen($category_name) > 80) {
             set_flash('error', 'Category name cannot exceed 80 characters.');
+            redirect('admin/categories.php');
         } else {
             $stmt = $pdo->prepare("SELECT * FROM categories WHERE category_id = ?");
             $stmt->execute([$category_id]);
@@ -83,13 +97,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (!$existing) {
                 set_flash('error', 'Category not found.');
+                redirect('admin/categories.php');
             } else {
                 // Check name duplicate on other categories
                 $dup_stmt = $pdo->prepare("SELECT category_id FROM categories WHERE LOWER(TRIM(category_name)) = LOWER(?) AND category_id != ?");
                 $dup_stmt->execute([$category_name, $category_id]);
 
                 if ($dup_stmt->fetch()) {
-                    set_flash('error', "Another category with the name '{$category_name}' already exists.");
+                    set_flash('error', "Another category with the name '{$category_name}' already exists. Please choose a different name.");
+                    redirect('admin/categories.php');
                 } else {
                     $old_name = $existing['category_name'];
 
@@ -191,6 +207,7 @@ $total_categories = (int)$pdo->query("SELECT COUNT(*) FROM categories")->fetchCo
 $active_categories = (int)$pdo->query("SELECT COUNT(*) FROM categories WHERE is_active = 1")->fetchColumn();
 $inactive_categories = (int)$pdo->query("SELECT COUNT(*) FROM categories WHERE is_active = 0")->fetchColumn();
 $total_food_items = (int)$pdo->query("SELECT COUNT(*) FROM food_items")->fetchColumn();
+$all_categories_lookup = $pdo->query("SELECT category_id, category_name FROM categories")->fetchAll(PDO::FETCH_ASSOC);
 
 // Search, status filter, and sort parameters
 $search = isset($_GET['q']) && is_string($_GET['q']) ? trim($_GET['q']) : '';
@@ -660,6 +677,85 @@ $page_title = 'Food Category Management';
                 });
             }
         });
+
+        // Real-time Duplicate Category Validation
+        const existingCategories = <?= json_encode(array_map(function($c) {
+            return ['id' => (int)$c['category_id'], 'name' => mb_strtolower(trim($c['category_name']))];
+        }, $all_categories_lookup ?? [])) ?>;
+
+        const addNameInput = document.getElementById('add_category_name');
+        const addForm = document.querySelector('#addCategoryModal form');
+        if (addNameInput && addForm) {
+            let addWarn = document.createElement('div');
+            addWarn.style.color = '#dc2626';
+            addWarn.style.fontSize = '0.82rem';
+            addWarn.style.marginTop = '4px';
+            addWarn.style.fontWeight = '600';
+            addWarn.style.display = 'none';
+            addNameInput.parentNode.appendChild(addWarn);
+
+            function checkAddDuplicate() {
+                const val = addNameInput.value.trim().toLowerCase();
+                if (!val) { addWarn.style.display = 'none'; addNameInput.style.borderColor = ''; return false; }
+                const isDup = existingCategories.some(c => c.name === val);
+                if (isDup) {
+                    addWarn.textContent = '⚠️ A category named "' + addNameInput.value.trim() + '" already exists. Choose a different name.';
+                    addWarn.style.display = 'block';
+                    addNameInput.style.borderColor = '#dc2626';
+                    return true;
+                } else {
+                    addWarn.style.display = 'none';
+                    addNameInput.style.borderColor = '';
+                    return false;
+                }
+            }
+            addNameInput.addEventListener('input', checkAddDuplicate);
+            addForm.addEventListener('submit', function(e) {
+                if (checkAddDuplicate()) {
+                    e.preventDefault();
+                    addNameInput.focus();
+                    alert('A category named "' + addNameInput.value.trim() + '" already exists. Please choose a different name.');
+                }
+            });
+        }
+
+        const editNameInput = document.getElementById('edit_category_name');
+        const editIdInput = document.getElementById('edit_category_id');
+        const editForm = document.querySelector('#editCategoryModal form');
+        if (editNameInput && editForm) {
+            let editWarn = document.createElement('div');
+            editWarn.style.color = '#dc2626';
+            editWarn.style.fontSize = '0.82rem';
+            editWarn.style.marginTop = '4px';
+            editWarn.style.fontWeight = '600';
+            editWarn.style.display = 'none';
+            editNameInput.parentNode.appendChild(editWarn);
+
+            function checkEditDuplicate() {
+                const val = editNameInput.value.trim().toLowerCase();
+                const curId = parseInt(editIdInput.value, 10);
+                if (!val) { editWarn.style.display = 'none'; editNameInput.style.borderColor = ''; return false; }
+                const isDup = existingCategories.some(c => c.name === val && c.id !== curId);
+                if (isDup) {
+                    editWarn.textContent = '⚠️ Another category with this name already exists. Choose a different name.';
+                    editWarn.style.display = 'block';
+                    editNameInput.style.borderColor = '#dc2626';
+                    return true;
+                } else {
+                    editWarn.style.display = 'none';
+                    editNameInput.style.borderColor = '';
+                    return false;
+                }
+            }
+            editNameInput.addEventListener('input', checkEditDuplicate);
+            editForm.addEventListener('submit', function(e) {
+                if (checkEditDuplicate()) {
+                    e.preventDefault();
+                    editNameInput.focus();
+                    alert('Another category named "' + editNameInput.value.trim() + '" already exists. Please choose a different name.');
+                }
+            });
+        }
     </script>
     </div>
 <?php include '../includes/footer.php'; ?>
