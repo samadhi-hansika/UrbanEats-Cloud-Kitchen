@@ -40,10 +40,10 @@ $is_kitchen_dashboard = ($user_role === 'Kitchen Staff')
             </a>
             
             <div class="nav-links<?= $user_role === 'Kitchen Staff' ? ' kitchen-nav-links' : '' ?>">
-                <?php if (!$is_kitchen_dashboard && !$is_admin_profile_page): ?>
+                <?php if (!$is_kitchen_dashboard && !$is_admin_profile_page && !$is_category_management_page): ?>
                     <a class="<?= $current_page === 'index.php' ? 'active' : '' ?>" href="<?= url('index.php') ?>">Home</a>
                 <?php endif; ?>
-                <?php if ((!$is_kitchen_dashboard || $is_menu_page) && !$is_admin_profile_page): ?>
+                <?php if ((!$is_kitchen_dashboard || $is_menu_page) && !$is_admin_profile_page && !$is_category_management_page): ?>
                     <a class="<?= $current_page === 'menu.php' ? 'active' : '' ?>" href="<?= url('menu.php') ?>">Menu</a>
                 <?php endif; ?>
                 <?php if (!$is_kitchen_dashboard && (empty($_SESSION['user_id']) || $user_role !== 'Customer') && in_array($current_page, ['index.php', 'menu.php'], true)): ?>

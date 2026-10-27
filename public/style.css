@@ -8316,15 +8316,16 @@ gap: 0.3rem;
 
 .category-management-page .nav-links {
   min-width: 0;
-  flex: 1 1 620px;
+  flex: 1 1 auto;
   justify-content: center;
-  gap: 0.18rem;
+  flex-wrap: nowrap;
+  gap: 0.1rem;
 }
 
 .category-management-page .nav-links > a {
   min-height: 2.55rem;
-  padding: 0.48rem 0.78rem;
-  font-size: 0.79rem;
+  padding: 0.48rem 0.58rem;
+  font-size: 0.76rem;
   font-weight: 650;
   white-space: nowrap;
 }
@@ -8375,6 +8376,7 @@ gap: 0.3rem;
     order: 3;
     flex: 1 0 100%;
     justify-content: flex-start;
+    flex-wrap: wrap;
     padding: 0.45rem 0.1rem 0.1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
