@@ -68,36 +68,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'toggle' && isset($_GET['id'])
 }
 
 $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.role_id = r.role_id ORDER BY u.user_id DESC")->fetchAll();
+$page_title = 'Manage Users & Roles';
+include '../includes/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UrbanEats - Manage Users</title>
-    <link rel="icon" type="image/png" href="../public/images/urbaneats-logo.png">
-    <link rel="stylesheet" href="../public/style.css">
-</head>
-<body class="admin-dashboard admin-records-page admin-users-page">
-    <header class="admin-navbar">
-        <a class="admin-brand" href="../index.php">
-            <img class="admin-brand-icon" src="../public/images/urbaneats-logo.png" alt="">
-            <span>Urban<span>Eats</span><small>CLOUD KITCHEN</small></span>
-        </a>
-        <nav class="admin-nav-links" aria-label="Admin navigation">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="categories.php">Categories</a>
-            <a class="active" href="users.php">Users &amp; Roles</a>
-            <a href="audit-log.php">Audit Logs</a>
-        </nav>
-        <div class="admin-account">
-            <span class="admin-account-name"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Administrator') ?></span>
-            <a class="admin-logout" href="../auth/logout.php" aria-label="Sign out"><span aria-hidden="true">↗</span> Logout</a>
-        </div>
-    </header>
-
-    <div class="container">
+    <div class="admin-records-container">
         <div class="card">
             <h2>User Management Console</h2>
             <h3>Create Kitchen Staff or Administrator Account</h3>
@@ -177,5 +152,3 @@ $users = $pdo->query("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.rol
         </div>
     </div>
     <?php include '../includes/footer.php'; ?>
-</body>
-</html>
